@@ -7,13 +7,12 @@ import java.io.IOException;
 
 public class Lexer {
 
-
 	public static void main(String[] args) throws IOException {
 
 		int c;
-		int j = 1;
-		while ((c = System.in.read()) != '\n') {
-			System.out.println((char) c);
+		// Read one character at a time from stdin until EOF
+		while ((c = System.in.read()) != -1) {
+			System.out.print((char) c);
 		}
 	}
 
