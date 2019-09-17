@@ -9,10 +9,21 @@ public class Lexer {
 
 	public static void main(String[] args) throws IOException {
 
-		int c;
+		int ci;
+		int line = 1;
+		int pos = 0;
 		// Read one character at a time from stdin until EOF
-		while ((c = System.in.read()) != -1) {
-			System.out.print((char) c);
+		while ((ci = System.in.read()) != -1) {
+		    char c = (char) ci;
+			System.out.println(c);
+
+			// Increment position counter for each character
+			pos++;
+			// If we hit a newline increment line counter and reset position counter
+			if (c == '\n') {
+			    pos = 0;
+			    line++;
+            }
 		}
 	}
 
