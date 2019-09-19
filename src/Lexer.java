@@ -14,17 +14,17 @@ public class Lexer {
 		keywordInitialize();
 		int ci;
 		int line = 1;
-		int pos = 0;
+		int col = 1;
 		// Read one character at a time from stdin until EOF
 		while ((ci = System.in.read()) != -1) {
 		    char c = (char) ci;
 			System.out.println(c);
 
 			// Increment position counter for each character
-			pos++;
+			col++;
 			// If we hit a newline increment line counter and reset position counter
 			if (c == '\n') {
-			    pos = 0;
+			    col = 1;
 			    line++;
             }
 		}
