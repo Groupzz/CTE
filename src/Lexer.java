@@ -32,7 +32,7 @@ public class Lexer {
 
 	static void keywordInitialize()
 	{
-		keywords = new HashMap();
+		keywords = new HashMap<>();
 		keywords.put("prog", 10);
 		keywords.put("main", 11);
 		keywords.put("fcn", 12);
@@ -50,13 +50,4 @@ public class Lexer {
 		keywords.put("return", 25);
 		keywords.put("var", 26);
 	}
-}
-
-public class Token{
-	int tok;
-	int lin;
-	int linCol;
-	String str;
-	int var;
-
 }
