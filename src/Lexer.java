@@ -71,25 +71,25 @@ public class Lexer {
 					state = 13;
 				}
 				else {
-					switch(c) {
-						case '/':
-							tokenText.append(c);
-							state = 2;
-							break;
-						case '=':
-							tokenText.append(c);
-							state = 5;
-							break;
-						case ',': // token 6
-						case ';': // token 7
-							acceptToken(tokenLookup.get(c), "" + c);
-							resetState();
-							break;
-						case '(':
-
-						default:
-							tokenError();
-							return;
+					if (tokenLookup.get(c) != null) {
+						acceptToken(tokenLookup.get(c), "" + c);
+						resetState();
+						break;
+					}
+					else {
+						switch(c) {
+							case '/':
+								tokenText.append(c);
+								state = 2;
+								break;
+							case '=':
+								tokenText.append(c);
+								state = 5;
+								break;
+							default:
+								tokenError();
+								return;
+						}
 					}
 				}
 				break;
