@@ -110,7 +110,8 @@ public class Lexer {
 			case 5:
 				if(c == '=') {
 					tokenText.append(c);
-					state = 6;
+                    acceptToken(52, tokenText.toString());
+                    resetState();
 				}
 				else {
 					acceptToken(45, tokenText.toString());
@@ -184,5 +185,9 @@ public class Lexer {
 		tokenLookup = new HashMap<>();
 		tokenLookup.put(',', 6);
 		tokenLookup.put(';', 7);
+        tokenLookup.put('{', 33);
+        tokenLookup.put('}', 34);
+		tokenLookup.put('(', 37);
+        tokenLookup.put(')', 38);
 	}
 }
