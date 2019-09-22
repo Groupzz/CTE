@@ -45,6 +45,9 @@ public class Lexer {
             }
 		}
 
+		// Add EOF token
+		tokens.add(new Token(0, line, col, ""));
+
 		for(Token tok : tokens) {
 			System.out.println(tok);
 		}
