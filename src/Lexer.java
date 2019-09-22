@@ -51,6 +51,9 @@ public class Lexer {
 	}
 
 	private static void nextState(char c) {
+	    if (c == '\t') {
+	        return; // ignore indentation
+        }
 		if (c == '\n') {
 			if (state == 3) {
 				resetState(); // Throw the comment away
