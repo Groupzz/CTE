@@ -23,4 +23,8 @@ public class Token{
         }
     }
 
+    public String toString() {
+        return String.format("(Tok: %d, lin= %d,%d str = \"%s\")", tokID, lin, linCol, str);
+    }
+
 }
