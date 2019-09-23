@@ -4,21 +4,35 @@
  */
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static java.lang.System.exit;
 
 public class Lexer {
 
 	static HashMap<String, Integer> keywords;
+	private static HashMap<Character, Integer> tokenLookup;
+	private static ArrayList<Token> tokens = new ArrayList<>();
+
+	private static int state = 1;
+	private static StringBuilder tokenText = new StringBuilder();
+	private static int line = 1;
+	private static int col = 1;
+
 	public static void main(String[] args) throws IOException {
 
 		keywordInitialize();
+		tokenInitialize();
+
 		int ci;
-		int line = 1;
-		int col = 1;
+
 		// Read one character at a time from stdin until EOF
 		while ((ci = System.in.read()) != -1) {
 		    char c = (char) ci;
-			System.out.println(c);
+			//System.out.println(c);
+
+			nextState(c);
 
 			// Increment position counter for each character
 			col++;
@@ -28,6 +42,208 @@ public class Lexer {
 			    line++;
             }
 		}
+
+		// Add EOF token
+		tokens.add(new Token(0, line, col, ""));
+
+		for(Token tok : tokens) {
+			System.out.println(tok);
+		}
+	}
+
+	private static void nextState(char c) {
+	    if (c == '\t') {
+	        return; // ignore indentation
+        }
+		if (c == '\n') {
+			if (state == 3) {
+				resetState(); // Throw the comment away
+			}
+			return; // ignore newline
+		}
+		if (c == ' ') {
+			// if we are not reading a string or an identifier
+			//if (state != 21 && state != 13) {
+			if (state == 1) {
+				return; // skip this character
+			}
+		}
+		switch(state) {
+			case 1: // Start state
+				if(Character.isAlphabetic(c) || c == '_') {
+					tokenText.append(c);
+					state = 13;
+				}
+				else if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 15;
+				}
+				else {
+				    // If tokenLookup finds a result, this character exists in the language only as a single token
+                    // As a result we can immediately accept it and move back to start state
+					if (tokenLookup.get(c) != null) {
+					    tokenText.append(c);
+						acceptToken(tokenLookup.get(c));
+						break;
+					}
+					else {
+					    // If we have reached this condition, the character is non-numeral/alphabetic
+                        // and is the beginning of one or more tokens
+						switch(c) {
+							case '/':
+								tokenText.append(c);
+								state = 2;
+								break;
+							case '=':
+								tokenText.append(c);
+								state = 5;
+								break;
+							case '+':
+								tokenText.append(c);
+								state = 14;
+								break;
+							case '-':
+								tokenText.append(c);
+								state = 19;
+								break;
+                            case '"':
+                                // For string literals: Don't append the quote to the token's text
+                                state = 21;
+                                break;
+							default:
+								tokenError();
+								return;
+						}
+					}
+				}
+				break;
+            case 2: // State after seeing a '/': Division or line comments
+				if(c == '/'){
+					state = 3;
+					tokenText.append(c);
+				}
+				else {
+					acceptToken(48);
+					nextState(c);
+				}
+				break;
+			case 5: // State after seeing a '='
+				if(c == '=') {
+					tokenText.append(c);
+                    acceptToken(52);
+				}
+				else {
+					acceptToken(45);
+					nextState(c);
+				}
+				break;
+			case 13: // Identifier state
+				if(Character.isDigit(c) || Character.isAlphabetic(c) || c == '_') {
+					tokenText.append(c);
+				}
+				else {
+					acceptIdentifier();
+					nextState(c);
+				}
+				break;
+			case 14: // State after seeing '+'
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 15;
+				}
+				else {
+					acceptToken(47);
+					nextState(c);
+				}
+				break;
+			case 15: // Integer accepting state / Possible float state
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+				}
+				else if(c == '.') {
+					tokenText.append(c);
+					state = 16;
+				}
+				else {
+					acceptToken(3);
+					nextState(c);
+				}
+				break;
+			case 16: // State after seeing '.' following integer
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 17;
+				}
+				else {
+					tokenError();
+				}
+				break;
+			case 17: // Float accepting state
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+				}
+				else {
+					acceptToken(4);
+					nextState(c);
+				}
+				break;
+			case 19: // State after seeing a '-'
+				if(Character.isDigit(c)) {
+					// Integer/Float preceded by minus
+					tokenText.append(c);
+					state = 15;
+				}
+				else if(c == '>') {
+					// -> Arrow operator
+					tokenText.append(c);
+					acceptToken(51);
+				}
+				else {
+					// Minus operator
+					acceptToken(46);
+					nextState(c);
+				}
+				break;
+            case 21: // String literal state
+                if(c == '"') {
+                    // Don't append quote to tokenText
+                    acceptToken(5);
+                }
+                else {
+                    tokenText.append(c);
+                }
+		}
+	}
+
+	// Method for accepting identifiers and keywords specifically
+    // checks if the identifier is a keyword and accepts the appropriate token
+	private static void acceptIdentifier() {
+		Integer keywordID = keywords.get(tokenText.toString());
+		if (keywordID != null) {
+			// its a keyword, use the right tokenID
+			acceptToken(keywordID);
+		}
+		else {
+			// its an identifier
+			acceptToken(2);
+		}
+	}
+
+	// Adds a new token to the output and resets the state
+	private static void acceptToken(int ID) {
+		Token newToken = new Token(ID, line, col, tokenText.toString());
+		tokens.add(newToken);
+		resetState();
+	}
+
+	private static void resetState() {
+		tokenText = new StringBuilder();
+		state = 1;
+	}
+
+	private static void tokenError() {
+		System.out.println("Token syntax error: " + "lin: " + line + " col: " + col);
+		exit(0);
 	}
 
 	static void keywordInitialize()
@@ -49,5 +265,16 @@ public class Lexer {
 		keywords.put("new", 24);
 		keywords.put("return", 25);
 		keywords.put("var", 26);
+	}
+
+	private static void tokenInitialize() {
+		tokenLookup = new HashMap<>();
+		tokenLookup.put(',', 6);
+		tokenLookup.put(';', 7);
+        tokenLookup.put('{', 33);
+        tokenLookup.put('}', 34);
+		tokenLookup.put('(', 37);
+        tokenLookup.put(')', 38);
+        tokenLookup.put('*', 41);
 	}
 }
