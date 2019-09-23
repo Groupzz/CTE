@@ -15,9 +15,9 @@ public class Lexer {
 	private static HashMap<Character, Integer> tokenLookup;
 	private static ArrayList<Token> tokens = new ArrayList<>();
 
-	private static int state = 1;
+	private static int state = 1; // Represents our current state in the DFA
 	private static StringBuilder tokenText = new StringBuilder();
-	private static int line = 1;
+	private static int line = 1; // Tracks line and column number for each token
 	private static int col = 1;
 
 	public static void main(String[] args) throws IOException {
@@ -28,9 +28,8 @@ public class Lexer {
 		int ci;
 
 		// Read one character at a time from stdin until EOF
-		while ((ci = System.in.read()) != -1) {
-		    char c = (char) ci;
-			//System.out.println(c);
+		while ((ci = System.in.read()) != -1) { // -1 represents EOF
+		    char c = (char) ci; // read() returns an integer so we cast it to a character
 
 			nextState(c);
 
@@ -46,6 +45,7 @@ public class Lexer {
 		// Add EOF token
 		tokens.add(new Token(0, line, col, ""));
 
+		// Output all the tokens
 		for(Token tok : tokens) {
 			System.out.println(tok);
 		}
@@ -62,8 +62,7 @@ public class Lexer {
 			return; // ignore newline
 		}
 		if (c == ' ') {
-			// if we are not reading a string or an identifier
-			//if (state != 21 && state != 13) {
+			// Ignore spaces when we are in the start state
 			if (state == 1) {
 				return; // skip this character
 			}
@@ -107,7 +106,7 @@ public class Lexer {
 								state = 19;
 								break;
                             case '"':
-                                // For string literals: Don't append the quote to the token's text
+                                // For string literals don't append the quote to tokenText
                                 state = 21;
                                 break;
 							default:
@@ -212,6 +211,7 @@ public class Lexer {
                 else {
                     tokenText.append(c);
                 }
+                break;
 		}
 	}
 
