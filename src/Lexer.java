@@ -69,7 +69,7 @@ public class Lexer {
 			}
 		}
 		switch(state) {
-			case 1:
+			case 1: // Start state
 				if(Character.isAlphabetic(c) || c == '_') {
 					tokenText.append(c);
 					state = 13;
@@ -79,12 +79,16 @@ public class Lexer {
 					state = 15;
 				}
 				else {
+				    // If tokenLookup finds a result, this character exists in the language only as a single token
+                    // As a result we can immediately accept it and move back to start state
 					if (tokenLookup.get(c) != null) {
 					    tokenText.append(c);
 						acceptToken(tokenLookup.get(c));
 						break;
 					}
 					else {
+					    // If we have reached this condition, the character is non-numeral/alphabetic
+                        // and is the beginning of one or more tokens
 						switch(c) {
 							case '/':
 								tokenText.append(c);
@@ -113,7 +117,7 @@ public class Lexer {
 					}
 				}
 				break;
-			case 2: // Division / line comments
+            case 2: // State after seeing a '/': Division or line comments
 				if(c == '/'){
 					state = 3;
 					tokenText.append(c);
@@ -123,7 +127,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 5:
+			case 5: // State after seeing a '='
 				if(c == '=') {
 					tokenText.append(c);
                     acceptToken(52);
@@ -133,7 +137,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 13:
+			case 13: // Identifier state
 				if(Character.isDigit(c) || Character.isAlphabetic(c) || c == '_') {
 					tokenText.append(c);
 				}
@@ -142,7 +146,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 14:
+			case 14: // State after seeing '+'
 				if(Character.isDigit(c)) {
 					tokenText.append(c);
 					state = 15;
@@ -152,7 +156,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 15:
+			case 15: // Integer accepting state / Possible float state
 				if(Character.isDigit(c)) {
 					tokenText.append(c);
 				}
@@ -165,7 +169,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 16:
+			case 16: // State after seeing '.' following integer
 				if(Character.isDigit(c)) {
 					tokenText.append(c);
 					state = 17;
@@ -174,7 +178,7 @@ public class Lexer {
 					tokenError();
 				}
 				break;
-			case 17:
+			case 17: // Float accepting state
 				if(Character.isDigit(c)) {
 					tokenText.append(c);
 				}
@@ -183,7 +187,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 19:
+			case 19: // State after seeing a '-'
 				if(Character.isDigit(c)) {
 					// Integer/Float preceded by minus
 					tokenText.append(c);
@@ -200,7 +204,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-            case 21:
+            case 21: // String literal state
                 if(c == '"') {
                     // Don't append quote to tokenText
                     acceptToken(5);
