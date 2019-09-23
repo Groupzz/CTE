@@ -74,6 +74,10 @@ public class Lexer {
 					tokenText.append(c);
 					state = 13;
 				}
+				else if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 15;
+				}
 				else {
 					if (tokenLookup.get(c) != null) {
 						acceptToken(tokenLookup.get(c), "" + c);
@@ -89,6 +93,14 @@ public class Lexer {
 							case '=':
 								tokenText.append(c);
 								state = 5;
+								break;
+							case '+':
+								tokenText.append(c);
+								state = 14;
+								break;
+							case '-':
+								tokenText.append(c);
+								state = 19;
 								break;
 							default:
 								tokenError();
@@ -130,7 +142,68 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-
+			case 14:
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 15;
+				}
+				else {
+					acceptToken(47, tokenText.toString());
+					resetState();
+					nextState(c);
+				}
+				break;
+			case 15:
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+				}
+				else if(c == '.') {
+					tokenText.append(c);
+					state = 16;
+				}
+				else {
+					acceptToken(3, tokenText.toString());
+					resetState();
+					nextState(c);
+				}
+				break;
+			case 16:
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+					state = 17;
+				}
+				else {
+					tokenError();
+				}
+				break;
+			case 17:
+				if(Character.isDigit(c)) {
+					tokenText.append(c);
+				}
+				else {
+					acceptToken(4, tokenText.toString());
+					resetState();
+					nextState(c);
+				}
+				break;
+			case 19:
+				if(Character.isDigit(c)) {
+					// Integer/Float preceded by minus
+					tokenText.append(c);
+					state = 15;
+				}
+				else if(c == '>') {
+					// -> Arrow operator
+					tokenText.append(c);
+					acceptToken(51, tokenText.toString());
+					resetState();
+				}
+				else {
+					// Minus operator
+					acceptToken(46, tokenText.toString());
+					resetState();
+					nextState(c);
+				}
 		}
 	}
 
