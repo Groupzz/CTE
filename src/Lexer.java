@@ -101,6 +101,11 @@ public class Lexer {
 								tokenText.append(c);
 								state = 19;
 								break;
+                            case '"':
+                                // For string literals
+                                // Don't append the quote to the token's text
+                                state = 21;
+                                break;
 							default:
 								tokenError();
 								return;
@@ -194,6 +199,15 @@ public class Lexer {
 					acceptToken(46, tokenText.toString());
 					nextState(c);
 				}
+				break;
+            case 21:
+                if(c == '"') {
+                    // Don't append quote to tokenText
+                    acceptToken(5, tokenText.toString());
+                }
+                else {
+                    tokenText.append(c);
+                }
 		}
 	}
 
@@ -257,5 +271,6 @@ public class Lexer {
         tokenLookup.put('}', 34);
 		tokenLookup.put('(', 37);
         tokenLookup.put(')', 38);
+        tokenLookup.put('*', 41);
 	}
 }
