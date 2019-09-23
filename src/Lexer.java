@@ -81,7 +81,6 @@ public class Lexer {
 				else {
 					if (tokenLookup.get(c) != null) {
 						acceptToken(tokenLookup.get(c), "" + c);
-						resetState();
 						break;
 					}
 					else {
@@ -116,7 +115,6 @@ public class Lexer {
 				}
 				else {
 					acceptToken(48, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -124,11 +122,9 @@ public class Lexer {
 				if(c == '=') {
 					tokenText.append(c);
                     acceptToken(52, tokenText.toString());
-                    resetState();
 				}
 				else {
 					acceptToken(45, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -138,7 +134,6 @@ public class Lexer {
 				}
 				else {
 					acceptIdentifier(tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -149,7 +144,6 @@ public class Lexer {
 				}
 				else {
 					acceptToken(47, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -163,7 +157,6 @@ public class Lexer {
 				}
 				else {
 					acceptToken(3, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -182,7 +175,6 @@ public class Lexer {
 				}
 				else {
 					acceptToken(4, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 				break;
@@ -196,17 +188,17 @@ public class Lexer {
 					// -> Arrow operator
 					tokenText.append(c);
 					acceptToken(51, tokenText.toString());
-					resetState();
 				}
 				else {
 					// Minus operator
 					acceptToken(46, tokenText.toString());
-					resetState();
 					nextState(c);
 				}
 		}
 	}
 
+	// Method for accepting identifiers and keywords specifically
+    // checks if the identifier is a keyword and accepts the appropriate token
 	private static void acceptIdentifier(String text) {
 		Integer keywordID = keywords.get(text);
 		if (keywordID != null) {
@@ -219,9 +211,11 @@ public class Lexer {
 		}
 	}
 
+	// Adds a new token to the output and resets the state
 	private static void acceptToken(int ID, String text) {
 		Token newToken = new Token(ID, line, col, text);
 		tokens.add(newToken);
+		resetState();
 	}
 
 	private static void resetState() {
