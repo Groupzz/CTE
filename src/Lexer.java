@@ -80,7 +80,8 @@ public class Lexer {
 				}
 				else {
 					if (tokenLookup.get(c) != null) {
-						acceptToken(tokenLookup.get(c), "" + c);
+					    tokenText.append(c);
+						acceptToken(tokenLookup.get(c));
 						break;
 					}
 					else {
@@ -102,8 +103,7 @@ public class Lexer {
 								state = 19;
 								break;
                             case '"':
-                                // For string literals
-                                // Don't append the quote to the token's text
+                                // For string literals: Don't append the quote to the token's text
                                 state = 21;
                                 break;
 							default:
@@ -119,17 +119,17 @@ public class Lexer {
 					tokenText.append(c);
 				}
 				else {
-					acceptToken(48, tokenText.toString());
+					acceptToken(48);
 					nextState(c);
 				}
 				break;
 			case 5:
 				if(c == '=') {
 					tokenText.append(c);
-                    acceptToken(52, tokenText.toString());
+                    acceptToken(52);
 				}
 				else {
-					acceptToken(45, tokenText.toString());
+					acceptToken(45);
 					nextState(c);
 				}
 				break;
@@ -138,7 +138,7 @@ public class Lexer {
 					tokenText.append(c);
 				}
 				else {
-					acceptIdentifier(tokenText.toString());
+					acceptIdentifier();
 					nextState(c);
 				}
 				break;
@@ -148,7 +148,7 @@ public class Lexer {
 					state = 15;
 				}
 				else {
-					acceptToken(47, tokenText.toString());
+					acceptToken(47);
 					nextState(c);
 				}
 				break;
@@ -161,7 +161,7 @@ public class Lexer {
 					state = 16;
 				}
 				else {
-					acceptToken(3, tokenText.toString());
+					acceptToken(3);
 					nextState(c);
 				}
 				break;
@@ -179,7 +179,7 @@ public class Lexer {
 					tokenText.append(c);
 				}
 				else {
-					acceptToken(4, tokenText.toString());
+					acceptToken(4);
 					nextState(c);
 				}
 				break;
@@ -192,18 +192,18 @@ public class Lexer {
 				else if(c == '>') {
 					// -> Arrow operator
 					tokenText.append(c);
-					acceptToken(51, tokenText.toString());
+					acceptToken(51);
 				}
 				else {
 					// Minus operator
-					acceptToken(46, tokenText.toString());
+					acceptToken(46);
 					nextState(c);
 				}
 				break;
             case 21:
                 if(c == '"') {
                     // Don't append quote to tokenText
-                    acceptToken(5, tokenText.toString());
+                    acceptToken(5);
                 }
                 else {
                     tokenText.append(c);
@@ -213,21 +213,21 @@ public class Lexer {
 
 	// Method for accepting identifiers and keywords specifically
     // checks if the identifier is a keyword and accepts the appropriate token
-	private static void acceptIdentifier(String text) {
-		Integer keywordID = keywords.get(text);
+	private static void acceptIdentifier() {
+		Integer keywordID = keywords.get(tokenText.toString());
 		if (keywordID != null) {
 			// its a keyword, use the right tokenID
-			acceptToken(keywordID, text);
+			acceptToken(keywordID);
 		}
 		else {
 			// its an identifier
-			acceptToken(2, text);
+			acceptToken(2);
 		}
 	}
 
 	// Adds a new token to the output and resets the state
-	private static void acceptToken(int ID, String text) {
-		Token newToken = new Token(ID, line, col, text);
+	private static void acceptToken(int ID) {
+		Token newToken = new Token(ID, line, col, tokenText.toString());
 		tokens.add(newToken);
 		resetState();
 	}
