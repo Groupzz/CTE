@@ -52,7 +52,7 @@ public class Lexer {
 	}
 
 	private static void nextState(char c) {
-	    if (c == '\t') {
+	    if (c == '\t' || c == '\r') {
 	        return; // ignore indentation
         }
 		if (c == '\n') {
@@ -108,7 +108,19 @@ public class Lexer {
                             case '"':
                                 // For string literals don't append the quote to tokenText
                                 state = 21;
-                                break;
+								break;
+							case '>':
+								tokenText.append(c);
+								state = 7;
+								break;
+							case '<':
+								tokenText.append(c);
+								state = 10;
+								break;
+							case '!':
+								tokenText.append(c);
+								state = 24;
+								break;
 							default:
 								tokenError();
 								return;
@@ -133,6 +145,40 @@ public class Lexer {
 				}
 				else {
 					acceptToken(45);
+					nextState(c);
+				}
+				break;
+			case 7:
+				if(c == '>')
+				{
+					tokenText.append(c);
+					acceptToken(57);
+				}
+				else if (c == '=')
+				{
+					tokenText.append(c);
+					acceptToken(55);
+				}
+				else
+				{
+					acceptToken(32);
+					nextState(c);
+				}
+				break;
+			case 10:
+				if(c == '<')
+				{
+					tokenText.append(c);
+					acceptToken(56);
+				}
+				else if(c == '=')
+				{
+					tokenText.append(c);
+					acceptToken(54);
+				}
+				else
+				{
+					acceptToken(31);
 					nextState(c);
 				}
 				break;
@@ -211,7 +257,18 @@ public class Lexer {
                 else {
                     tokenText.append(c);
                 }
-                break;
+				break;
+			case 24:
+				if(c == '=')
+				{
+					tokenText.append(c);
+					acceptToken(53);
+				}
+				else
+				{
+					tokenError();
+				}
+				break;
 		}
 	}
 
