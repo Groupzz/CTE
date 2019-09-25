@@ -330,8 +330,14 @@ public class Lexer {
 		tokenLookup.put(';', 7);
         tokenLookup.put('{', 33);
         tokenLookup.put('}', 34);
-		tokenLookup.put('(', 37);
+		tokenLookup.put('[', 35);
+		tokenLookup.put(']', 36);
+        tokenLookup.put('(', 37);
         tokenLookup.put(')', 38);
         tokenLookup.put('*', 41);
+        tokenLookup.put('*', 42);
+        tokenLookup.put(':', 43);
+        tokenLookup.put('.', 44);
+        tokenLookup.put('&', 49);
 	}
 }
