@@ -25,13 +25,13 @@ public class Token{
 
     public String toString() {
         if(tokID == 3) {
-            return String.format("(Tok: %2d  lin= %d,%d  str = \"%s\", int=%d)", tokID, lin, linCol, str, iVal);
+            return String.format("(Tok: %2d  lin= %2d,%-2d  str = \"%s\", int=%d)", tokID, lin, linCol, str, iVal);
         }
         else if (tokID == 4) {
-            return String.format("(Tok: %2d  lin= %d,%d  str = \"%s\", flo=%f)", tokID, lin, linCol, str, fVal);
+            return String.format("(Tok: %2d  lin= %2d,%-2d  str = \"%s\", flo=%f)", tokID, lin, linCol, str, fVal);
         }
         else{
-                return String.format("(Tok: %2d  lin= %d,%d  str = \"%s\")", tokID, lin, linCol, str);
+                return String.format("(Tok: %2d  lin= %2d,%-2d  str = \"%s\")", tokID, lin, linCol, str);
         }
     }
 }
