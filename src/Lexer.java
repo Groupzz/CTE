@@ -1,6 +1,9 @@
 /* CECS 444 Compiler Construction
  * Project 1: Lexer
  * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu, 
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu 
+ * Description: Lexer.java is a driver file for the Lexer of the A5 language compiler
  */
 
 import java.io.IOException;

@@ -1,3 +1,9 @@
+/* CECS 444 Compiler Construction
+ * Project 1: Lexer
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu, jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu 
+ * Description: Token.java is a support file to the Lexer.java that creates a Token object to refer to in the Lexer.java
+ */
 
 public class Token{
     private int tokID;
@@ -12,6 +18,15 @@ public class Token{
         this.lin = lin;
         this.linCol = linCol;
         this.str = str;
+
+        if(str.length() > 1)
+        {
+            this.linCol -= str.length();
+        }
+        if(this.tokID == 5)
+        {
+            this.linCol--;
+        }
 
         // If token is an integer
         if (tokID == 3) {
