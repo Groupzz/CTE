@@ -25,9 +25,12 @@ public class Lexer {
 
 	public static void main(String[] args) throws IOException {
 
+		//Calling methods to initialize keywords and tokens
+		//that should be recognized by the lexer
 		keywordInitialize();
 		tokenInitialize();
 
+		//Initialize int variable to store next character from system input
 		int ci;
 
 		// Read one character at a time from stdin until EOF
@@ -58,6 +61,7 @@ public class Lexer {
 		}
 	}
 
+	//Method to check the state by peeking ahead to next character and advancing if allowed
 	private static void nextState(char c) {
 	    if (c == '\t' || c == '\r') {
 	        return; // ignore indentation
@@ -155,7 +159,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 7:
+			case 7: //State after seeing a '>': Greater than or equal to or only greater than
 				if(c == '>')
 				{
 					tokenText.append(c);
@@ -172,7 +176,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 10:
+			case 10: //State after seeing '<': Less than or equal to or only less than
 				if(c == '<')
 				{
 					tokenText.append(c);
@@ -265,7 +269,7 @@ public class Lexer {
                     tokenText.append(c);
                 }
 				break;
-			case 24:
+			case 24: //State after seeing "="
 				if(c == '=')
 				{
 					tokenText.append(c);
@@ -300,16 +304,19 @@ public class Lexer {
 		resetState();
 	}
 
+	//Method to reset start state of lexer.
 	private static void resetState() {
 		tokenText = new StringBuilder();
 		state = 1;
 	}
 
+	//Method to throw syntax errors for any tokens that are syntactically incorrect.
 	private static void tokenError() {
 		System.out.println("Token syntax error: " + "lin: " + line + " col: " + col);
 		exit(0);
 	}
 
+	//Method to place keywords that should be recognized by the lexer in a new HashMap.
 	static void keywordInitialize()
 	{
 		keywords = new HashMap<>();
@@ -331,20 +338,21 @@ public class Lexer {
 		keywords.put("var", 26);
 	}
 
+	//Method to place tokens that should be recognized by the lexer in a new HashMap.
 	private static void tokenInitialize() {
 		tokenLookup = new HashMap<>();
 		tokenLookup.put(',', 6);
 		tokenLookup.put(';', 7);
-        tokenLookup.put('{', 33);
-        tokenLookup.put('}', 34);
+        	tokenLookup.put('{', 33);
+        	tokenLookup.put('}', 34);
 		tokenLookup.put('[', 35);
 		tokenLookup.put(']', 36);
-        tokenLookup.put('(', 37);
-        tokenLookup.put(')', 38);
-        tokenLookup.put('*', 41);
-        tokenLookup.put('^', 42);
-        tokenLookup.put(':', 43);
-        tokenLookup.put('.', 44);
-        tokenLookup.put('&', 49);
+        	tokenLookup.put('(', 37);
+        	tokenLookup.put(')', 38);
+        	tokenLookup.put('*', 41);
+        	tokenLookup.put('^', 42);
+        	tokenLookup.put(':', 43);
+        	tokenLookup.put('.', 44);
+        	tokenLookup.put('&', 49);
 	}
 }
