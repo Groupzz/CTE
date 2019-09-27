@@ -45,6 +45,10 @@ public class Lexer {
             }
 		}
 
+		// Send a space after the file has been read to make sure tokens in the middle of being read
+		// are accepted and added to the list of tokens
+		nextState(' ');
+
 		// Add EOF token
 		tokens.add(new Token(0, line, col, ""));
 
