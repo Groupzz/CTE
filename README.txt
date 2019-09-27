@@ -11,9 +11,9 @@ Intro:
 
 Contents: files in .zip submission
 
-External Requirements:
+External Requirements: None
 
-Setup and Installation:
+Setup and Installation: No special setup/installation
 
 Sample invocation and results to see:
 
