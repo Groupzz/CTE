@@ -25,16 +25,19 @@ public class Lexer {
 
 	public static void main(String[] args) throws IOException {
 
+		//Calling methods to initialize keywords and tokens
+		//that should be recognized by the lexer
 		keywordInitialize();
 		tokenInitialize();
 
+		//Initialize int variable to store next character from system input
 		int ci;
 
 		// Read one character at a time from stdin until EOF
 		while ((ci = System.in.read()) != -1) { // -1 represents EOF
 		    char c = (char) ci; // read() returns an integer so we cast it to a character
 
-			nextState(c);
+			nextState(c); // Sending the character input to check the current lexer state
 
 			// Increment position counter for each character
 			col++;
@@ -58,13 +61,14 @@ public class Lexer {
 		}
 	}
 
+	//Method to check the state by peeking ahead to next character and advancing if allowed
 	private static void nextState(char c) {
 	    if (c == '\t' || c == '\r') {
 	        return; // ignore indentation
         }
 		if (c == '\n') {
 			if (state == 3) {
-				resetState(); // Throw the comment away
+				resetState(); // Ignore the comment
 			}
 			return; // ignore newline
 		}
@@ -155,7 +159,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 7:
+			case 7: //State after seeing a '>': Greater than or equal to or only greater than
 				if(c == '>')
 				{
 					tokenText.append(c);
@@ -172,7 +176,7 @@ public class Lexer {
 					nextState(c);
 				}
 				break;
-			case 10:
+			case 10: //State after seeing '<': Less than or equal to or only less than
 				if(c == '<')
 				{
 					tokenText.append(c);
@@ -265,7 +269,7 @@ public class Lexer {
                     tokenText.append(c);
                 }
 				break;
-			case 24:
+			case 24: //State after seeing "="
 				if(c == '=')
 				{
 					tokenText.append(c);
@@ -300,16 +304,19 @@ public class Lexer {
 		resetState();
 	}
 
+	//Method to reset start state of lexer.
 	private static void resetState() {
 		tokenText = new StringBuilder();
 		state = 1;
 	}
 
+	//Method to throw syntax errors for any tokens that are syntactically incorrect.
 	private static void tokenError() {
 		System.out.println("Token syntax error: " + "lin: " + line + " col: " + col);
 		exit(0);
 	}
 
+	//Method to place keywords that should be recognized by the lexer in a new HashMap.
 	static void keywordInitialize()
 	{
 		keywords = new HashMap<>();
@@ -331,6 +338,7 @@ public class Lexer {
 		keywords.put("var", 26);
 	}
 
+	//Method to place tokens that should be recognized by the lexer in a new HashMap.
 	private static void tokenInitialize() {
 		tokenLookup = new HashMap<>();
 		tokenLookup.put(',', 6);
