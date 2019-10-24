@@ -1,3 +1,4 @@
 # Ignore intellij files
 .idea
 build
+*.class
