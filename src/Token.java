@@ -69,6 +69,10 @@ public class Token{
         return new Token(Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)), Integer.parseInt(m.group(3)), m.group(4), false);
     }
 
+    public int getID() {
+        return tokID;
+    }
+
     // Method to format the final output of the program 
     public String toString() {
         // If the token is an integer add the actual parsed value
