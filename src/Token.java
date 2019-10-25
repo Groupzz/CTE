@@ -1,9 +1,10 @@
 /* CECS 444 Compiler Construction
- * Project 1: Lexer
+ * Project 1: Lexer and Project 2: Parser
  * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
  * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu, 
  *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu 
  * Description: Token.java is a support file to the Lexer.java that creates a Token object to refer to in the Lexer.java
+ * The same token object is used to store token information in Parser.java
  */
 
 import java.util.InputMismatchException;
@@ -12,7 +13,15 @@ import java.util.regex.Pattern;
 
 public class Token{
 
-    private static Pattern tokPattern = Pattern.compile("\\(Tok: +([0-9]+) +lin= *([0-9]+),([0-9]+) *str = \"(.*)\"(, (int|flo)=((\\+|-)?[0-9.]+))?\\)");
+
+    public static final int KPROG = 10;
+    public static final int KMAIN = 11;
+    public static final int BRACE1 = 33;
+    public static final int BRACE2 = 34;
+
+
+    // Initialize regex pattern for parsing a string as a token
+    private static Pattern tokPattern = Pattern.compile("\\(Tok: +([0-9]+) +lin= *([0-9]+),([0-9]+) *str = \"(.*)\"(, (int|flo)=([+\\-]?[0-9.]+))?\\)");
 
     private int tokID;
     private int lin;
@@ -60,7 +69,7 @@ public class Token{
     }
 
     // Builder that parses a token's output string and converts it into a token object
-    // \(Tok: +([0-9]+) +lin= *([0-9]+),([0-9]+) *str = "(.*)"(, (int|flo)=((\+|-)?[0-9.]+))?\)
+    // \(Tok: +([0-9]+) +lin= *([0-9]+),([0-9]+) *str = "(.*)"(, (int|flo)=([+\-]?[0-9.]+))?\)
     public static Token TokenBuilder(String tokString) {
         Matcher m = tokPattern.matcher(tokString);
         if(!m.matches()) {
