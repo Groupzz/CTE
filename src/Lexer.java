@@ -67,10 +67,14 @@ public class Lexer {
 	        return; // ignore indentation
         }
 		if (c == '\n') {
+			if (state == 1) {
+				return; // skip when we are in start state
+			}
 			if (state == 3) {
 				resetState(); // Ignore the comment
+				return;
 			}
-			return; // ignore newline
+//			return; // ignore newline
 		}
 		if (c == ' ') {
 			// Ignore spaces when we are in the start state
