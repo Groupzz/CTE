@@ -30,6 +30,10 @@ public class Symbol {
         return id;
     }
 
+    public Token getToken() {
+        return token;
+    }
+
     public boolean isTerminal() {
         return terminal;
     }

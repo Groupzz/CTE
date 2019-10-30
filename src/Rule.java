@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Stack;
 
 public class Rule {
 
@@ -41,12 +40,8 @@ public class Rule {
         return RHS[i];
     }
 
-    public void pushReverse(Stack<Symbol> stack) {
-        for(int i = RHS.length - 1; i >= 0; i--) {
-            if(RHS[i] != null) {
-                stack.push(RHS[i]);
-            }
-        }
+    public int getRHSLength() {
+        return RHS.length;
     }
 
 }
