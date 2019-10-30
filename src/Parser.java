@@ -19,7 +19,7 @@ public class Parser {
         // Initialize a parse tree with the start symbol as the root node
         SymbolTree parseTree = new SymbolTree(new PNode(new Symbol(1, false), null));
         // This node is only used to check for valid end of input and does not end up in the parse tree
-        stack.push(new PNode(new Symbol(0, true), null));
+        stack.push(new PNode(new Symbol(Token.EOF, true), null));
         // Push the start symbol that is also the root of the parse tree onto the stack
         stack.push(parseTree.getRoot());
 
