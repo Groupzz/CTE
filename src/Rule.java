@@ -8,6 +8,14 @@ public class Rule {
         rules.put(1, new Rule(Symbol.PGM, new Symbol(Token.KPROG, true), Symbol.MAIN));
         rules.put(2, new Rule(Symbol.MAIN, new Symbol(Token.KMAIN, true), Symbol.BBLOCK));
         rules.put(3, new Rule(Symbol.BBLOCK, new Symbol(Token.BRACE1, true), new Symbol(Token.BRACE2, true)));
+        
+       	rules.put(4, new Rule(Symbol.VARGROUP, new Symbol(Token.KVAR, true), Symbol.PPVARLIST));
+        //eps rule	
+        //rules.put(5, new Rule(Symbol.VARGROUP));
+        rules.put(6, new Rule(Symbol.PPVARLIST, new Symbol(Token.PARENS1), new Symbol(Token.PARENS2)));
+        rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI)));
+        //eps rule	
+        //rules.put(8, new Rule(Symbol.VARLIST));
     }
 
     private int ruleID;
