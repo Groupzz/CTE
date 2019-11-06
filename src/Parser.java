@@ -10,6 +10,14 @@ public class Parser {
         llTable[Symbol.PGM.getId()][Token.KPROG] = 1;
         llTable[Symbol.MAIN.getId()][Token.KMAIN] = 2;
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
+        llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
+        llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
+
+        llTable[Symbol.VARLIST.getId()][Token.KINT] = 7;
+        llTable[Symbol.VARLIST.getId()][Token.KSTRING] = 7;
+        llTable[Symbol.VARLIST.getId()][Token.KFLOAT] = 7;
+        llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
+        llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
     }
 
     public static void main(String[] args) {
