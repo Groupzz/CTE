@@ -23,6 +23,7 @@ public class Rule {
         rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT, true)));
         rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT, true)));
         rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING, true)));
+        rules.put(105, new Rule(Symbol.ADDROF_ID, new Symbol(Token.AMPERSAND, true), new Symbol(Token.ID, true)));
     }
 
 //    private int ruleID;
