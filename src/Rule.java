@@ -15,14 +15,14 @@ public class Rule {
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
 
-	rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1), Symbol.EXPR, new Symbol(Token.PARENS2)));
+        rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
 
-	rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
-	rules.put(99, new Rule(Symbol.FACT, Symbol.ADDROF_ID));
-	rules.put(101, new Rule(Symbol.FACT, Symbol.PPEXPR));
-	rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT)));
-	rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT)));
-	rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING)));
+        rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
+        rules.put(99, new Rule(Symbol.FACT, Symbol.ADDROF_ID));
+        rules.put(101, new Rule(Symbol.FACT, Symbol.PPEXPR));
+        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT, true)));
+        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT, true)));
+        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING, true)));
     }
 
 //    private int ruleID;
