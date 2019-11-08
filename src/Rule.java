@@ -14,6 +14,30 @@ public class Rule {
         rules.put(6, new Rule(Symbol.PPVARLIST, new Symbol(Token.PARENS1, true), Symbol.VARLIST, new Symbol(Token.PARENS2, true)));
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
+
+        rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
+
+        rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
+        rules.put(99, new Rule(Symbol.FACT, Symbol.ADDROF_ID));
+        rules.put(101, new Rule(Symbol.FACT, Symbol.PPEXPR));
+        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT, true)));
+        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT, true)));
+        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING, true)));
+        rules.put(105, new Rule(Symbol.ADDROF_ID, new Symbol(Token.AMPERSAND, true), new Symbol(Token.ID, true)));
+        rules.put(106, new Rule(Symbol.OPREL, new Symbol(Token.OPEQ, true)));
+        rules.put(107, new Rule(Symbol.OPREL, new Symbol(Token.OPNE, true)));
+        rules.put(108, new Rule(Symbol.OPREL, Symbol.LTHAN));
+        rules.put(109, new Rule(Symbol.OPREL, new Symbol(Token.OPLE, true)));
+        rules.put(110, new Rule(Symbol.OPREL, new Symbol(Token.OPGE, true)));
+        rules.put(111, new Rule(Symbol.OPREL, Symbol.GTHAN));
+        rules.put(112, new Rule(Symbol.LTHAN, new Symbol(Token.ANGLE1, true)));
+        rules.put(113, new Rule(Symbol.GTHAN, new Symbol(Token.ANGLE2, true)));
+        rules.put(114, new Rule(Symbol.OPADD, new Symbol(Token.PLUS, true)));
+        rules.put(115, new Rule(Symbol.OPADD, new Symbol(Token.MINUS, true)));
+        rules.put(116, new Rule(Symbol.OPMUL, new Symbol(Token.ASTER, true)));
+        rules.put(117, new Rule(Symbol.OPMUL, new Symbol(Token.SLASH, true)));
+        rules.put(118, new Rule(Symbol.OPMUL, new Symbol(Token.CARET, true)));
+        
     }
 
 //    private int ruleID;
