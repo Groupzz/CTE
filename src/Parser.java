@@ -11,6 +11,14 @@ public class Parser {
         llTable[Symbol.MAIN.getId()][Token.KMAIN] = 2;
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
+
+        llTable[Symbol.VARGROUP.getId()][Token.ID] = 5;
+        llTable[Symbol.VARGROUP.getId()][Token.KFCN] = 5;
+        llTable[Symbol.VARGROUP.getId()][Token.KIF] = 5;
+        llTable[Symbol.VARGROUP.getId()][Token.KWHILE] = 5;
+        llTable[Symbol.VARGROUP.getId()][Token.KPRINT] = 5;
+        llTable[Symbol.VARGROUP.getId()][Token.KRETURN] = 5;
+
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
 
         llTable[Symbol.VARLIST.getId()][Token.KINT] = 7;
@@ -18,6 +26,8 @@ public class Parser {
         llTable[Symbol.VARLIST.getId()][Token.KFLOAT] = 7;
         llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
         llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
+
+        llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
     }
 
     public static void main(String[] args) {
