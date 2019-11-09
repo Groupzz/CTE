@@ -24,6 +24,34 @@ public class Symbol {
     public static final Symbol EXPRLIST = new Symbol(19, false);
     public static final Symbol MOREEXPRS = new Symbol(20, false);
 
+    public static final Symbol CLASSMOM = new Symbol(39, false);
+    public static final Symbol CLASSITEMS = new Symbol(40, false);
+    public static final Symbol CLASSGROUP = new Symbol(41, false);
+    public static final Symbol CLASS_CTR = new Symbol(42, false);
+    public static final Symbol MDDECLS = new Symbol(43, false);
+    public static final Symbol MDHEADER = new Symbol(44, false);
+    public static final Symbol MD_ID = new Symbol(45, false);
+
+    public static final Symbol FCNDEFS = new Symbol(53, false);
+    public static final Symbol FCNDEF = new Symbol(54, false);
+    public static final Symbol FCNHEADER = new Symbol(55, false);
+    public static final Symbol FCNID = new Symbol(56, false);
+    public static final Symbol RETKIND = new Symbol(57, false);
+    public static final Symbol VARSPECS = new Symbol(58, false);
+    public static final Symbol MORE_VARSPECS = new Symbol(59, false);
+    public static final Symbol PPONLY = new Symbol(60, false);
+    public static final Symbol STMTS = new Symbol(61, false);
+    public static final Symbol PPARAMLIST = new Symbol(62, false);
+    public static final Symbol STASGN = new Symbol(63, false);
+    public static final Symbol LVAL = new Symbol(64, false);
+    public static final Symbol AREF = new Symbol(65, false);
+    public static final Symbol KKEXPR = new Symbol(66, false); 
+    public static final Symbol STIF = new Symbol(67, false);
+    public static final Symbol ELSEPART = new Symbol(68, false);
+    public static final Symbol STWHILE = new Symbol(69, false);
+    public static final Symbol STPRINT = new Symbol(70, false);
+    public static final Symbol STRTN = new Symbol(71, false);
+
     public static final Symbol PPEXPR = new Symbol(90, false);
     public static final Symbol FACT = new Symbol(91, false);
     public static final Symbol BASELITERAL = new Symbol(92, false);

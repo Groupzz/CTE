@@ -15,6 +15,8 @@ public class Rule {
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
 
+        rules.put(53, new Rule(Symbol.FCNDEFS), Symbol.FCNDEF, Symbol.FCNDEFS);
+
         rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
 
         rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
