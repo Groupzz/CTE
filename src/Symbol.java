@@ -51,6 +51,7 @@ public class Symbol {
     public static final Symbol STWHILE = new Symbol(69, false);
     public static final Symbol STPRINT = new Symbol(70, false);
     public static final Symbol STRTN = new Symbol(71, false);
+    public static final Symbol FCALL = new Symbol(72, false);
 
     public static final Symbol PPEXPR = new Symbol(90, false);
     public static final Symbol FACT = new Symbol(91, false);
@@ -80,6 +81,12 @@ public class Symbol {
 
     public static final Symbol LEXPR = new Symbol(111, false);
     public static final Symbol EXPR = new Symbol(112, false);
+
+    public static final Symbol LRTERM = new Symbol(113, false);
+    public static final Symbol RTERM = new Symbol(114, false);
+    public static final Symbol LTERM = new Symbol(115, false);
+    public static final Symbol TERM = new Symbol(116, false);
+    public static final Symbol DSTRTN = new Symbol(117, false);
     
     private int id;
     private boolean terminal;
