@@ -38,6 +38,22 @@ public class Rule {
         rules.put(117, new Rule(Symbol.OPMUL, new Symbol(Token.SLASH, true)));
         rules.put(118, new Rule(Symbol.OPMUL, new Symbol(Token.CARET, true)));
 
+        rules.put(120, new Rule(Symbol.DLVAL));
+
+        rules.put(123, new Rule(Symbol.DFACT));
+        rules.put(124, new Rule(Symbol.DFACT, Symbol.PPEXPRS));
+
+        rules.put(126, new Rule(Symbol.DVARSPEC));
+        rules.put(127, new Rule(Symbol.DVARSPEC, Symbol.KKINT));
+
+        rules.put(128, new Rule(Symbol.PPARMLIST, new Symbol(Token.PARENS1, true), Symbol.DPPARMLIST));
+        //rule 129 goes here
+        rules.put(130, new Rule(Symbol.DPPARMLIST, new Symbol(Token.PARENS2, true)));
+
+        rules.put(131, new Rule(Symbol.STMT, new Symbol(Token.ID, true), Symbol.DSTMT));
+        rules.put(132, new Rule(Symbol.DSTMT, new Symbol(Token.EQUAL, true), Symbol.EXPR));
+        rules.put(133, new Rule(Symbol.DSTMT, Symbol.PPEXPRS));
+
     }
 
 //    private int ruleID;
