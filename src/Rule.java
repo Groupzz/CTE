@@ -37,7 +37,7 @@ public class Rule {
         rules.put(116, new Rule(Symbol.OPMUL, new Symbol(Token.ASTER, true)));
         rules.put(117, new Rule(Symbol.OPMUL, new Symbol(Token.SLASH, true)));
         rules.put(118, new Rule(Symbol.OPMUL, new Symbol(Token.CARET, true)));
-        
+
     }
 
 //    private int ruleID;

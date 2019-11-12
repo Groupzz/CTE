@@ -52,7 +52,13 @@ public class Symbol {
 
     public static final Symbol LEXPR = new Symbol(111, false);
     public static final Symbol EXPR = new Symbol(112, false);
-    
+
+    public static final Symbol LRTERM = new Symbol(143, false);
+    public static final Symbol RTERM = new Symbol(144, false);
+
+    public static final Symbol LTERM = new Symbol(146, false);
+    public static final Symbol TERM = new Symbol(147, false);
+
     private int id;
     private boolean terminal;
     private Token token;
