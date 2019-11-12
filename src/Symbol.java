@@ -34,6 +34,8 @@ public class Symbol {
     public static final Symbol OPADD = new Symbol(97, false);
     public static final Symbol OPMUL = new Symbol(98, false);
 
+    public static final Symbol DLVAL = new Symbol(99, false);
+
     public static final Symbol DFACT = new Symbol(100, false);
 
     public static final Symbol DVARSPEC = new Symbol(102, false);
