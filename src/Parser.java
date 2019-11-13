@@ -27,7 +27,59 @@ public class Parser {
         llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
         llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
 
-        llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
+        llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
+
+        llTable[Symbol.EXPR.getId()][Token.PARENS1] = 141;
+        llTable[Symbol.EXPR.getId()][Token.ID] = 141;
+        llTable[Symbol.EXPR.getId()][Token.INT] = 141;
+        llTable[Symbol.EXPR.getId()][Token.FLOAT] = 141;
+        llTable[Symbol.EXPR.getId()][Token.STRING] = 141;
+        llTable[Symbol.EXPR.getId()][Token.AMPERSAND] = 141;
+
+        llTable[Symbol.RTERM.getId()][Token.PARENS1] = 144;
+        llTable[Symbol.RTERM.getId()][Token.ID] = 144;
+        llTable[Symbol.RTERM.getId()][Token.INT] = 144;
+        llTable[Symbol.RTERM.getId()][Token.FLOAT] = 144;
+        llTable[Symbol.RTERM.getId()][Token.STRING] = 144;
+        llTable[Symbol.RTERM.getId()][Token.AMPERSAND] = 144;
+
+        llTable[Symbol.TERM.getId()][Token.PARENS1] = 147;
+        llTable[Symbol.TERM.getId()][Token.ID] = 147;
+        llTable[Symbol.TERM.getId()][Token.INT] = 147;
+        llTable[Symbol.TERM.getId()][Token.FLOAT] = 147;
+        llTable[Symbol.TERM.getId()][Token.STRING] = 147;
+        llTable[Symbol.TERM.getId()][Token.AMPERSAND] = 147;
+
+        llTable[Symbol.FACT.getId()][Token.INT] = 97;
+        llTable[Symbol.FACT.getId()][Token.FLOAT] = 97;
+        llTable[Symbol.FACT.getId()][Token.STRING] = 97;
+        llTable[Symbol.FACT.getId()][Token.AMPERSAND] = 99;
+        llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
+        llTable[Symbol.FACT.getId()][Token.ID] = 122;
+
+        llTable[Symbol.BASELITERAL.getId()][Token.KINT] = 102;
+        llTable[Symbol.BASELITERAL.getId()][Token.KFLOAT] = 103;
+        llTable[Symbol.BASELITERAL.getId()][Token.KSTRING] = 104;
+
+        llTable[Symbol.ADDROF_ID.getId()][Token.AMPERSAND] = 105;
+
+        llTable[Symbol.OPREL.getId()][Token.OPEQ] = 106;
+        llTable[Symbol.OPREL.getId()][Token.OPNE] = 107;
+        llTable[Symbol.OPREL.getId()][Token.OPLE] = 109;
+        llTable[Symbol.OPREL.getId()][Token.OPGE] = 110;
+        llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
+        llTable[Symbol.OPREL.getId()][Token.ANGLE2] = 111;
+
+        llTable[Symbol.LTHAN.getId()][Token.ANGLE1] = 112;
+
+        llTable[Symbol.GTHAN.getId()][Token.ANGLE2] = 113;
+
+        llTable[Symbol.OPADD.getId()][Token.PLUS] = 114;
+        llTable[Symbol.OPADD.getId()][Token.MINUS] = 115;
+
+        llTable[Symbol.OPMUL.getId()][Token.ASTER] = 116;
+        llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
+        llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
     }
 
     public static void main(String[] args) {
