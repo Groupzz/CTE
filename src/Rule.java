@@ -39,6 +39,24 @@ public class Rule {
         rules.put(79, new Rule(Symbol.FCALL, Symbol.FCNID, Symbol.PPEXPRS));
 
         rules.put(53, new Rule(Symbol.FCNDEFS, Symbol.FCNDEF, Symbol.FCNDEFS));
+        rules.put(54, new Rule(Symbol.FCNDEFS));
+        rules.put(55, new Rule(Symbol.FCNDEF, Symbol.FCNHEADER, Symbol.BBLOCK));
+        rules.put(56, new Rule(Symbol.FCNHEADER, new Symbol(Token.KFCN, true), Symbol.FCNID, Symbol.PPARMLIST, Symbol.RETKIND));
+        rules.put(57, new Rule(Symbol.FCNID, new Symbol(Token.ID, true)));
+        rules.put(58, new Rule(Symbol.RETKIND, Symbol.BASEKIND));
+
+        rules.put(61, new Rule(Symbol.VARSPECS, Symbol.VARSPEC, Symbol.MORE_VARSPECS));
+        rules.put(62, new Rule(Symbol.MORE_VARSPECS, new Symbol(Token.COMMA, true), Symbol.VARSPECS));
+        rules.put(63, new Rule(Symbol.MORE_VARSPECS));
+        rules.put(64, new Rule(Symbol.PPONLY, new Symbol(Token.PARENS1, true), new Symbol(Token.PARENS2, true)));
+        rules.put(65, new Rule(Symbol.STMTS, Symbol.STMT, new Symbol(Token.SEMI, true), Symbol.STMTS));
+        rules.put(66, new Rule(Symbol.STMTS));
+
+        rules.put(69, new Rule(Symbol.STMT, Symbol.STIF));
+        rules.put(70, new Rule(Symbol.STMT, Symbol.STWHILE));
+        rules.put(71, new Rule(Symbol.STMT, Symbol.STPRINT));
+        rules.put(72, new Rule(Symbol.STMT, Symbol.STRTN));
+        rules.put(73, new Rule(Symbol.STASGN, Symbol.LVAL, new Symbol(Token.EQUAL, true), Symbol.EXPR));
 
         rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
 
