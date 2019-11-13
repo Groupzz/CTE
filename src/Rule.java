@@ -15,6 +15,12 @@ public class Rule {
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
 
+        rules.put(27, new Rule(Symbol.VARINIT, Symbol.EXPR));
+        rules.put(28, new Rule(Symbol.VARINIT, Symbol.BBEXPRS));
+        rules.put(31, new Rule(Symbol.EXPRLIST, Symbol.EXPR, Symbol.MOREEXPRS));
+        rules.put(32, new Rule(Symbol.MOREEXPRS, new Symbol(Token.COMMA, true), Symbol.EXPRLIST));
+        rules.put(33, new Rule(Symbol.MOREEXPRS));
+
         rules.put(53, new Rule(Symbol.FCNDEFS, Symbol.FCNDEF, Symbol.FCNDEFS));
 
         rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
