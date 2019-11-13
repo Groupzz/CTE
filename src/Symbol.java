@@ -53,6 +53,10 @@ public class Symbol {
     public static final Symbol LEXPR = new Symbol(111, false);
     public static final Symbol EXPR = new Symbol(112, false);
     
+    public static final Symbol CLASSDECL = new Symbol(113, false);
+
+    public static final Symbol FCALL = new Symbol(114, false);
+    public static final Symbol FCNID = new Symbol(115, false);
     private int id;
     private boolean terminal;
     private Token token;
