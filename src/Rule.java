@@ -33,16 +33,10 @@ public class Rule {
         rules.put(28, new Rule(Symbol.VARINIT, Symbol.BBEXPRS));
         rules.put(31, new Rule(Symbol.EXPRLIST, Symbol.EXPR, Symbol.MOREEXPRS));
         rules.put(32, new Rule(Symbol.MOREEXPRS, new Symbol(Token.COMMA, true), Symbol.EXPRLIST));
+        rules.put(33, new Rule(Symbol.MOREEXPRS));
         rules.put(34, new Rule(Symbol.CLASSDECL, new Symbol(Token.KCLASS, true), Symbol.CLASSID));
 
-        rules.put(79, new Rule(Symbol.FCALL, Symbol.FCNID, Symbol.PPEXRS));
-
-
-        rules.put(27, new Rule(Symbol.VARINIT, Symbol.EXPR));
-        rules.put(28, new Rule(Symbol.VARINIT, Symbol.BBEXPRS));
-        rules.put(31, new Rule(Symbol.EXPRLIST, Symbol.EXPR, Symbol.MOREEXPRS));
-        rules.put(32, new Rule(Symbol.MOREEXPRS, new Symbol(Token.COMMA, true), Symbol.EXPRLIST));
-        rules.put(33, new Rule(Symbol.MOREEXPRS));
+        rules.put(79, new Rule(Symbol.FCALL, Symbol.FCNID, Symbol.PPEXPRS));
 
         rules.put(53, new Rule(Symbol.FCNDEFS, Symbol.FCNDEF, Symbol.FCNDEFS));
 
