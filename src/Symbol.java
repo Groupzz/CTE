@@ -90,6 +90,7 @@ public class Symbol {
 
     public static final Symbol DLVAL = new Symbol(74, false);
     
+    public static final Symbol CLASSDECL = new Symbol(113, false);
     private int id;
     private boolean terminal;
     private Token token;

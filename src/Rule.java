@@ -14,6 +14,29 @@ public class Rule {
         rules.put(6, new Rule(Symbol.PPVARLIST, new Symbol(Token.PARENS1, true), Symbol.VARLIST, new Symbol(Token.PARENS2, true)));
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
+        
+        rules.put(12, new Rule(Symbol.VARDECL,Symbol.SIMPLEKIND, Symbol.VARSPEC));
+        rules.put(13, new Rule(Symbol.SIMPLEKIND, Symbol.BASEKIND));
+        rules.put(14, new Rule(Symbol.SIMPLEKIND, Symbol.CLASSID));
+        rules.put(15, new Rule(Symbol.BASEKIND, new Symbol(Token.KINT, true)));
+        rules.put(16, new Rule(Symbol.BASEKIND, new Symbol(Token.KFLOAT, true)));
+        rules.put(17, new Rule(Symbol.BASEKIND, new Symbol(Token.KSTRING, true)));
+        rules.put(18, new Rule(Symbol.CLASSID, new Symbol(Token.ID, true)));
+        rules.put(21, new Rule(Symbol.VARSPEC, Symbol.DEREF_ID));
+        rules.put(22, new Rule(Symbol.VARID, new Symbol(Token.ID, true)));
+        rules.put(23, new Rule(Symbol.ARRSPEC, Symbol.VARID, Symbol.KKINT));
+        rules.put(24, new Rule(Symbol.KKINT, new Symbol(Token.BRACKET1, true), new Symbol(Token.INT, true), new Symbol(Token.BRACKET2, true)));
+        rules.put(25, new Rule(Symbol.DEREF_ID, Symbol.DEREF, new Symbol(Token.ID, true)));
+        rules.put(26, new Rule(Symbol.DEREF, new Symbol(Token.ASTER, true)));
+
+        rules.put(27, new Rule(Symbol.VARINIT, Symbol.EXPR));
+        rules.put(28, new Rule(Symbol.VARINIT, Symbol.BBEXPRS));
+        rules.put(31, new Rule(Symbol.EXPRLIST, Symbol.EXPR, Symbol.MOREEXPRS));
+        rules.put(32, new Rule(Symbol.MOREEXPRS, new Symbol(Token.COMMA, true), Symbol.EXPRLIST));
+        rules.put(34, new Rule(Symbol.CLASSDECL, new Symbol(Token.KCLASS, true), Symbol.CLASSID));
+
+        rules.put(79, new Rule(Symbol.FCALL, Symbol.FCNID, Symbol.PPEXRS));
+
 
         rules.put(27, new Rule(Symbol.VARINIT, Symbol.EXPR));
         rules.put(28, new Rule(Symbol.VARINIT, Symbol.BBEXPRS));
