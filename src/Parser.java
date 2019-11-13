@@ -27,6 +27,8 @@ public class Parser {
         llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
         llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
 
+        llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
         llTable[Symbol.EXPR.getId()][Token.PARENS1] = 141;

@@ -87,6 +87,8 @@ public class Symbol {
     public static final Symbol LTERM = new Symbol(71, false);
     public static final Symbol TERM = new Symbol(72, false);
     public static final Symbol DSTRTN = new Symbol(73, false);
+
+    public static final Symbol DLVAL = new Symbol(74, false);
     
     private int id;
     private boolean terminal;
