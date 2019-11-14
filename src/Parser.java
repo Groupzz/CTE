@@ -12,49 +12,27 @@ public class Parser {
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
 
-        llTable[Symbol.VARGROUP.getId()][Token.ID] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KFCN] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KIF] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KWHILE] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KPRINT] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KRETURN] = 5;
+        addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE,
+                Token.KPRINT, Token.KRETURN);
 
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
 
-        llTable[Symbol.VARLIST.getId()][Token.KINT] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KSTRING] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KFLOAT] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
+        addRule(Symbol.VARLIST, 7, Token.KINT, Token.KSTRING, Token.KFLOAT, Token.ID, Token.KCLASS);
 
         llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
 
+        addRule(Symbol.VARDECL, 12, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
-        llTable[Symbol.EXPR.getId()][Token.PARENS1] = 141;
-        llTable[Symbol.EXPR.getId()][Token.ID] = 141;
-        llTable[Symbol.EXPR.getId()][Token.INT] = 141;
-        llTable[Symbol.EXPR.getId()][Token.FLOAT] = 141;
-        llTable[Symbol.EXPR.getId()][Token.STRING] = 141;
-        llTable[Symbol.EXPR.getId()][Token.AMPERSAND] = 141;
+        addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.RTERM.getId()][Token.PARENS1] = 144;
-        llTable[Symbol.RTERM.getId()][Token.ID] = 144;
-        llTable[Symbol.RTERM.getId()][Token.INT] = 144;
-        llTable[Symbol.RTERM.getId()][Token.FLOAT] = 144;
-        llTable[Symbol.RTERM.getId()][Token.STRING] = 144;
-        llTable[Symbol.RTERM.getId()][Token.AMPERSAND] = 144;
+        addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.TERM.getId()][Token.PARENS1] = 147;
-        llTable[Symbol.TERM.getId()][Token.ID] = 147;
-        llTable[Symbol.TERM.getId()][Token.INT] = 147;
-        llTable[Symbol.TERM.getId()][Token.FLOAT] = 147;
-        llTable[Symbol.TERM.getId()][Token.STRING] = 147;
-        llTable[Symbol.TERM.getId()][Token.AMPERSAND] = 147;
+        addRule(Symbol.TERM, 147, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.FACT.getId()][Token.INT] = 97;
-        llTable[Symbol.FACT.getId()][Token.FLOAT] = 97;
-        llTable[Symbol.FACT.getId()][Token.STRING] = 97;
+        addRule(Symbol.FACT, 97, Token.INT, Token.FLOAT, Token.STRING);
+
         llTable[Symbol.FACT.getId()][Token.AMPERSAND] = 99;
         llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
         llTable[Symbol.FACT.getId()][Token.ID] = 122;
@@ -67,9 +45,9 @@ public class Parser {
 
         llTable[Symbol.OPREL.getId()][Token.OPEQ] = 106;
         llTable[Symbol.OPREL.getId()][Token.OPNE] = 107;
+        llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
         llTable[Symbol.OPREL.getId()][Token.OPLE] = 109;
         llTable[Symbol.OPREL.getId()][Token.OPGE] = 110;
-        llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
         llTable[Symbol.OPREL.getId()][Token.ANGLE2] = 111;
 
         llTable[Symbol.LTHAN.getId()][Token.ANGLE1] = 112;
@@ -82,6 +60,14 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.ASTER] = 116;
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
+
+        addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+    }
+
+    private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
+        for (int column : columns) {
+            llTable[rowHeader.getId()][column] = ruleNumber;
+        }
     }
 
     public static void main(String[] args) {
@@ -98,7 +84,6 @@ public class Parser {
         Symbol curSymbol = new Symbol(Token.TokenBuilder(scanner.nextLine())); // Get first token of input
 
         while(!stack.empty()) {
-
             // m1: if top is the same as front, pop stack and advance input
             if(stack.peek().sym.equals(curSymbol)) {
                 PNode curNode = stack.pop(); // save current node (a terminal symbol) so we can give it proper token info
@@ -127,7 +112,7 @@ public class Parser {
             // m3E: cell is empty
             if (cell == 0) {
                 // if there isn't a rule in the table the input is grammatically incorrect. That's an error
-                System.out.println("ERROR: No rule exists for given input");
+                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString());
                 System.exit(1);
                 break;
             }
