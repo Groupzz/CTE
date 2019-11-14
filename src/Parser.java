@@ -3,7 +3,7 @@ import java.util.Stack;
 
 public class Parser {
 
-    private static int[][] llTable = new int[100][100];
+    private static int[][] llTable = new int[300][60];
 
     static {
         // llTable[ROW/NON-T][COLUMN/TERMINAL]
@@ -13,7 +13,7 @@ public class Parser {
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
 
         addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE,
-                Token.KPRINT, Token.KRETURN);
+                Token.KPRINT, Token.KRETURN, Token.BRACE2);
 
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
 
