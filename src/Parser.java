@@ -23,6 +23,10 @@ public class Parser {
 
         addRule(Symbol.VARDECL, 12, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
 
+        addRule(Symbol.BASEKIND, 15, Token.KINT);
+        addRule(Symbol.BASEKIND, 16, Token.KFLOAT);
+        addRule(Symbol.BASEKIND, 17, Token.KSTRING);
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
         addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
@@ -37,9 +41,9 @@ public class Parser {
         llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
         llTable[Symbol.FACT.getId()][Token.ID] = 122;
 
-        llTable[Symbol.BASELITERAL.getId()][Token.KINT] = 102;
-        llTable[Symbol.BASELITERAL.getId()][Token.KFLOAT] = 103;
-        llTable[Symbol.BASELITERAL.getId()][Token.KSTRING] = 104;
+        llTable[Symbol.BASELITERAL.getId()][Token.INT] = 102;
+        llTable[Symbol.BASELITERAL.getId()][Token.FLOAT] = 103;
+        llTable[Symbol.BASELITERAL.getId()][Token.STRING] = 104;
 
         llTable[Symbol.ADDROF_ID.getId()][Token.AMPERSAND] = 105;
 
@@ -62,6 +66,7 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
 
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+        addRule(Symbol.DVARITEM, 139, Token.EQUAL);
     }
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
@@ -120,7 +125,7 @@ public class Parser {
             PNode curNode = stack.pop(); // save top of stack so we can push RHS of rule to its kids in parse tree
             curNode.setRuleID(cell); // set the top of stack's rule to the one we matched for future AST conversion
             pushReverse(stack, Rule.getRule(cell), curNode); // method to push RHS to stack and kids at the same time
-            System.out.println(stack + " : " + curSymbol); // debug print
+            System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
         }
         // if there is still input but the stack is empty
         if(scanner.hasNext()) {

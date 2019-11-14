@@ -7,15 +7,20 @@ public class Rule {
     static {
         rules.put(1, new Rule(Symbol.PGM, new Symbol(Token.KPROG, true), Symbol.MAIN));
         rules.put(2, new Rule(Symbol.MAIN, new Symbol(Token.KMAIN, true), Symbol.BBLOCK));
-        rules.put(3, new Rule(Symbol.BBLOCK, new Symbol(Token.BRACE1, true), new Symbol(Token.BRACE2, true)));
+
+        // This rule has been modified to a simpler version of the grammar
+        rules.put(3, new Rule(Symbol.BBLOCK, new Symbol(Token.BRACE1, true), Symbol.VARGROUP, new Symbol(Token.BRACE2, true)));
         
        	rules.put(4, new Rule(Symbol.VARGROUP, new Symbol(Token.KVAR, true), Symbol.PPVARLIST));
         rules.put(5, new Rule(Symbol.VARGROUP));
         rules.put(6, new Rule(Symbol.PPVARLIST, new Symbol(Token.PARENS1, true), Symbol.VARLIST, new Symbol(Token.PARENS2, true)));
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
-        
-        rules.put(12, new Rule(Symbol.VARDECL,Symbol.SIMPLEKIND, Symbol.VARSPEC));
+
+        // modified for simple rule set
+        rules.put(12, new Rule(Symbol.VARDECL, Symbol.BASEKIND, new Symbol(Token.ID, true)));
+//        rules.put(12, new Rule(Symbol.VARDECL, Symbol.SIMPLEKIND, Symbol.VARSPEC));
+
         rules.put(13, new Rule(Symbol.SIMPLEKIND, Symbol.BASEKIND));
         rules.put(14, new Rule(Symbol.SIMPLEKIND, Symbol.CLASSID));
         rules.put(15, new Rule(Symbol.BASEKIND, new Symbol(Token.KINT, true)));
@@ -63,9 +68,9 @@ public class Rule {
         rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
         rules.put(99, new Rule(Symbol.FACT, Symbol.ADDROF_ID));
         rules.put(101, new Rule(Symbol.FACT, Symbol.PPEXPR));
-        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT, true)));
-        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT, true)));
-        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING, true)));
+        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.INT, true)));
+        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.FLOAT, true)));
+        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.STRING, true)));
         rules.put(105, new Rule(Symbol.ADDROF_ID, new Symbol(Token.AMPERSAND, true), new Symbol(Token.ID, true)));
         rules.put(106, new Rule(Symbol.OPREL, new Symbol(Token.OPEQ, true)));
         rules.put(107, new Rule(Symbol.OPREL, new Symbol(Token.OPNE, true)));
@@ -97,6 +102,12 @@ public class Rule {
         rules.put(132, new Rule(Symbol.DSTMT, new Symbol(Token.EQUAL, true), Symbol.EXPR));
         rules.put(133, new Rule(Symbol.DSTMT, Symbol.PPEXPRS));
 
+        rules.put(137, new Rule(Symbol.VARITEM, Symbol.VARDECL, Symbol.DVARITEM));
+        rules.put(138, new Rule(Symbol.DVARITEM));
+
+        // modified this rule for smaller grammar test
+        // rules.put(139, new Rule(Symbol.DVARITEM, new Symbol(Token.EQUAL, true), Symbol.VARINIT));
+        rules.put(139, new Rule(Symbol.DVARITEM, new Symbol(Token.EQUAL, true), Symbol.BASELITERAL));
     }
 
 //    private int ruleID;
