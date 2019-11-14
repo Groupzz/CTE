@@ -27,6 +27,10 @@ public class Parser {
         addRule(Symbol.BASEKIND, 16, Token.KFLOAT);
         addRule(Symbol.BASEKIND, 17, Token.KSTRING);
 
+        addRule(Symbol.VARSPEC, 21, Token.ASTER);
+
+        addRule(Symbol.KKINT, 24, Token.BRACKET1);
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
         addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
@@ -65,6 +69,10 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
 
+        addRule(Symbol.VARSPEC, 125, Token.ID);
+        addRule(Symbol.DVARSPEC, 126, Token.PARENS2);
+        addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);
+
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
     }
@@ -92,7 +100,7 @@ public class Parser {
             // m1: if top is the same as front, pop stack and advance input
             if(stack.peek().sym.equals(curSymbol)) {
                 PNode curNode = stack.pop(); // save current node (a terminal symbol) so we can give it proper token info
-                System.out.println("Top is same as front. Stack: " + stack);
+                System.out.println("Top is same as front. Stack: " + stack + " : " + curSymbol);
                 if(stack.isEmpty()) {
                     break; // if the latest pop was the end of input we can exit the loop
                     // we need this because otherwise the loop would hang waiting for more tokens to be input
@@ -124,7 +132,7 @@ public class Parser {
             // m4: pop and push reverse of RHS
             PNode curNode = stack.pop(); // save top of stack so we can push RHS of rule to its kids in parse tree
             curNode.setRuleID(cell); // set the top of stack's rule to the one we matched for future AST conversion
-            pushReverse(stack, Rule.getRule(cell), curNode); // method to push RHS to stack and kids at the same time
+            pushReverse(stack, cell, curNode); // method to push RHS to stack and kids at the same time
             System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
         }
         // if there is still input but the stack is empty
@@ -141,7 +149,12 @@ public class Parser {
     }
 
 
-    private static void pushReverse(Stack<PNode> stack, Rule rule, PNode mom) {
+    private static void pushReverse(Stack<PNode> stack, int ruleNum, PNode mom) {
+        Rule rule = Rule.getRule(ruleNum);
+        if (rule == null) {
+            System.out.println("ERROR: Rule specified by LLTable does not exist in Rule.java. Rule #: " + ruleNum);
+            System.exit(1);
+        }
         for(int i = rule.getRHSLength() - 1; i >= 0; i--) {
             // for each symbol in RHS of rule
             if(rule.getRHS(i) != null) {
