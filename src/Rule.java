@@ -15,14 +15,19 @@ public class Rule {
         rules.put(7, new Rule(Symbol.VARLIST, Symbol.VARITEM, new Symbol(Token.SEMI, true), Symbol.VARLIST));
         rules.put(8, new Rule(Symbol.VARLIST));
 
+        //Jamil(3)
+        rules.put(31, new Rule(Symbol.EXPRLIST, Symbol.EXPR, Symbol.MOREEXPRS));
+        rules.put(32, new Rule(Symbol.MOREEXPRS, new Symbol(Token.COMMA, true), Symbol.EXPRLIST));
+        rules.put(33, new Rule(Symbol.MOREEXPRS));
+        
         rules.put(90, new Rule(Symbol.PPEXPR, new Symbol(Token.PARENS1, true), Symbol.EXPR, new Symbol(Token.PARENS2, true)));
 
         rules.put(97, new Rule(Symbol.FACT, Symbol.BASELITERAL));
         rules.put(99, new Rule(Symbol.FACT, Symbol.ADDROF_ID));
         rules.put(101, new Rule(Symbol.FACT, Symbol.PPEXPR));
-        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.KINT, true)));
-        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.KFLOAT, true)));
-        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.KSTRING, true)));
+        rules.put(102, new Rule(Symbol.BASELITERAL, new Symbol(Token.INT, true)));
+        rules.put(103, new Rule(Symbol.BASELITERAL, new Symbol(Token.FLOAT, true)));
+        rules.put(104, new Rule(Symbol.BASELITERAL, new Symbol(Token.STRING, true)));
         rules.put(105, new Rule(Symbol.ADDROF_ID, new Symbol(Token.AMPERSAND, true), new Symbol(Token.ID, true)));
         rules.put(106, new Rule(Symbol.OPREL, new Symbol(Token.OPEQ, true)));
         rules.put(107, new Rule(Symbol.OPREL, new Symbol(Token.OPNE, true)));
@@ -40,6 +45,9 @@ public class Rule {
 
         rules.put(120, new Rule(Symbol.DLVAL));
 
+        //Jamil(1)
+        rules.put(122, new Rule(Symbol.FACT, new Symbol(Token.ID, true), Symbol.DFACT));
+        
         rules.put(123, new Rule(Symbol.DFACT));
         rules.put(124, new Rule(Symbol.DFACT, Symbol.PPEXPRS));
 
@@ -53,6 +61,23 @@ public class Rule {
         rules.put(131, new Rule(Symbol.STMT, new Symbol(Token.ID, true), Symbol.DSTMT));
         rules.put(132, new Rule(Symbol.DSTMT, new Symbol(Token.EQUAL, true), Symbol.EXPR));
         rules.put(133, new Rule(Symbol.DSTMT, Symbol.PPEXPRS));
+        
+        //Jamil(12)
+        rules.put(134, new Rule(Symbol.PPEXPRS, new Symbol(Token.PARENS1, true), Symbol.DPPEXPRS));
+        rules.put(135, new Rule(Symbol.DPPEXPRS, Symbol.EXPRLIST, new Symbol(Token.PARENS2, true)));
+        rules.put(136, new Rule(Symbol.DPPEXPRS));
+        
+        rules.put(140, new Rule(Symbol.LEXPR, Symbol.OPREL, Symbol.RTERM, Symbol.LEXPR));
+        rules.put(141, new Rule(Symbol.EXPR, Symbol.RTERM, Symbol.LEXPR));
+        rules.put(142, new Rule(Symbol.LEXPR));
+        
+        rules.put(143, new Rule(Symbol.LRTERM, Symbol.OPADD, Symbol.TERM, Symbol.LRTERM));
+        rules.put(144, new Rule(Symbol.RTERM, Symbol.TERM, Symbol.LRTERM));
+        rules.put(145, new Rule(Symbol.LRTERM));
+        
+        rules.put(146, new Rule(Symbol.LTERM, Symbol.OPMUL, Symbol.FACT, Symbol.LTERM));
+        rules.put(147, new Rule(Symbol.TERM, Symbol.FACT, Symbol.LTERM));
+        rules.put(148, new Rule(Symbol.LTERM));
 
     }
 
