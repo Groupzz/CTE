@@ -31,6 +31,6 @@ apply plugin: 'application'
 mainClassName = 'Parser'
 
 sourceSets {
-    main.java.srcDirs = ['src/main']
+    main.java.srcDirs = ['src']
 }
 

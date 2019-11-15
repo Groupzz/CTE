@@ -3,7 +3,13 @@
 
 # Ignore build files
 build
+bin
+.settings
+.vscode
+.classpath
+.project
 *.class
+
 
 ### Gradle ###
 .gradle
