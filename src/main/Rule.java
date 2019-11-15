@@ -67,6 +67,20 @@ public class Rule {
         rules.put(72, new Rule(STMT, STRTN));
         rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
 
+        rules.put(76, new Rule(LVAL, DEREF_ID));
+        rules.put(77, new Rule(AREF, VARID, KKEXPR));
+        rules.put(78, new Rule(KKEXPR, BRACKET1, EXPR, BRACKET2));
+        rules.put(79, new Rule(FCALL, FCNID, PPEXPRS));
+
+        rules.put(82, new Rule(STIF, KIF, PPEXPR, BBLOCK, ELSEPART));
+
+        rules.put(83, new Rule(ELSEPART, KELSEIF, PPEXPR, BBLOCK, ELSEPART));
+        rules.put(84, new Rule(ELSEPART, KELSE, BBLOCK));
+        rules.put(85, new Rule(ELSEPART));
+
+        rules.put(86, new Rule(STWHILE, KWHILE, PPEXPR, BBLOCK));
+        rules.put(87, new Rule(STPRINT, KPRINT, PPEXPRS));
+
         rules.put(90, new Rule(PPEXPR, PARENS1, EXPR, PARENS2));
 
         rules.put(97, new Rule(FACT, BASELITERAL));
@@ -89,10 +103,10 @@ public class Rule {
         rules.put(116, new Rule(OPMUL, ASTER));
         rules.put(117, new Rule(OPMUL, SLASH));
         rules.put(118, new Rule(OPMUL, CARET));
-
+        rules.put(119, new Rule(LVAL, VARID, DLVAL));
         rules.put(120, new Rule(DLVAL));
 
-        rules.put(122, new Rule(Symbol.FACT, new Symbol(Token.ID, true), Symbol.DFACT));
+        rules.put(122, new Rule(FACT, new Symbol(Token.ID, true), DFACT));
 
         rules.put(123, new Rule(DFACT));
         rules.put(124, new Rule(DFACT, PPEXPRS));
@@ -109,25 +123,28 @@ public class Rule {
         rules.put(132, new Rule(DSTMT, EQUAL, EXPR));
         rules.put(133, new Rule(DSTMT, PPEXPRS));
 
-        rules.put(134, new Rule(PPEXPRS, new Symbol(Token.PARENS1, true), Symbol.DPPEXPRS));
-        rules.put(135, new Rule(DPPEXPRS, Symbol.EXPRLIST, new Symbol(Token.PARENS2, true)));
-        rules.put(136, new Rule(Symbol.DPPEXPRS));
+        rules.put(134, new Rule(PPEXPRS, PARENS1, DPPEXPRS));
+        rules.put(135, new Rule(DPPEXPRS, EXPRLIST, PARENS2));
+        rules.put(136, new Rule(DPPEXPRS));
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
 
-        rules.put(140, new Rule(Symbol.LEXPR, Symbol.OPREL, Symbol.RTERM, Symbol.LEXPR));
-        rules.put(141, new Rule(Symbol.EXPR, Symbol.RTERM, Symbol.LEXPR));
-        rules.put(142, new Rule(Symbol.LEXPR));
+        rules.put(140, new Rule(LEXPR, OPREL, RTERM, LEXPR));
+        rules.put(141, new Rule(EXPR, RTERM, LEXPR));
+        rules.put(142, new Rule(LEXPR));
 
-        rules.put(143, new Rule(Symbol.LRTERM, Symbol.OPADD, Symbol.TERM, Symbol.LRTERM));
-        rules.put(144, new Rule(Symbol.RTERM, Symbol.TERM, Symbol.LRTERM));
-        rules.put(145, new Rule(Symbol.LRTERM));
+        rules.put(143, new Rule(LRTERM, OPADD, TERM, LRTERM));
+        rules.put(144, new Rule(RTERM, TERM, LRTERM));
+        rules.put(145, new Rule(LRTERM));
 
-        rules.put(146, new Rule(Symbol.LTERM, Symbol.OPMUL, Symbol.FACT, Symbol.LTERM));
-        rules.put(147, new Rule(Symbol.TERM, Symbol.FACT, Symbol.LTERM));
-        rules.put(148, new Rule(Symbol.LTERM));
+        rules.put(146, new Rule(LTERM, OPMUL, FACT, LTERM));
+        rules.put(147, new Rule(TERM, FACT, LTERM));
+        rules.put(148, new Rule(LTERM));
 
+        rules.put(149, new Rule(STRTN, KRETURN, DSTRTN));
+        rules.put(150, new Rule(DSTRTN, EXPR));
+        rules.put(151, new Rule(DSTRTN));
 
 
         // modified this rule for smaller grammar test

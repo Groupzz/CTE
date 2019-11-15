@@ -35,6 +35,41 @@ public class Parser {
         addRule(Symbol.DEREF_ID, 25, Token.ASTER);
         addRule(Symbol.DEREF, 26, Token.ASTER);
 
+
+
+
+        llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
+        llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
+
+        llTable[Symbol.PPONLY.getId()][Token.PARENS1] = 64;
+
+        llTable[Symbol.STMTS.getId()][Token.BRACE2] = 66;
+        addRule(Symbol.STMTS, 65, Token.ID, Token.KIF, Token.KWHILE, Token.KPRINT, Token.KRETURN);
+
+        llTable[Symbol.ELSEPART.getId()][Token.SEMI] = 85;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSEIF] = 83;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSE] = 84;
+
+        llTable[Symbol.STMT.getId()][Token.ID] = 131;
+        llTable[Symbol.STMT.getId()][Token.KIF] = 69;
+        llTable[Symbol.STMT.getId()][Token.KWHILE] = 70;
+        llTable[Symbol.STMT.getId()][Token.KPRINT] = 71;
+        llTable[Symbol.STMT.getId()][Token.KRETURN] = 72;
+
+        addRule(Symbol.STASGN, 73, Token.ID, Token.ASTER);
+
+        llTable[Symbol.LVAL.getId()][Token.ID] = 119;
+        llTable[Symbol.LVAL.getId()][Token.ASTER] = 76;
+
+        llTable[Symbol.AREF.getId()][Token.ID] = 77;
+        llTable[Symbol.KKEXPR.getId()][Token.BRACKET1] = 78;
+        llTable[Symbol.FCALL.getId()][Token.ID] = 79;
+        llTable[Symbol.PPEXPRS.getId()][Token.PARENS1] = 134;
+        llTable[Symbol.STIF.getId()][Token.KIF] = 82;
+        llTable[Symbol.STWHILE.getId()][Token.KWHILE] = 86;
+        llTable[Symbol.STPRINT.getId()][Token.KPRINT] = 87;
+
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
         addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
@@ -79,6 +114,13 @@ public class Parser {
 
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
+
+
+        llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
+
+
+
+
     }
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
