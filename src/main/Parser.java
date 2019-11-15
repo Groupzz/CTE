@@ -36,6 +36,13 @@ public class Parser {
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
 
 
+
+
+        llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
+        llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
+
+        llTable[Symbol.PPONLY.getId()][Token.PARENS1] = 64;
+
         llTable[Symbol.STMTS.getId()][Token.BRACE2] = 66;
         addRule(Symbol.STMTS, 65, Token.ID, Token.KIF, Token.KWHILE, Token.KPRINT, Token.KRETURN);
 
