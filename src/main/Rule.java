@@ -10,10 +10,8 @@ public class Rule {
     static {
         rules.put(1, new Rule(PGM, KPROG, MAIN));
         rules.put(2, new Rule(MAIN, KMAIN, BBLOCK));
+        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, STMTS, BRACE2));
 
-        // This rule has been modified to a simpler version of the grammar
-        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, BRACE2));
-        
        	rules.put(4, new Rule(VARGROUP, KVAR, PPVARLIST));
         rules.put(5, new Rule(VARGROUP));
         rules.put(6, new Rule(PPVARLIST, PARENS1, VARLIST, PARENS2));
@@ -21,7 +19,6 @@ public class Rule {
         rules.put(8, new Rule(VARLIST));
 
         // modified for simple rule set
-//        rules.put(12, new Rule(VARDECL, BASEKIND, ID));
         rules.put(12, new Rule(VARDECL, BASEKIND, VARSPEC));
 //        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
 
@@ -65,7 +62,9 @@ public class Rule {
         rules.put(70, new Rule(STMT, STWHILE));
         rules.put(71, new Rule(STMT, STPRINT));
         rules.put(72, new Rule(STMT, STRTN));
-        rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
+
+        // pretty sure this was factored out
+//        rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
 
         rules.put(76, new Rule(LVAL, DEREF_ID));
         rules.put(77, new Rule(AREF, VARID, KKEXPR));
@@ -129,6 +128,7 @@ public class Rule {
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
+        rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
 
         rules.put(140, new Rule(LEXPR, OPREL, RTERM, LEXPR));
         rules.put(141, new Rule(EXPR, RTERM, LEXPR));
@@ -146,10 +146,6 @@ public class Rule {
         rules.put(150, new Rule(DSTRTN, EXPR));
         rules.put(151, new Rule(DSTRTN));
 
-
-        // modified this rule for smaller grammar test
-        // rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
-        rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
     }
 
 //    private int ruleID;
