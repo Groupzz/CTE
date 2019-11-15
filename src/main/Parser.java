@@ -1,5 +1,7 @@
 package main;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -33,6 +35,30 @@ public class Parser {
 
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
 
+
+        llTable[Symbol.STMTS.getId()][Token.BRACE2] = 66;
+        addRule(Symbol.STMTS, 65, Token.ID, Token.KIF, Token.KWHILE, Token.KPRINT, Token.KRETURN);
+
+        llTable[Symbol.ELSEPART.getId()][Token.SEMI] = 85;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSEIF] = 83;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSE] = 84;
+
+        llTable[Symbol.STMT.getId()][Token.ID] = 131;
+        llTable[Symbol.STMT.getId()][Token.KIF] = 69;
+        llTable[Symbol.STMT.getId()][Token.KWHILE] = 70;
+        llTable[Symbol.STMT.getId()][Token.KPRINT] = 71;
+        llTable[Symbol.STMT.getId()][Token.KRETURN] = 72;
+
+        addRule(Symbol.STASGN, 73, Token.ID, Token.ASTER);
+
+        llTable[Symbol.LVAL.getId()][Token.ID] = 119;
+        llTable[Symbol.LVAL.getId()][Token.ASTER] = 76;
+
+        llTable[Symbol.AREF.getId()][Token.ID] = 77;
+        llTable[Symbol.KKEXPR.getId()][Token.BRACKET1] = 78;
+        llTable[Symbol.FCALL.getId()][Token.ID] = 79;
+        llTable[Symbol.PPEXPRS.getId()][Token.PARENS1] = 134;
+        llTable[Symbol.STIF.getId()][Token.KIF] = 82;
         llTable[Symbol.STWHILE.getId()][Token.KWHILE] = 86;
         llTable[Symbol.STPRINT.getId()][Token.KPRINT] = 87;
 
