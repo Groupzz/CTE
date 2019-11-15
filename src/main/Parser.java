@@ -1,7 +1,5 @@
 package main;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import java.util.Scanner;
 import java.util.Stack;
 
