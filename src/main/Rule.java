@@ -66,6 +66,9 @@ public class Rule {
         rules.put(72, new Rule(STMT, STRTN));
         rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
 
+        rules.put(86, new Rule(STWHILE, KWHILE, PPEXPR, BBLOCK));
+        rules.put(87, new Rule(STPRINT, KPRINT, PPEXPRS));
+
         rules.put(90, new Rule(PPEXPR, PARENS1, EXPR, PARENS2));
 
         rules.put(97, new Rule(FACT, BASELITERAL));
@@ -111,6 +114,9 @@ public class Rule {
         rules.put(135, new Rule(DPPEXPRS, EXPRLIST, PARENS2));
         rules.put(136, new Rule(DPPEXPRS));
 
+        rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
+        rules.put(138, new Rule(DVARITEM));
+
         rules.put(140, new Rule(LEXPR, OPREL, RTERM, LEXPR));
         rules.put(141, new Rule(EXPR, RTERM, LEXPR));
         rules.put(142, new Rule(LEXPR));
@@ -123,8 +129,10 @@ public class Rule {
         rules.put(147, new Rule(TERM, FACT, LTERM));
         rules.put(148, new Rule(LTERM));
 
-        rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
-        rules.put(138, new Rule(DVARITEM));
+        rules.put(149, new Rule(STRTN, KRETURN, DSTRTN));
+        rules.put(150, new Rule(DSTRTN, EXPR));
+        rules.put(151, new Rule(DSTRTN));
+
 
         // modified this rule for smaller grammar test
         // rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));

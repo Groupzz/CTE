@@ -33,6 +33,10 @@ public class Parser {
 
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
 
+        llTable[Symbol.STWHILE.getId()][Token.KWHILE] = 86;
+        llTable[Symbol.STPRINT.getId()][Token.KPRINT] = 87;
+
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
         addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
@@ -77,6 +81,13 @@ public class Parser {
 
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
+
+
+        llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
+
+
+
+
     }
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
