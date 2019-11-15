@@ -1,3 +1,4 @@
+package main;
 /* CECS 444 Compiler Construction
  * Project 1: Lexer and Project 2: Parser
  * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen

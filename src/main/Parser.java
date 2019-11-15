@@ -1,9 +1,11 @@
+package main;
+
 import java.util.Scanner;
 import java.util.Stack;
 
 public class Parser {
 
-    private static int[][] llTable = new int[100][100];
+    private static int[][] llTable = new int[300][60];
 
     static {
         // llTable[ROW/NON-T][COLUMN/TERMINAL]
@@ -12,64 +14,50 @@ public class Parser {
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
 
-        llTable[Symbol.VARGROUP.getId()][Token.ID] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KFCN] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KIF] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KWHILE] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KPRINT] = 5;
-        llTable[Symbol.VARGROUP.getId()][Token.KRETURN] = 5;
+        addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE,
+                Token.KPRINT, Token.KRETURN, Token.BRACE2);
 
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
 
-        llTable[Symbol.VARLIST.getId()][Token.KINT] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KSTRING] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KFLOAT] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.ID] = 7;
-        llTable[Symbol.VARLIST.getId()][Token.KCLASS] = 7;
+        addRule(Symbol.VARLIST, 7, Token.KINT, Token.KSTRING, Token.KFLOAT, Token.ID, Token.KCLASS);
 
         llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
 
+        addRule(Symbol.VARDECL, 12, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+
+        addRule(Symbol.BASEKIND, 15, Token.KINT);
+        addRule(Symbol.BASEKIND, 16, Token.KFLOAT);
+        addRule(Symbol.BASEKIND, 17, Token.KSTRING);
+
+        addRule(Symbol.VARSPEC, 21, Token.ASTER);
+
+        addRule(Symbol.KKINT, 24, Token.BRACKET1);
+
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
 
-        llTable[Symbol.EXPR.getId()][Token.PARENS1] = 141;
-        llTable[Symbol.EXPR.getId()][Token.ID] = 141;
-        llTable[Symbol.EXPR.getId()][Token.INT] = 141;
-        llTable[Symbol.EXPR.getId()][Token.FLOAT] = 141;
-        llTable[Symbol.EXPR.getId()][Token.STRING] = 141;
-        llTable[Symbol.EXPR.getId()][Token.AMPERSAND] = 141;
+        addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.RTERM.getId()][Token.PARENS1] = 144;
-        llTable[Symbol.RTERM.getId()][Token.ID] = 144;
-        llTable[Symbol.RTERM.getId()][Token.INT] = 144;
-        llTable[Symbol.RTERM.getId()][Token.FLOAT] = 144;
-        llTable[Symbol.RTERM.getId()][Token.STRING] = 144;
-        llTable[Symbol.RTERM.getId()][Token.AMPERSAND] = 144;
+        addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.TERM.getId()][Token.PARENS1] = 147;
-        llTable[Symbol.TERM.getId()][Token.ID] = 147;
-        llTable[Symbol.TERM.getId()][Token.INT] = 147;
-        llTable[Symbol.TERM.getId()][Token.FLOAT] = 147;
-        llTable[Symbol.TERM.getId()][Token.STRING] = 147;
-        llTable[Symbol.TERM.getId()][Token.AMPERSAND] = 147;
+        addRule(Symbol.TERM, 147, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
-        llTable[Symbol.FACT.getId()][Token.INT] = 97;
-        llTable[Symbol.FACT.getId()][Token.FLOAT] = 97;
-        llTable[Symbol.FACT.getId()][Token.STRING] = 97;
+        addRule(Symbol.FACT, 97, Token.INT, Token.FLOAT, Token.STRING);
+
         llTable[Symbol.FACT.getId()][Token.AMPERSAND] = 99;
         llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
         llTable[Symbol.FACT.getId()][Token.ID] = 122;
 
-        llTable[Symbol.BASELITERAL.getId()][Token.KINT] = 102;
-        llTable[Symbol.BASELITERAL.getId()][Token.KFLOAT] = 103;
-        llTable[Symbol.BASELITERAL.getId()][Token.KSTRING] = 104;
+        llTable[Symbol.BASELITERAL.getId()][Token.INT] = 102;
+        llTable[Symbol.BASELITERAL.getId()][Token.FLOAT] = 103;
+        llTable[Symbol.BASELITERAL.getId()][Token.STRING] = 104;
 
         llTable[Symbol.ADDROF_ID.getId()][Token.AMPERSAND] = 105;
 
         llTable[Symbol.OPREL.getId()][Token.OPEQ] = 106;
         llTable[Symbol.OPREL.getId()][Token.OPNE] = 107;
+        llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
         llTable[Symbol.OPREL.getId()][Token.OPLE] = 109;
         llTable[Symbol.OPREL.getId()][Token.OPGE] = 110;
-        llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
         llTable[Symbol.OPREL.getId()][Token.ANGLE2] = 111;
 
         llTable[Symbol.LTHAN.getId()][Token.ANGLE1] = 112;
@@ -82,6 +70,19 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.ASTER] = 116;
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
+
+        addRule(Symbol.VARSPEC, 125, Token.ID);
+        addRule(Symbol.DVARSPEC, 126, Token.PARENS2);
+        addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);
+
+        addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+        addRule(Symbol.DVARITEM, 139, Token.EQUAL);
+    }
+
+    private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
+        for (int column : columns) {
+            llTable[rowHeader.getId()][column] = ruleNumber;
+        }
     }
 
     public static void main(String[] args) {
@@ -98,11 +99,10 @@ public class Parser {
         Symbol curSymbol = new Symbol(Token.TokenBuilder(scanner.nextLine())); // Get first token of input
 
         while(!stack.empty()) {
-
             // m1: if top is the same as front, pop stack and advance input
             if(stack.peek().sym.equals(curSymbol)) {
                 PNode curNode = stack.pop(); // save current node (a terminal symbol) so we can give it proper token info
-                System.out.println("Top is same as front. Stack: " + stack);
+                System.out.println("Top is same as front. Stack: " + stack + " : " + curSymbol);
                 if(stack.isEmpty()) {
                     break; // if the latest pop was the end of input we can exit the loop
                     // we need this because otherwise the loop would hang waiting for more tokens to be input
@@ -127,15 +127,15 @@ public class Parser {
             // m3E: cell is empty
             if (cell == 0) {
                 // if there isn't a rule in the table the input is grammatically incorrect. That's an error
-                System.out.println("ERROR: No rule exists for given input");
+                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString());
                 System.exit(1);
                 break;
             }
             // m4: pop and push reverse of RHS
             PNode curNode = stack.pop(); // save top of stack so we can push RHS of rule to its kids in parse tree
             curNode.setRuleID(cell); // set the top of stack's rule to the one we matched for future AST conversion
-            pushReverse(stack, Rule.getRule(cell), curNode); // method to push RHS to stack and kids at the same time
-            System.out.println(stack + " : " + curSymbol); // debug print
+            pushReverse(stack, cell, curNode); // method to push RHS to stack and kids at the same time
+            System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
         }
         // if there is still input but the stack is empty
         if(scanner.hasNext()) {
@@ -151,7 +151,12 @@ public class Parser {
     }
 
 
-    private static void pushReverse(Stack<PNode> stack, Rule rule, PNode mom) {
+    private static void pushReverse(Stack<PNode> stack, int ruleNum, PNode mom) {
+        Rule rule = Rule.getRule(ruleNum);
+        if (rule == null) {
+            System.out.println("ERROR: Rule specified by LLTable does not exist in Rule.java. Rule #: " + ruleNum);
+            System.exit(1);
+        }
         for(int i = rule.getRHSLength() - 1; i >= 0; i--) {
             // for each symbol in RHS of rule
             if(rule.getRHS(i) != null) {

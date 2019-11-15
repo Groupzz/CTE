@@ -1,3 +1,5 @@
+package main;
+
 public class PNode {
 
     private int ruleID;
@@ -13,8 +15,9 @@ public class PNode {
         kids = new PNode[10];
     }
 
+    @Override
     public String toString() {
-        return sym.getId() + ":" + ruleID;
+        return sym.getId() + ":" + sym.isTerminal() + ":" + ruleID;
     }
 
     public void setRuleID(int ruleID) {
