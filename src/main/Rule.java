@@ -91,6 +91,8 @@ public class Rule {
 
         rules.put(120, new Rule(DLVAL));
 
+        rules.put(122, new Rule(Symbol.FACT, new Symbol(Token.ID, true), Symbol.DFACT));
+
         rules.put(123, new Rule(DFACT));
         rules.put(124, new Rule(DFACT, PPEXPRS));
 
@@ -104,6 +106,22 @@ public class Rule {
         rules.put(131, new Rule(STMT, ID, DSTMT));
         rules.put(132, new Rule(DSTMT, EQUAL, EXPR));
         rules.put(133, new Rule(DSTMT, PPEXPRS));
+
+        rules.put(134, new Rule(PPEXPRS, new Symbol(Token.PARENS1, true), Symbol.DPPEXPRS));
+        rules.put(135, new Rule(DPPEXPRS, Symbol.EXPRLIST, new Symbol(Token.PARENS2, true)));
+        rules.put(136, new Rule(Symbol.DPPEXPRS));
+
+        rules.put(140, new Rule(Symbol.LEXPR, Symbol.OPREL, Symbol.RTERM, Symbol.LEXPR));
+        rules.put(141, new Rule(Symbol.EXPR, Symbol.RTERM, Symbol.LEXPR));
+        rules.put(142, new Rule(Symbol.LEXPR));
+
+        rules.put(143, new Rule(Symbol.LRTERM, Symbol.OPADD, Symbol.TERM, Symbol.LRTERM));
+        rules.put(144, new Rule(Symbol.RTERM, Symbol.TERM, Symbol.LRTERM));
+        rules.put(145, new Rule(Symbol.LRTERM));
+
+        rules.put(146, new Rule(Symbol.LTERM, Symbol.OPMUL, Symbol.FACT, Symbol.LTERM));
+        rules.put(147, new Rule(Symbol.TERM, Symbol.FACT, Symbol.LTERM));
+        rules.put(148, new Rule(Symbol.LTERM));
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
