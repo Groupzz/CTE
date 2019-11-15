@@ -21,7 +21,8 @@ public class Rule {
         rules.put(8, new Rule(VARLIST));
 
         // modified for simple rule set
-        rules.put(12, new Rule(VARDECL, BASEKIND, ID));
+//        rules.put(12, new Rule(VARDECL, BASEKIND, ID));
+        rules.put(12, new Rule(VARDECL, BASEKIND, VARSPEC));
 //        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
 
         rules.put(13, new Rule(SIMPLEKIND, BASEKIND));
@@ -96,6 +97,7 @@ public class Rule {
         rules.put(123, new Rule(DFACT));
         rules.put(124, new Rule(DFACT, PPEXPRS));
 
+        rules.put(125, new Rule(VARSPEC, ID, DVARSPEC));
         rules.put(126, new Rule(DVARSPEC));
         rules.put(127, new Rule(DVARSPEC, KKINT));
 
@@ -111,6 +113,9 @@ public class Rule {
         rules.put(135, new Rule(DPPEXPRS, Symbol.EXPRLIST, new Symbol(Token.PARENS2, true)));
         rules.put(136, new Rule(Symbol.DPPEXPRS));
 
+        rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
+        rules.put(138, new Rule(DVARITEM));
+
         rules.put(140, new Rule(Symbol.LEXPR, Symbol.OPREL, Symbol.RTERM, Symbol.LEXPR));
         rules.put(141, new Rule(Symbol.EXPR, Symbol.RTERM, Symbol.LEXPR));
         rules.put(142, new Rule(Symbol.LEXPR));
@@ -123,8 +128,7 @@ public class Rule {
         rules.put(147, new Rule(Symbol.TERM, Symbol.FACT, Symbol.LTERM));
         rules.put(148, new Rule(Symbol.LTERM));
 
-        rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
-        rules.put(138, new Rule(DVARITEM));
+
 
         // modified this rule for smaller grammar test
         // rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));

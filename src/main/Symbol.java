@@ -111,7 +111,7 @@ public class Symbol {
     public static final Symbol KCLASS = new Symbol(Token.KCLASS, true);
     public static final Symbol KFLOAT = new Symbol(Token.KFLOAT, true);
     public static final Symbol KINT = new Symbol(Token.KINT, true);
-    public static final Symbol KSTRING = new Symbol(Token.KFLOAT, true);
+    public static final Symbol KSTRING = new Symbol(Token.KSTRING, true);
     public static final Symbol KIF = new Symbol(Token.KIF, true);
     public static final Symbol KELSEIF = new Symbol(Token.KELSEIF, true);
     public static final Symbol KELSE = new Symbol(Token.KELSE, true);
