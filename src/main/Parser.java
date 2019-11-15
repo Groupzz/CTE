@@ -1,5 +1,7 @@
 package main;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -35,9 +37,21 @@ public class Parser {
         addRule(Symbol.DEREF_ID, 25, Token.ASTER);
         addRule(Symbol.DEREF, 26, Token.ASTER);
 
+        
+        //Jamil(7)
+        llTable[Symbol.FCNDEFS.getId()][Token.KMAIN] = 54;
+        llTable[Symbol.FCNDEFS.getId()][Token.KFCN] = 53;
+        
+        llTable[Symbol.FCNDEF.getId()][Token.KFCN] = 55;
+        
+        llTable[Symbol.FCNHEADER.getId()][Token.KFCN] = 56;
+        
+        llTable[Symbol.FCNID.getId()][Token.ID] = 57;
 
+        addRule(Symbol.RETKIND, 58, Token.KINT, Token.KFLOAT, Token.KSTRING);
 
-
+        addRule(Symbol.VARSPECS, 61, Token.ID, Token.ASTER);
+        
         llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
         llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
 
