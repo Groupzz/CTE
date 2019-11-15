@@ -34,6 +34,8 @@ public class Parser {
         addRule(Symbol.VARSPEC, 21, Token.ASTER);
 
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
+        addRule(Symbol.DEREF_ID, 25, Token.ASTER);
+        addRule(Symbol.DEREF, 26, Token.ASTER);
 
 
 
@@ -109,7 +111,7 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
 
         addRule(Symbol.VARSPEC, 125, Token.ID);
-        addRule(Symbol.DVARSPEC, 126, Token.PARENS2);
+        addRule(Symbol.DVARSPEC, 126, Token.PARENS2, Token.SEMI, Token.EQUAL, Token.COMMA);
         addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);
 
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
