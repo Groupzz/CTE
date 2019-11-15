@@ -1,5 +1,8 @@
+package main;
+
 public class Symbol {
 
+    // Non terminals
     public static final Symbol PGM = new Symbol(1, false);
     public static final Symbol MAIN = new Symbol(2, false);
     public static final Symbol BBLOCK = new Symbol(3, false);
@@ -91,6 +94,65 @@ public class Symbol {
     public static final Symbol DLVAL = new Symbol(74, false);
     
     public static final Symbol CLASSDECL = new Symbol(113, false);
+
+    // Terminals
+
+    public static final Symbol ID = new Symbol(Token.ID, true);
+    public static final Symbol INT = new Symbol(Token.INT, true);
+    public static final Symbol FLOAT = new Symbol(Token.FLOAT, true);
+    public static final Symbol STRING = new Symbol(Token.STRING, true);
+    public static final Symbol COMMA = new Symbol(Token.COMMA, true);
+    public static final Symbol SEMI = new Symbol(Token.SEMI, true);
+
+    // Keywords
+    public static final Symbol KPROG = new Symbol(Token.KPROG, true);
+    public static final Symbol KMAIN = new Symbol(Token.KMAIN, true);
+    public static final Symbol KFCN = new Symbol(Token.KFCN, true);
+    public static final Symbol KCLASS = new Symbol(Token.KCLASS, true);
+    public static final Symbol KFLOAT = new Symbol(Token.KFLOAT, true);
+    public static final Symbol KINT = new Symbol(Token.KINT, true);
+    public static final Symbol KSTRING = new Symbol(Token.KFLOAT, true);
+    public static final Symbol KIF = new Symbol(Token.KIF, true);
+    public static final Symbol KELSEIF = new Symbol(Token.KELSEIF, true);
+    public static final Symbol KELSE = new Symbol(Token.KELSE, true);
+    public static final Symbol KWHILE = new Symbol(Token.KWHILE, true);
+    public static final Symbol KINPUT = new Symbol(Token.KINPUT, true);
+    public static final Symbol KPRINT = new Symbol(Token.KPRINT, true);
+    public static final Symbol KNEW = new Symbol(Token.KNEW, true);
+    public static final Symbol KRETURN = new Symbol(Token.KRETURN, true);
+    public static final Symbol KVAR = new Symbol(Token.KVAR, true);
+
+    // Paired delimeters
+    public static final Symbol ANGLE1 = new Symbol(Token.ANGLE1, true);
+    public static final Symbol ANGLE2 = new Symbol(Token.ANGLE2, true);
+    public static final Symbol BRACE1 = new Symbol(Token.BRACE1, true);
+    public static final Symbol BRACE2 = new Symbol(Token.BRACE2, true);
+    public static final Symbol BRACKET1 = new Symbol(Token.BRACKET1, true);
+    public static final Symbol BRACKET2 = new Symbol(Token.BRACKET2, true);
+    public static final Symbol PARENS1 = new Symbol(Token.PARENS1, true);
+    public static final Symbol PARENS2 = new Symbol(Token.PARENS2, true);
+
+    // Other punctuation tokens
+    public static final Symbol ASTER = new Symbol(Token.ASTER, true);
+    public static final Symbol CARET = new Symbol(Token.CARET, true);
+    public static final Symbol COLON = new Symbol(Token.COLON, true);
+    public static final Symbol DOT = new Symbol(Token.DOT, true);
+    public static final Symbol EQUAL = new Symbol(Token.EQUAL, true);
+    public static final Symbol MINUS = new Symbol(Token.MINUS, true);
+    public static final Symbol PLUS = new Symbol(Token.PLUS, true);
+    public static final Symbol SLASH =  new Symbol(Token.SLASH, true);
+    public static final Symbol AMPERSAND = new Symbol(Token.AMPERSAND, true);
+
+    // Multi-char operators
+    public static final Symbol OPARROW = new Symbol(Token.OPARROW, true);
+    public static final Symbol OPEQ = new Symbol(Token.OPEQ, true);
+    public static final Symbol OPNE = new Symbol(Token.OPNE, true);
+    public static final Symbol OPLE = new Symbol(Token.OPLE, true);
+    public static final Symbol OPGE = new Symbol(Token.OPGE, true);
+    public static final Symbol OPSHL = new Symbol(Token.OPSHL, true);
+    public static final Symbol OPSHR = new Symbol(Token.OPSHR, true);
+
+
     private int id;
     private boolean terminal;
     private Token token;
