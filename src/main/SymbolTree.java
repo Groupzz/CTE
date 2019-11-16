@@ -21,7 +21,7 @@ public class SymbolTree {
     // They have no children and need to disappear
     // It goes into its parent and nulls out itself
     private static void pta_epsilon(PNode n) {
-        PNode gmakids[] = n.getGrandma().kids;
+        PNode[] gmakids = n.getGrandma().kids;
         for(int i = 0; i < gmakids.length; i++) {
             if (gmakids[i] == null) {
                 break;
@@ -83,6 +83,31 @@ public class SymbolTree {
         else {
             n.kids[0].hoist(n);
         }
+    }
+
+    private static void pta_lexpr(PNode n) {
+        PNode bigSis = n.kids[0];
+        PNode gma = n.getGrandma();
+        if (gma.sym.equals(Symbol.LEXPR))
+        {
+            bigSis.kids[0] = gma.kids[1];
+        }
+        else if (gma.sym.equals(Symbol.EXPR)) {
+            bigSis.kids[0] = gma.kids[0];
+            gma.kids[0] = null;
+        }
+        else {
+            System.out.println("Error converting LEXPR to AST");
+            System.exit(1);
+        }
+        bigSis.kids[0].grandma = bigSis;
+        if (n.kids[2] == null) { // if we are at the end of the chain
+            bigSis.kids[1] = n.kids[1];
+        }
+        else {
+            bigSis.kids[1] = n.kids[2];
+        }
+        bigSis.hoist(n);
     }
 
     private static void pta_lrterm(PNode n) {
@@ -167,6 +192,9 @@ public class SymbolTree {
             case 27:
             case 28:
             case 49:
+            case 69:
+            case 70:
+            case 71:
             case 72:
             case 97:
             case 99:
@@ -195,15 +223,18 @@ public class SymbolTree {
             case 4:
             case 6:
             case 12:
+            case 122:
             case 125:
             case 139:
             case 149:
                 pta_bs1_k2(n);
                 break;
+            case 86:
             case 90:
                 pta_bs1_k3(n);
                 break;
             case 3:
+            case 82:
                 pta_bs1_k4(n);
                 break;
             case 7:
@@ -213,6 +244,8 @@ public class SymbolTree {
             case 5:
             case 8:
             case 66:
+            case 85:
+            case 123:
             case 126:
             case 142:
             case 145:
@@ -222,13 +255,16 @@ public class SymbolTree {
             case 137:
                 pta_bs2_k2_assign(n);
                 break;
+            case 140:
+                pta_lexpr(n);
+                break;
             case 143:
                 pta_lrterm(n);
                 break;
             case 146:
                 pta_lterm(n);
                 break;
-            case 141: // TODO: INCOMPLETE RULE CONVERSION!! for recursion
+            case 141:
             case 144:
             case 147:
                 pta_2k_recursion(n);

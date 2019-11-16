@@ -124,6 +124,7 @@ public class Parser {
 
         addRule(Symbol.DSTMT, 132, Token.EQUAL);
 
+        addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
         addRule(Symbol.LEXPR, 142, Token.SEMI, Token.PARENS2, Token.BRACKET2);
 
         addRule(Symbol.LRTERM, 143, Token.PLUS, Token.MINUS);
