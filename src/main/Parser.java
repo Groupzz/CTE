@@ -206,7 +206,7 @@ public class Parser {
         // Print out the parse tree
         System.out.println(parseTree);
         PST_to_AST(parseTree.getRoot());
-        //System.out.println(parseTree);
+        System.out.println(parseTree);
     }
 
 
@@ -227,34 +227,37 @@ public class Parser {
         }
     }
 
-    private static void pta_hoist1(PNode n){
-        if(n.getGrandma() != null)
-        n.hoist(n.getGrandma());
-        else
-        System.out.println("hoist1");
+//    private static void pta_hoist1(PNode n){
+//        if(n.getGrandma() != null)
+//        n.hoist(n.getGrandma());
+//        else
+//        System.out.println("hoist1");
+//    }
+
+    private static void pta_disappear(PNode n, int pos) {
+        n.getGrandma().kids[pos] = null;
     }
 
     private static void pta_bs1_k2(PNode n){
-        if(n.getGrandma() != null)
-        {
-            n.kids[0] = n.getGrandma().getKid(1);
-            n.hoist(n.getGrandma());
-        }
-        else
-        System.out.println("k2");
+        PNode bigSis = n.kids[0];
+        bigSis.kids[0] = n.kids[1];
+        bigSis.hoist(n);
     }
 
     //should work for pgm from orig grammar
     private static void pta_bs1_k4(PNode n){
-        if(n.getGrandma() != null)
-        {
-            n.kids[0] = n.getGrandma().kids[1];
-            n.kids[1] = n.getGrandma().kids[2];
-            n.kids[2] = n.getGrandma().kids[3];
-            n.hoist(n.getGrandma());
-        }
-        else
-        System.out.println("k4");
+        PNode bigSis = n.kids[0];
+        bigSis.kids[0] = n.kids[1];
+        bigSis.kids[1] = n.kids[2];
+        bigSis.kids[2] = n.kids[3];
+        bigSis.hoist(n);
+    }
+
+    private static void pta_bs2_k3(PNode n) {
+        PNode bigSis = n.kids[1];
+        bigSis.kids[0] = n.kids[0];
+        bigSis.kids[1] = n.kids[2];
+        bigSis.hoist(n);
     }
 
     private static void pta_varlist(PNode n){
@@ -269,24 +272,32 @@ public class Parser {
     }
 
     private static void toAST(PNode n){
-        int rule = n.sym.getId();
+        if (n.sym.isTerminal()) {
+            return;
+        }
+        int rule = n.ruleID;
         switch(rule)
         {
-            case 1: pta_bs1_k2(n);
-                    break;
-            case 2: pta_bs1_k2(n);
-                    break;
-            case 3: pta_bs1_k4(n);
-                    break;
-            case 4: pta_bs1_k2(n);
-                    break;
-            case 5: break;
-            case 6: pta_bs1_k2(n);
-                    break;
-            case 7: pta_varlist(n);
-                    break;
-            case 12:pta_bs1_k2(n);
-                    break;
+            case 1:
+            case 2:
+            case 4:
+            case 6:
+            case 12:
+            case 137:
+                pta_bs1_k2(n);
+                break;
+            case 3:
+                pta_bs1_k4(n);
+                break;
+            case 5:
+                pta_disappear(n, 1);
+                break;
+            case 7:
+                pta_bs2_k3(n);
+                break;
+            case 8:
+                pta_disappear(n, 2);
+                break;
             case 13:
             case 14:
             case 15:
@@ -298,11 +309,11 @@ public class Parser {
             case 26:
             case 27: 
             case 28:
-            case 66: pta_hoist1(n);
-                    break;
+            case 66:
+                pta_disappear(n, 2);
+                break;
             default: 
-            System.out.println(rule);
-            System.out.println("No rule found");
+                System.out.println(n.sym + ": no rule found");
         }
     }
 
