@@ -242,10 +242,13 @@ public class Parser {
             case 4: pta_bs1_k2(n);
                     break;
             case 5: break;
-            case 6: break;
+            case 6: pta_bs1_k2(n);
+                    break;
             case 7: break;
             case 8: break;
             case 9: break;
+            case 12: pta_bs1_k2(n);
+                    break;
             default: System.out.println("No rule found");
         }
     }
