@@ -236,6 +236,14 @@ public class Parser {
         n.hoist(n.getGrandma());
     }
 
+    //should work for pgm from orig grammar
+    private static void pta_bs1_k4(PNode n){
+        n.kids[0] = n.getGrandma().kids[1];
+        n.kids[1] = n.getGrandma().kids[2];
+        n.kids[2] = n.getGrandma().kids[3];
+        n.hoist(n.getGrandma());
+    }
+
     private static void pta_varlist(PNode n){
         if(n.getGrandma().kids[1] != null)
         {
@@ -249,9 +257,12 @@ public class Parser {
         int rule = n.ruleID;
         switch(rule)
         {
-            case 1: break;
-            case 2: break;
-            case 3: break;
+            case 1: pta_bs1_k2(n);
+                    break;
+            case 2: pta_bs1_k2(n);
+                    break;
+            case 3: pta_bs1_k4(n);
+                    break;
             case 4: pta_bs1_k2(n);
                     break;
             case 5: break;
