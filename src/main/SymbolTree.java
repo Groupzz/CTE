@@ -19,9 +19,18 @@ public class SymbolTree {
 
     // This is for non-terminals that have been expanded using an epsilon rule
     // They have no children and need to disappear
-    // It goes into the parent of the node and nulls out the index pos
-    private static void pta_disappear(PNode n, int pos) {
-        n.getGrandma().kids[pos] = null;
+    // It goes into its parent and nulls out itself
+    private static void pta_epsilon(PNode n) {
+        PNode gmakids[] = n.getGrandma().kids;
+        for(int i = 0; i < gmakids.length; i++) {
+            if (gmakids[i] == null) {
+                break;
+            }
+            if (gmakids[i] == n) {
+                gmakids[i] = null;
+                break;
+            }
+        }
     }
 
     // For rules that have only one symbol on their RHS
@@ -50,6 +59,13 @@ public class SymbolTree {
         PNode bigSis = n.kids[1];
         bigSis.kids[0] = n.kids[0];
         bigSis.kids[1] = n.kids[2];
+        bigSis.hoist(n);
+    }
+
+    private static void pta_bs2_k2_assign(PNode n) {
+        PNode bigSis = n.kids[1];
+        bigSis.kids[1] = bigSis.kids[0];
+        bigSis.kids[0] = n.kids[0];
         bigSis.hoist(n);
     }
 
@@ -85,6 +101,12 @@ public class SymbolTree {
             case 26:
             case 27:
             case 28:
+            case 49:
+            case 72:
+            case 102:
+            case 103:
+            case 104:
+            case 150:
                 pta_bs1_k1(n);
                 break;
             case 1:
@@ -93,24 +115,28 @@ public class SymbolTree {
             case 6:
             case 12:
             case 125:
-            case 137:
             case 139:
+            case 149:
                 pta_bs1_k2(n);
                 break;
             case 3:
                 pta_bs1_k4(n);
                 break;
             case 7:
+            case 65:
                 pta_bs2_k3(n);
                 break;
             case 5:
-            case 126:
-                pta_disappear(n, 1);
-                break;
             case 8:
             case 66:
-                pta_disappear(n, 2);
+            case 126:
+            case 142:
+            case 145:
+            case 148:
+                pta_epsilon(n);
                 break;
+            case 137:
+                pta_bs2_k2_assign(n);
             default:
                 System.out.println(n.sym + ": no rule found in AST conversion");
         }
