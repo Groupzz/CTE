@@ -2,7 +2,7 @@ package main;
 
 public class PNode {
 
-    private int ruleID;
+    public int ruleID;
     private PNode grandma;
 
     public PNode[] kids;
@@ -46,6 +46,19 @@ public class PNode {
         builder.append(" ) ");
 //            return "( " + sym.getId() + " "
         return builder.toString();
+    }
+
+    public PNode getKid(int kid){
+        return this.kids[kid];
+    }
+
+    public PNode getGrandma(){
+        return this.grandma;
+    }
+
+    public void hoist(PNode mom){
+        mom.sym = this.sym;
+        mom.kids = this.kids;
     }
 
 }

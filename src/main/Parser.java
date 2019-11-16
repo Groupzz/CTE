@@ -205,7 +205,8 @@ public class Parser {
 
         // Print out the parse tree
         System.out.println(parseTree);
-
+        PST_to_AST(parseTree.getRoot());
+        System.out.println(parseTree);
     }
 
 
@@ -225,4 +226,39 @@ public class Parser {
             }
         }
     }
+
+    private static void pta_bs1_k2(PNode n){
+        n.kids[0] = n.getGrandma().getKid(1);
+        n.hoist(n.getGrandma());
+    }
+
+    private static void toAST(PNode n){
+        int rule = n.ruleID;
+        switch(rule)
+        {
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: pta_bs1_k2(n);
+                    break;
+            case 5: break;
+            case 6: break;
+            case 7: break;
+            case 8: break;
+            case 9: break;
+            default: System.out.println("No rule found");
+        }
+    }
+
+    private static void PST_to_AST(PNode pn){
+        if(pn == null) return;
+        for(int x = 0; x < pn.kids.length; x++)
+        {
+            PNode pkid = pn.kids[x];
+            if(pkid == null) break;
+            PST_to_AST(pkid);
+        }
+        toAST(pn);
+    }
+
 }
