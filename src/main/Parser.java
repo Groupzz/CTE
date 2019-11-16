@@ -232,6 +232,15 @@ public class Parser {
         n.hoist(n.getGrandma());
     }
 
+    private static void varlist(PNode n){
+        if(n.getGrandma().kids[1] != null)
+        {
+            n.kids[0] = n.getGrandma().kids[0];
+            n.kids[1] = n.getGrandma().kids[2];
+            n.hoist(n.getGrandma());
+        }
+    }
+
     private static void toAST(PNode n){
         int rule = n.ruleID;
         switch(rule)
@@ -244,7 +253,8 @@ public class Parser {
             case 5: break;
             case 6: pta_bs1_k2(n);
                     break;
-            case 7: break;
+            case 7: varlist(n);
+                    break;
             case 8: break;
             case 9: break;
             case 12: pta_bs1_k2(n);
