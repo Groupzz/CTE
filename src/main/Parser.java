@@ -236,6 +236,9 @@ public class Parser {
         n.getGrandma().kids[pos] = null;
     }
 
+    // For rules that have only one symbol on their RHS
+    // Naming scheme is bs1: big sister is first symbol on RHS AKA index 0
+    // k1: There is one symbol on the RHS AKA one kid in PST
     private static void pta_bs1_k1(PNode n){
         PNode bigSis = n.kids[0];
         bigSis.hoist(n);
@@ -247,7 +250,6 @@ public class Parser {
         bigSis.hoist(n);
     }
 
-    //should work for pgm from orig grammar
     private static void pta_bs1_k4(PNode n){
         PNode bigSis = n.kids[0];
         bigSis.kids[0] = n.kids[1];
@@ -263,16 +265,18 @@ public class Parser {
         bigSis.hoist(n);
     }
 
-    private static void pta_varlist(PNode n){
-        if(n.getGrandma().kids[1] != null)
-        {
-            n.kids[0] = n.getGrandma().kids[0];
-            n.kids[1] = n.getGrandma().kids[2];
-            n.hoist(n.getGrandma());
-        }
-        else
-        System.out.println("varlist");
-    }
+
+// kept this for reference only but its working from the wrong node
+//    private static void pta_varlist(PNode n){
+//        if(n.getGrandma().kids[1] != null)
+//        {
+//            n.kids[0] = n.getGrandma().kids[0];
+//            n.kids[1] = n.getGrandma().kids[2];
+//            n.hoist(n.getGrandma());
+//        }
+//        else
+//        System.out.println("varlist");
+//    }
 
     private static void toAST(PNode n){
         if (n.sym.isTerminal()) {
@@ -282,8 +286,17 @@ public class Parser {
         switch(rule)
         {
             // These all fall into eachother on purpose
+            case 13:
+            case 14:
             case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 21:
+            case 22:
+            case 26:
             case 27:
+            case 28:
                 pta_bs1_k1(n);
                 break;
             case 1:
