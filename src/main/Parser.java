@@ -107,6 +107,11 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
 
+        addRule(Symbol.DFACT, 123, Token.PLUS, Token.MINUS, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE,
+                Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET);
+
+        addRule(Symbol.DFACT, 124, Token.PARENS1);
+
         addRule(Symbol.VARSPEC, 125, Token.ID);
         addRule(Symbol.DVARSPEC, 126, Token.PARENS2, Token.SEMI, Token.EQUAL, Token.COMMA);
         addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);

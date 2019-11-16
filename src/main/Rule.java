@@ -8,6 +8,7 @@ public class Rule {
     private static HashMap<Integer, Rule> rules = new HashMap<>();
 
     static {
+        // This rule has been modified for a simpler grammar
         rules.put(1, new Rule(PGM, KPROG, MAIN));
         rules.put(2, new Rule(MAIN, KMAIN, BBLOCK));
         rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, STMTS, BRACE2));
