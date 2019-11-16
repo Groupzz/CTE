@@ -227,12 +227,16 @@ public class Parser {
         }
     }
 
+    private static void pta_hoist1(PNode n){
+        n.hoist(n.getGrandma());
+    }
+
     private static void pta_bs1_k2(PNode n){
         n.kids[0] = n.getGrandma().getKid(1);
         n.hoist(n.getGrandma());
     }
 
-    private static void varlist(PNode n){
+    private static void pta_varlist(PNode n){
         if(n.getGrandma().kids[1] != null)
         {
             n.kids[0] = n.getGrandma().kids[0];
@@ -253,11 +257,23 @@ public class Parser {
             case 5: break;
             case 6: pta_bs1_k2(n);
                     break;
-            case 7: varlist(n);
+            case 7: pta_varlist(n);
                     break;
             case 8: break;
             case 9: break;
-            case 12: pta_bs1_k2(n);
+            case 12:pta_bs1_k2(n);
+                    break;
+            case 13:
+            case 14:
+            case 15:
+            case 16: 
+            case 17:
+            case 18:
+            case 21:
+            case 22:
+            case 26:
+            case 27: 
+            case 28: pta_hoist1(n);
                     break;
             default: System.out.println("No rule found");
         }
