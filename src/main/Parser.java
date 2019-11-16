@@ -206,7 +206,7 @@ public class Parser {
         // Print out the parse tree
         System.out.println(parseTree);
         PST_to_AST(parseTree.getRoot());
-        System.out.println(parseTree);
+        //System.out.println(parseTree);
     }
 
 
@@ -228,20 +228,33 @@ public class Parser {
     }
 
     private static void pta_hoist1(PNode n){
+        if(n.getGrandma() != null)
         n.hoist(n.getGrandma());
+        else
+        System.out.println("hoist1");
     }
 
     private static void pta_bs1_k2(PNode n){
-        n.kids[0] = n.getGrandma().getKid(1);
-        n.hoist(n.getGrandma());
+        if(n.getGrandma() != null)
+        {
+            n.kids[0] = n.getGrandma().getKid(1);
+            n.hoist(n.getGrandma());
+        }
+        else
+        System.out.println("k2");
     }
 
     //should work for pgm from orig grammar
     private static void pta_bs1_k4(PNode n){
-        n.kids[0] = n.getGrandma().kids[1];
-        n.kids[1] = n.getGrandma().kids[2];
-        n.kids[2] = n.getGrandma().kids[3];
-        n.hoist(n.getGrandma());
+        if(n.getGrandma() != null)
+        {
+            n.kids[0] = n.getGrandma().kids[1];
+            n.kids[1] = n.getGrandma().kids[2];
+            n.kids[2] = n.getGrandma().kids[3];
+            n.hoist(n.getGrandma());
+        }
+        else
+        System.out.println("k4");
     }
 
     private static void pta_varlist(PNode n){
@@ -251,10 +264,12 @@ public class Parser {
             n.kids[1] = n.getGrandma().kids[2];
             n.hoist(n.getGrandma());
         }
+        else
+        System.out.println("varlist");
     }
 
     private static void toAST(PNode n){
-        int rule = n.ruleID;
+        int rule = n.sym.getId();
         switch(rule)
         {
             case 1: pta_bs1_k2(n);
@@ -270,8 +285,6 @@ public class Parser {
                     break;
             case 7: pta_varlist(n);
                     break;
-            case 8: break;
-            case 9: break;
             case 12:pta_bs1_k2(n);
                     break;
             case 13:
@@ -284,9 +297,12 @@ public class Parser {
             case 22:
             case 26:
             case 27: 
-            case 28: pta_hoist1(n);
+            case 28:
+            case 66: pta_hoist1(n);
                     break;
-            default: System.out.println("No rule found");
+            default: 
+            System.out.println(rule);
+            System.out.println("No rule found");
         }
     }
 
