@@ -3,7 +3,7 @@ package main;
 public class PNode {
 
     public int ruleID;
-    private PNode grandma;
+    PNode grandma;
 
     public PNode[] kids;
     public Symbol sym;
@@ -59,6 +59,8 @@ public class PNode {
     public void hoist(PNode mom){
         mom.sym = this.sym;
         mom.kids = this.kids;
+        mom.ruleID = this.ruleID; // we only do this for debugging purposes
+        // (hopefully it doesnt break something..)
     }
 
 }

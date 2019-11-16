@@ -47,6 +47,13 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    private static void pta_bs1_k3(PNode n){
+        PNode bigSis = n.kids[0];
+        bigSis.kids[0] = n.kids[1];
+        bigSis.kids[1] = n.kids[2];
+        bigSis.hoist(n);
+    }
+
     private static void pta_bs1_k4(PNode n){
         PNode bigSis = n.kids[0];
         bigSis.kids[0] = n.kids[1];
@@ -69,6 +76,64 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    private static void pta_2k_recursion(PNode n) {
+        if(n.kids[1] != null) {
+            n.kids[1].hoist(n);
+        }
+        else {
+            n.kids[0].hoist(n);
+        }
+    }
+
+    private static void pta_lrterm(PNode n) {
+        PNode bigSis = n.kids[0];
+        PNode gma = n.getGrandma();
+        if (gma.sym.equals(Symbol.LRTERM))
+        {
+            bigSis.kids[0] = gma.kids[1];
+        }
+        else if (gma.sym.equals(Symbol.RTERM)) {
+            bigSis.kids[0] = gma.kids[0];
+            gma.kids[0] = null;
+        }
+        else {
+            System.out.println("Error converting LRTERM to AST");
+            System.exit(1);
+        }
+        bigSis.kids[0].grandma = bigSis;
+        if (n.kids[2] == null) { // if we are at the end of the chain
+            bigSis.kids[1] = n.kids[1];
+        }
+        else {
+            bigSis.kids[1] = n.kids[2];
+        }
+        bigSis.hoist(n);
+    }
+
+    private static void pta_lterm(PNode n) {
+        PNode bigSis = n.kids[0];
+        PNode gma = n.getGrandma();
+        if (gma.sym.equals(Symbol.LTERM))
+        {
+            bigSis.kids[0] = gma.kids[1];
+        }
+        else if (gma.sym.equals(Symbol.TERM)) {
+            bigSis.kids[0] = gma.kids[0];
+            gma.kids[0] = null;
+        }
+        else {
+            System.out.println("Error converting LTERM to AST");
+            System.exit(1);
+        }
+        bigSis.kids[0].grandma = bigSis;
+        if (n.kids[2] == null) { // if we are at the end of the chain
+            bigSis.kids[1] = n.kids[1];
+        }
+        else {
+            bigSis.kids[1] = n.kids[2];
+        }
+        bigSis.hoist(n);
+    }
 
 // kept this for reference only but its working from the wrong node
 //    private static void pta_varlist(PNode n){
@@ -103,9 +168,25 @@ public class SymbolTree {
             case 28:
             case 49:
             case 72:
+            case 97:
+            case 99:
+            case 101:
             case 102:
             case 103:
             case 104:
+            case 106:
+            case 107:
+            case 108:
+            case 109:
+            case 110:
+            case 111:
+            case 112:
+            case 113:
+            case 114:
+            case 115:
+            case 116:
+            case 117:
+            case 118:
             case 150:
                 pta_bs1_k1(n);
                 break;
@@ -118,6 +199,9 @@ public class SymbolTree {
             case 139:
             case 149:
                 pta_bs1_k2(n);
+                break;
+            case 90:
+                pta_bs1_k3(n);
                 break;
             case 3:
                 pta_bs1_k4(n);
@@ -137,8 +221,20 @@ public class SymbolTree {
                 break;
             case 137:
                 pta_bs2_k2_assign(n);
+                break;
+            case 143:
+                pta_lrterm(n);
+                break;
+            case 146:
+                pta_lterm(n);
+                break;
+            case 141: // TODO: INCOMPLETE RULE CONVERSION!! for recursion
+            case 144:
+            case 147:
+                pta_2k_recursion(n);
+                break;
             default:
-                System.out.println(n.sym + ": no rule found in AST conversion");
+                System.out.println(n.sym + ": no rule #" + rule + " found in AST conversion");
         }
     }
 
