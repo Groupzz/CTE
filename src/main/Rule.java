@@ -44,8 +44,6 @@ public class Rule {
         rules.put(33, new Rule(MOREEXPRS));
         rules.put(34, new Rule(CLASSDECL, KCLASS, CLASSID));
 
-        rules.put(79, new Rule(FCALL, FCNID, PPEXPRS));
-
         rules.put(53, new Rule(FCNDEFS, FCNDEF, FCNDEFS));
         rules.put(54, new Rule(FCNDEFS));
         rules.put(55, new Rule(FCNDEF, FCNHEADER, BBLOCK));
@@ -150,8 +148,6 @@ public class Rule {
         rules.put(153, new Rule(DBBEXPRS, EXPRLIST, BRACE2));
         rules.put(154, new Rule(DBBEXPRS, BRACE2));
 
-        // modified this rule for smaller grammar test
-        // rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
     }
 
 //    private int ruleID;
