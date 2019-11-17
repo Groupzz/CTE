@@ -30,16 +30,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = 'main.Parser'
 
-repositories {
-    jcenter()
-}
-
-dependencies {
-    testImplementation 'junit:junit:4.12'
-}
-
 sourceSets {
-    main.java.srcDirs = ['src/main']
-    test.java.srcDirs = ['src/test']
+    main.java.srcDirs = ['src']
 }
 

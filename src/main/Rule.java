@@ -8,11 +8,12 @@ public class Rule {
     private static HashMap<Integer, Rule> rules = new HashMap<>();
 
     static {
-        // This rule has been modified for a simpler grammar
         rules.put(1, new Rule(PGM, KPROG, MAIN));
         rules.put(2, new Rule(MAIN, KMAIN, BBLOCK));
-        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, STMTS, BRACE2));
 
+        // This rule has been modified to a simpler version of the grammar
+        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, BRACE2));
+        
        	rules.put(4, new Rule(VARGROUP, KVAR, PPVARLIST));
         rules.put(5, new Rule(VARGROUP));
         rules.put(6, new Rule(PPVARLIST, PARENS1, VARLIST, PARENS2));
@@ -20,6 +21,7 @@ public class Rule {
         rules.put(8, new Rule(VARLIST));
 
         // modified for simple rule set
+//        rules.put(12, new Rule(VARDECL, BASEKIND, ID));
         rules.put(12, new Rule(VARDECL, BASEKIND, VARSPEC));
 //        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
 
@@ -43,6 +45,8 @@ public class Rule {
         rules.put(33, new Rule(MOREEXPRS));
         rules.put(34, new Rule(CLASSDECL, KCLASS, CLASSID));
 
+        rules.put(79, new Rule(FCALL, FCNID, PPEXPRS));
+
         rules.put(53, new Rule(FCNDEFS, FCNDEF, FCNDEFS));
         rules.put(54, new Rule(FCNDEFS));
         rules.put(55, new Rule(FCNDEF, FCNHEADER, BBLOCK));
@@ -61,8 +65,6 @@ public class Rule {
         rules.put(70, new Rule(STMT, STWHILE));
         rules.put(71, new Rule(STMT, STPRINT));
         rules.put(72, new Rule(STMT, STRTN));
-
-        // pretty sure this was factored out
         rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
 
         rules.put(76, new Rule(LVAL, DEREF_ID));
@@ -127,7 +129,6 @@ public class Rule {
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
-        rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
 
         rules.put(140, new Rule(LEXPR, OPREL, RTERM, LEXPR));
         rules.put(141, new Rule(EXPR, RTERM, LEXPR));
@@ -145,13 +146,17 @@ public class Rule {
         rules.put(150, new Rule(DSTRTN, EXPR));
         rules.put(151, new Rule(DSTRTN));
 
+
+        // modified this rule for smaller grammar test
+        // rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
+        rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
     }
 
 //    private int ruleID;
     private Symbol LHS;
     private Symbol[] RHS;
 
-    private Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
+    public Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
         LHS = leftHandSymbol;
         RHS = new Symbol[10];
         int count = 0;
@@ -173,11 +178,11 @@ public class Rule {
         return LHS;
     }
 
-    Symbol getRHS(int i) {
+    public Symbol getRHS(int i) {
         return RHS[i];
     }
 
-    int getRHSLength() {
+    public int getRHSLength() {
         return RHS.length;
     }
 

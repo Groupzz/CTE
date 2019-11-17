@@ -2,8 +2,8 @@ package main;
 
 public class PNode {
 
-    public int ruleID;
-    PNode grandma;
+    private int ruleID;
+    private PNode grandma;
 
     public PNode[] kids;
     public Symbol sym;
@@ -46,21 +46,6 @@ public class PNode {
         builder.append(" ) ");
 //            return "( " + sym.getId() + " "
         return builder.toString();
-    }
-
-    public PNode getKid(int kid){
-        return this.kids[kid];
-    }
-
-    public PNode getGrandma(){
-        return this.grandma;
-    }
-
-    public void hoist(PNode mom){
-        mom.sym = this.sym;
-        mom.kids = this.kids;
-        mom.ruleID = this.ruleID; // we only do this for debugging purposes
-        // (hopefully it doesnt break something..)
     }
 
 }
