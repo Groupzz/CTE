@@ -43,8 +43,6 @@ public class Rule {
         rules.put(33, new Rule(MOREEXPRS));
         rules.put(34, new Rule(CLASSDECL, KCLASS, CLASSID));
 
-        rules.put(79, new Rule(FCALL, FCNID, PPEXPRS));
-
         rules.put(53, new Rule(FCNDEFS, FCNDEF, FCNDEFS));
         rules.put(54, new Rule(FCNDEFS));
         rules.put(55, new Rule(FCNDEF, FCNHEADER, BBLOCK));
@@ -65,7 +63,7 @@ public class Rule {
         rules.put(72, new Rule(STMT, STRTN));
 
         // pretty sure this was factored out
-//        rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
+        rules.put(73, new Rule(STASGN, LVAL, EQUAL, EXPR));
 
         rules.put(76, new Rule(LVAL, DEREF_ID));
         rules.put(77, new Rule(AREF, VARID, KKEXPR));
@@ -153,7 +151,7 @@ public class Rule {
     private Symbol LHS;
     private Symbol[] RHS;
 
-    public Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
+    private Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
         LHS = leftHandSymbol;
         RHS = new Symbol[10];
         int count = 0;
@@ -175,11 +173,11 @@ public class Rule {
         return LHS;
     }
 
-    public Symbol getRHS(int i) {
+    Symbol getRHS(int i) {
         return RHS[i];
     }
 
-    public int getRHSLength() {
+    int getRHSLength() {
         return RHS.length;
     }
 

@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Parser {
 
-    private static int[][] llTable = new int[300][60];
+    public static int[][] llTable = new int[300][60];
 
     static {
         // llTable[ROW/NON-T][COLUMN/TERMINAL]
