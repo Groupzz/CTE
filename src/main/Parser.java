@@ -19,8 +19,6 @@ public class Parser {
         addRule(Symbol.VARLIST, 7, Token.KINT, Token.KSTRING, Token.KFLOAT, Token.ID, Token.KCLASS);
         llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
 
-        addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
-
         addRule(Symbol.VARDECL, 12, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
 
         addRule(Symbol.BASEKIND, 15, Token.KINT);
@@ -77,12 +75,6 @@ public class Parser {
         llTable[Symbol.STPRINT.getId()][Token.KPRINT] = 87;
 
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
-
-        addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
-
-        addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
-
-        addRule(Symbol.TERM, 147, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
         addRule(Symbol.FACT, 97, Token.INT, Token.FLOAT, Token.STRING);
 
@@ -164,6 +156,10 @@ public class Parser {
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
         for (int column : columns) {
+            if (llTable[rowHeader.getId()][column] != 0) {
+                System.out.println("Attempted to double stuff! Row: " + rowHeader.toString() + " Col: " + column);
+                System.exit(2);
+            }
             llTable[rowHeader.getId()][column] = ruleNumber;
         }
     }
