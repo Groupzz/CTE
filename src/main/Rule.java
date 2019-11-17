@@ -148,8 +148,8 @@ public class Rule {
 
 
         // modified this rule for smaller grammar test
-        // rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
-        rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
+        rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
+//        rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
     }
 
 //    private int ruleID;
