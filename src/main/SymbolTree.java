@@ -31,6 +31,7 @@ public class SymbolTree {
                 break;
             }
         }
+    }
 
     // For rules that have only one symbol on their RHS
     // Naming scheme is bs1: big sister is first symbol on RHS AKA index 0
