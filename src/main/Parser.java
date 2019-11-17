@@ -121,7 +121,7 @@ public class Parser {
 
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
-
+        addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
 
         llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
 
