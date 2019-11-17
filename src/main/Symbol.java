@@ -91,6 +91,8 @@ public class Symbol {
     public static final Symbol TERM = new Symbol(72, false);
     public static final Symbol DSTRTN = new Symbol(73, false);
 
+    public static final Symbol DBBEXPRS = new Symbol(75, false);
+
     public static final Symbol DLVAL = new Symbol(74, false);
     
     public static final Symbol CLASSDECL = new Symbol(113, false);
