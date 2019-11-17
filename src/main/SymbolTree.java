@@ -23,9 +23,7 @@ public class SymbolTree {
     private static void pta_epsilon(PNode n) {
         PNode[] gmakids = n.getGrandma().kids;
         for(int i = 0; i < gmakids.length; i++) {
-            if (gmakids[i] == null) {
-                break;
-            }
+            // cant stop at null because another non-terminal may have nulled itself
             if (gmakids[i] == n) {
                 gmakids[i] = null;
                 break;
@@ -218,7 +216,6 @@ public class SymbolTree {
             case 150:
                 pta_bs1_k1(n);
                 break;
-            case 1:
             case 2:
             case 4:
             case 6:
@@ -233,6 +230,7 @@ public class SymbolTree {
             case 90:
                 pta_bs1_k3(n);
                 break;
+            case 1:
             case 3:
             case 82:
                 pta_bs1_k4(n);
@@ -260,6 +258,7 @@ public class SymbolTree {
                 break;
             case 5:
             case 8:
+            case 54:
             case 66:
             case 85:
             case 123:

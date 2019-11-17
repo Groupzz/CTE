@@ -8,7 +8,7 @@ public class Rule {
     private static HashMap<Integer, Rule> rules = new HashMap<>();
 
     static {
-        rules.put(1, new Rule(PGM, KPROG, MAIN));
+        rules.put(1, new Rule(PGM, KPROG, VARGROUP, FCNDEFS, MAIN));
         rules.put(2, new Rule(MAIN, KMAIN, BBLOCK));
 
         rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, STMTS, BRACE2));

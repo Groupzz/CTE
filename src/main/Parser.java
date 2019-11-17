@@ -13,7 +13,7 @@ public class Parser {
         llTable[Symbol.MAIN.getId()][Token.KMAIN] = 2;
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
-        addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE,
+        addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE, Token.KMAIN,
                 Token.KPRINT, Token.KRETURN, Token.BRACE2);
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
         addRule(Symbol.VARLIST, 7, Token.KINT, Token.KSTRING, Token.KFLOAT, Token.ID, Token.KCLASS);
@@ -103,6 +103,7 @@ public class Parser {
         llTable[Symbol.DLVAL.getId()][Token.EQUAL] = 120;
         llTable[Symbol.DLVAL.getId()][Token.BRACKET1] = 121;
 
+        addRule(Symbol.PPARMLIST, 128, Token.PARENS1);
         addRule(Symbol.DPPARMLIST, 129, Token.ID, Token.ASTER);
         llTable[Symbol.DPPARMLIST.getId()][Token.PARENS2] = 130;
 
@@ -121,7 +122,7 @@ public class Parser {
         llTable[Symbol.FACT.getId()][Token.ID] = 122;
         addRule(Symbol.DFACT, 123, Token.PLUS, Token.MINUS, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE,
                 Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET, Token.BRACKET2, Token.PARENS2,
-                Token.BRACE2, Token.COMMA);
+                Token.BRACE2, Token.COMMA, Token.SEMI);
 
         addRule(Symbol.DFACT, 124, Token.PARENS1);
         addRule(Symbol.VARSPEC, 125, Token.ID);

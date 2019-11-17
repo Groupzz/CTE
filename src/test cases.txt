@@ -25,3 +25,11 @@ prog main {
 prog main {
     return 1 + 2 - 3;
 }
+
+prog
+fcn test(x, y) int {
+    return x + y;
+}
+main {
+    print(test(x, y));
+}
