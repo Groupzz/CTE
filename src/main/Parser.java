@@ -33,17 +33,21 @@ public class Parser {
         addRule(Symbol.DEREF, 26, Token.ASTER);
         addRule(Symbol.VARINIT, 27, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
 
-        addRule(Symbol.EXPRLIST, 31, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
-        llTable[Symbol.MOREEXPRS.getId()][Token.COMMA] = 32;
-
-        llTable[Symbol.FCNDEFS.getId()][Token.KFCN] = 53;
+        //Jamil(7)
         llTable[Symbol.FCNDEFS.getId()][Token.KMAIN] = 54;
+        llTable[Symbol.FCNDEFS.getId()][Token.KFCN] = 53;
+
         llTable[Symbol.FCNDEF.getId()][Token.KFCN] = 55;
+
         llTable[Symbol.FCNHEADER.getId()][Token.KFCN] = 56;
+
         llTable[Symbol.FCNID.getId()][Token.ID] = 57;
+
         addRule(Symbol.RETKIND, 58, Token.KINT, Token.KFLOAT, Token.KSTRING);
-        
+
         addRule(Symbol.VARSPECS, 61, Token.ID, Token.ASTER);
+
+        llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
         llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
         llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
         llTable[Symbol.PPONLY.getId()][Token.PARENS1] = 64;
