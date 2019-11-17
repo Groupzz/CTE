@@ -11,8 +11,7 @@ public class Rule {
         rules.put(1, new Rule(PGM, KPROG, MAIN));
         rules.put(2, new Rule(MAIN, KMAIN, BBLOCK));
 
-        // This rule has been modified to a simpler version of the grammar
-        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, BRACE2));
+        rules.put(3, new Rule(BBLOCK, BRACE1, VARGROUP, STMTS, BRACE2));
         
        	rules.put(4, new Rule(VARGROUP, KVAR, PPVARLIST));
         rules.put(5, new Rule(VARGROUP));
