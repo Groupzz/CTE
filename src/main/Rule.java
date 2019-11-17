@@ -105,7 +105,7 @@ public class Rule {
         rules.put(118, new Rule(OPMUL, CARET));
         rules.put(119, new Rule(LVAL, VARID, DLVAL));
         rules.put(120, new Rule(DLVAL));
-
+        rules.put(121, new Rule(DLVAL, KKEXPR));
         rules.put(122, new Rule(FACT, new Symbol(Token.ID, true), DFACT));
 
         rules.put(123, new Rule(DFACT));
@@ -116,7 +116,7 @@ public class Rule {
         rules.put(127, new Rule(DVARSPEC, KKINT));
 
         rules.put(128, new Rule(PPARMLIST, PARENS1, DPPARMLIST));
-        //rule 129 goes here
+        rules.put(129, new Rule(DPPARMLIST, VARSPECS, PARENS2));
         rules.put(130, new Rule(DPPARMLIST, PARENS2));
 
         rules.put(131, new Rule(STMT, ID, DSTMT));
@@ -129,6 +129,7 @@ public class Rule {
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
+        rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
 
         rules.put(140, new Rule(LEXPR, OPREL, RTERM, LEXPR));
         rules.put(141, new Rule(EXPR, RTERM, LEXPR));
@@ -146,10 +147,12 @@ public class Rule {
         rules.put(150, new Rule(DSTRTN, EXPR));
         rules.put(151, new Rule(DSTRTN));
 
+        rules.put(152, new Rule(BBEXPRS, BRACE1, DBBEXPRS));
+        rules.put(153, new Rule(DBBEXPRS, EXPRLIST, BRACE2));
+        rules.put(154, new Rule(DBBEXPRS, BRACE2));
 
         // modified this rule for smaller grammar test
-        rules.put(139, new Rule(DVARITEM, EQUAL, VARINIT));
-//        rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
+        // rules.put(139, new Rule(DVARITEM, EQUAL, BASELITERAL));
     }
 
 //    private int ruleID;
