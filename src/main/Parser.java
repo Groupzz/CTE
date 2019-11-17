@@ -1,13 +1,11 @@
 package main;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import java.util.Scanner;
 import java.util.Stack;
 
 public class Parser {
 
-    private static int[][] llTable = new int[300][60];
+    public static int[][] llTable = new int[300][60];
 
     static {
         // llTable[ROW/NON-T][COLUMN/TERMINAL]
@@ -32,26 +30,16 @@ public class Parser {
         addRule(Symbol.BASEKIND, 17, Token.KSTRING);
 
         addRule(Symbol.VARSPEC, 21, Token.ASTER);
+        
+        llTable[Symbol.VARID.getId()][Token.ID] = 22;
+        llTable[Symbol.ARRSPEC.getId()][Token.ID] = 23;
 
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
         addRule(Symbol.DEREF_ID, 25, Token.ASTER);
         addRule(Symbol.DEREF, 26, Token.ASTER);
 
-        
-        //Jamil(7)
-        llTable[Symbol.FCNDEFS.getId()][Token.KMAIN] = 54;
-        llTable[Symbol.FCNDEFS.getId()][Token.KFCN] = 53;
-        
-        llTable[Symbol.FCNDEF.getId()][Token.KFCN] = 55;
-        
-        llTable[Symbol.FCNHEADER.getId()][Token.KFCN] = 56;
-        
-        llTable[Symbol.FCNID.getId()][Token.ID] = 57;
+        addRule(Symbol.VARINIT, 27, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
 
-        addRule(Symbol.RETKIND, 58, Token.KINT, Token.KFLOAT, Token.KSTRING);
-
-        addRule(Symbol.VARSPECS, 61, Token.ID, Token.ASTER);
-        
         llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
         llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
 
@@ -122,6 +110,11 @@ public class Parser {
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
 
+        addRule(Symbol.DFACT, 123, Token.PLUS, Token.MINUS, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE,
+                Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET);
+
+        addRule(Symbol.DFACT, 124, Token.PARENS1);
+
         addRule(Symbol.VARSPEC, 125, Token.ID);
         addRule(Symbol.DVARSPEC, 126, Token.PARENS2, Token.SEMI, Token.EQUAL, Token.COMMA);
         addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);
@@ -132,7 +125,23 @@ public class Parser {
 
         llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
 
+        addRule(Symbol.DSTMT, 132, Token.EQUAL);
 
+        addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
+        addRule(Symbol.LEXPR, 142, Token.SEMI, Token.PARENS2, Token.BRACKET2);
+
+        addRule(Symbol.LRTERM, 143, Token.PLUS, Token.MINUS);
+
+        addRule(Symbol.LRTERM, 145, Token.SEMI, Token.PARENS2, Token.BRACKET2,
+                Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
+
+        addRule(Symbol.LTERM, 146, Token.ASTER, Token.SLASH, Token.CARET);
+
+        addRule(Symbol.LTERM, 148, Token.PLUS, Token.MINUS, Token.SEMI, Token.PARENS2, Token.BRACKET2,
+                Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
+
+        addRule(Symbol.DSTRTN, 150, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.PARENS1, Token.AMPERSAND);
+        addRule(Symbol.DSTRTN, 151, Token.SEMI);
 
 
     }
@@ -205,7 +214,8 @@ public class Parser {
 
         // Print out the parse tree
         System.out.println(parseTree);
-
+        parseTree.convertToAST();
+        System.out.println(parseTree);
     }
 
 
@@ -225,4 +235,6 @@ public class Parser {
             }
         }
     }
+
+
 }
