@@ -13,14 +13,10 @@ public class Parser {
         llTable[Symbol.MAIN.getId()][Token.KMAIN] = 2;
         llTable[Symbol.BBLOCK.getId()][Token.BRACE1] = 3;
         llTable[Symbol.VARGROUP.getId()][Token.KVAR] = 4;
-
         addRule(Symbol.VARGROUP, 5, Token.ID, Token.KFCN, Token.KIF, Token.KWHILE,
                 Token.KPRINT, Token.KRETURN, Token.BRACE2);
-
         llTable[Symbol.PPVARLIST.getId()][Token.PARENS1] = 6;
-
         addRule(Symbol.VARLIST, 7, Token.KINT, Token.KSTRING, Token.KFLOAT, Token.ID, Token.KCLASS);
-
         llTable[Symbol.VARLIST.getId()][Token.PARENS2] = 8;
 
         addRule(Symbol.VARDECL, 12, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
@@ -30,14 +26,11 @@ public class Parser {
         addRule(Symbol.BASEKIND, 17, Token.KSTRING);
 
         addRule(Symbol.VARSPEC, 21, Token.ASTER);
-        
         llTable[Symbol.VARID.getId()][Token.ID] = 22;
         llTable[Symbol.ARRSPEC.getId()][Token.ID] = 23;
-
         addRule(Symbol.KKINT, 24, Token.BRACKET1);
         addRule(Symbol.DEREF_ID, 25, Token.ASTER);
         addRule(Symbol.DEREF, 26, Token.ASTER);
-
         addRule(Symbol.VARINIT, 27, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
 
         addRule(Symbol.EXPRLIST, 31, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
@@ -49,114 +42,88 @@ public class Parser {
         llTable[Symbol.FCNHEADER.getId()][Token.KFCN] = 56;
         llTable[Symbol.FCNID.getId()][Token.ID] = 57;
         addRule(Symbol.RETKIND, 58, Token.KINT, Token.KFLOAT, Token.KSTRING);
+        
         addRule(Symbol.VARSPECS, 61, Token.ID, Token.ASTER);
-
         llTable[Symbol.MORE_VARSPECS.getId()][Token.COMMA] = 62;
         llTable[Symbol.MORE_VARSPECS.getId()][Token.PARENS2] = 63;
-
         llTable[Symbol.PPONLY.getId()][Token.PARENS1] = 64;
-
-        llTable[Symbol.STMTS.getId()][Token.BRACE2] = 66;
         addRule(Symbol.STMTS, 65, Token.ID, Token.KIF, Token.KWHILE, Token.KPRINT, Token.KRETURN);
+        llTable[Symbol.STMTS.getId()][Token.BRACE2] = 66;
 
-        llTable[Symbol.ELSEPART.getId()][Token.SEMI] = 85;
-        llTable[Symbol.ELSEPART.getId()][Token.KELSEIF] = 83;
-        llTable[Symbol.ELSEPART.getId()][Token.KELSE] = 84;
-
-        llTable[Symbol.STMT.getId()][Token.ID] = 131;
         llTable[Symbol.STMT.getId()][Token.KIF] = 69;
         llTable[Symbol.STMT.getId()][Token.KWHILE] = 70;
         llTable[Symbol.STMT.getId()][Token.KPRINT] = 71;
         llTable[Symbol.STMT.getId()][Token.KRETURN] = 72;
-
         addRule(Symbol.STASGN, 73, Token.ID, Token.ASTER);
 
-        llTable[Symbol.LVAL.getId()][Token.ID] = 119;
         llTable[Symbol.LVAL.getId()][Token.ASTER] = 76;
-
         llTable[Symbol.AREF.getId()][Token.ID] = 77;
         llTable[Symbol.KKEXPR.getId()][Token.BRACKET1] = 78;
         llTable[Symbol.FCALL.getId()][Token.ID] = 79;
-        llTable[Symbol.PPEXPRS.getId()][Token.PARENS1] = 134;
+
         llTable[Symbol.STIF.getId()][Token.KIF] = 82;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSEIF] = 83;
+        llTable[Symbol.ELSEPART.getId()][Token.KELSE] = 84;
+        llTable[Symbol.ELSEPART.getId()][Token.SEMI] = 85;
         llTable[Symbol.STWHILE.getId()][Token.KWHILE] = 86;
         llTable[Symbol.STPRINT.getId()][Token.KPRINT] = 87;
 
-
         llTable[Symbol.PPEXPR.getId()][Token.PARENS1] = 90;
-
-        addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
-
-        addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
-
-        addRule(Symbol.TERM, 147, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
 
         addRule(Symbol.FACT, 97, Token.INT, Token.FLOAT, Token.STRING);
 
         llTable[Symbol.FACT.getId()][Token.AMPERSAND] = 99;
-        llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
-        llTable[Symbol.FACT.getId()][Token.ID] = 122;
 
+        llTable[Symbol.FACT.getId()][Token.PARENS1] = 101;
         llTable[Symbol.BASELITERAL.getId()][Token.INT] = 102;
         llTable[Symbol.BASELITERAL.getId()][Token.FLOAT] = 103;
         llTable[Symbol.BASELITERAL.getId()][Token.STRING] = 104;
-
         llTable[Symbol.ADDROF_ID.getId()][Token.AMPERSAND] = 105;
-
         llTable[Symbol.OPREL.getId()][Token.OPEQ] = 106;
         llTable[Symbol.OPREL.getId()][Token.OPNE] = 107;
         llTable[Symbol.OPREL.getId()][Token.ANGLE1] = 108;
         llTable[Symbol.OPREL.getId()][Token.OPLE] = 109;
         llTable[Symbol.OPREL.getId()][Token.OPGE] = 110;
         llTable[Symbol.OPREL.getId()][Token.ANGLE2] = 111;
-
         llTable[Symbol.LTHAN.getId()][Token.ANGLE1] = 112;
-
         llTable[Symbol.GTHAN.getId()][Token.ANGLE2] = 113;
-
         llTable[Symbol.OPADD.getId()][Token.PLUS] = 114;
         llTable[Symbol.OPADD.getId()][Token.MINUS] = 115;
-
         llTable[Symbol.OPMUL.getId()][Token.ASTER] = 116;
         llTable[Symbol.OPMUL.getId()][Token.SLASH] = 117;
         llTable[Symbol.OPMUL.getId()][Token.CARET] = 118;
+        llTable[Symbol.LVAL.getId()][Token.ID] = 119;
 
+        llTable[Symbol.DLVAL.getId()][Token.BRACKET1] = 121;
+        llTable[Symbol.FACT.getId()][Token.ID] = 122;
         addRule(Symbol.DFACT, 123, Token.PLUS, Token.MINUS, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE,
                 Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET);
-
         addRule(Symbol.DFACT, 124, Token.PARENS1);
-
         addRule(Symbol.VARSPEC, 125, Token.ID);
         addRule(Symbol.DVARSPEC, 126, Token.PARENS2, Token.SEMI, Token.EQUAL, Token.COMMA);
         addRule(Symbol.DVARSPEC, 127, Token.BRACKET1);
 
+        llTable[Symbol.STMT.getId()][Token.ID] = 131;
+        addRule(Symbol.DSTMT, 132, Token.EQUAL);
+        llTable[Symbol.PPEXPRS.getId()][Token.PARENS1] = 134;
+
         addRule(Symbol.VARITEM, 137, Token.KINT, Token.KFLOAT, Token.KSTRING, Token.ID);
+        
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
         addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
-
-        llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
-
-        addRule(Symbol.DSTMT, 132, Token.EQUAL);
-
-        addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
+        addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
         addRule(Symbol.LEXPR, 142, Token.SEMI, Token.PARENS2, Token.BRACKET2);
-
         addRule(Symbol.LRTERM, 143, Token.PLUS, Token.MINUS);
-
+        addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
         addRule(Symbol.LRTERM, 145, Token.SEMI, Token.PARENS2, Token.BRACKET2,
                 Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
-
         addRule(Symbol.LTERM, 146, Token.ASTER, Token.SLASH, Token.CARET);
-
+        addRule(Symbol.TERM, 147, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
         addRule(Symbol.LTERM, 148, Token.PLUS, Token.MINUS, Token.SEMI, Token.PARENS2, Token.BRACKET2,
                 Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
-
+        llTable[Symbol.STRTN.getId()][Token.KRETURN] = 149;
         addRule(Symbol.DSTRTN, 150, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.PARENS1, Token.AMPERSAND);
         addRule(Symbol.DSTRTN, 151, Token.SEMI);
-
-
-
-
     }
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
