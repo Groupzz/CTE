@@ -120,7 +120,8 @@ public class Parser {
         llTable[Symbol.DLVAL.getId()][Token.BRACKET1] = 121;
         llTable[Symbol.FACT.getId()][Token.ID] = 122;
         addRule(Symbol.DFACT, 123, Token.PLUS, Token.MINUS, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE,
-                Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET);
+                Token.ANGLE1, Token.ANGLE2, Token.SLASH, Token.ASTER, Token.CARET, Token.BRACKET2, Token.PARENS2,
+                Token.BRACE2, Token.COMMA);
 
         addRule(Symbol.DFACT, 124, Token.PARENS1);
         addRule(Symbol.VARSPEC, 125, Token.ID);
