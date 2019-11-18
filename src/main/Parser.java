@@ -238,9 +238,9 @@ public class Parser {
         scanner.close();
 
         // Print out the parse tree
-        System.out.println(parseTree);
+        System.out.println("\nParse Tree:\n" + parseTree);
         parseTree.convertToAST();
-        System.out.println(parseTree);
+        System.out.println("\nAbstract Syntax Tree:\n" + parseTree);
     }
 
     // Little function that takes a rule and expands it into both the parse tree and pushes it in reverse order
