@@ -227,9 +227,9 @@ public class Parser {
         scanner.close();
 
         // Print out the parse tree
-        System.out.println(parseTree);
+        System.out.println("\nParse Tree:\n" + parseTree);
         parseTree.convertToAST();
-        System.out.println(parseTree);
+        System.out.println("\nAbstract Syntax Tree:\n" + parseTree);
     }
 
 
