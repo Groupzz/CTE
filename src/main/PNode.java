@@ -10,7 +10,10 @@ package main;
  */
 public class PNode {
 
+    static int IDGenerator = 0;
+
     int ruleID;
+    int nodeID;
     PNode grandma;
 
     PNode[] kids;
@@ -18,6 +21,7 @@ public class PNode {
 
     PNode(Symbol sym, PNode gma) {
         this.ruleID = -1;
+        this.nodeID = IDGenerator++;
         this.sym = sym;
         this.grandma = gma;
         kids = new PNode[10];
@@ -38,14 +42,15 @@ public class PNode {
         for(int i = 0; i < depth; i++) {
             builder.append("  ");
         }
+        builder.append(" ( ");
+        builder.append("Node #" + nodeID + " ");
         if(sym.isTerminal()) {
-            builder.append(sym.toString());
-            builder.append(sym.getToken());
+            builder.append(sym.toString() + " " + sym.getToken().toString());
         }
         else {
-            builder.append(sym.getId() + ":" + ruleID);
+            builder.append(sym.toString() + " Rule: " + ruleID);
         }
-        builder.append(" ( ");
+
         for(PNode p : kids) {
             if(p != null) {
                 builder.append(p.toString(depth + 1));
