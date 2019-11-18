@@ -85,10 +85,10 @@ public class SymbolTree {
 
     //Jamil - rule 23
     private static void pta_arrspec(PNode n){
-        PNode bigSis = (n.kids[1]).kids[0];
+        PNode bigSis = n.kids[1];
+        bigSis.kids[2] = bigSis.kids[1];
+        bigSis.kids[1] = bigSis.kids[0];
         bigSis.kids[0] = n.kids[0];
-        bigSis.kids[1] = (n.kids[1]).kids[1];
-        bigSis.kids[2] = (n.kids[1]).kids[2];
         bigSis.hoist(n);
     }
 
@@ -255,6 +255,8 @@ public class SymbolTree {
                 pta_bs1_k2(n);
                 break;
             case 6:
+            //Jamil
+            case 24:
             case 86:
             case 90:
                 pta_bs1_k3(n);
