@@ -30,203 +30,120 @@ Sample invocation and results to see:
     2. Navigate to the directory of the program.
     3. Once the directory is open, compile the code using the instructions above.
     4. Go up a directory and run the program using the instructions above.
-    5. When the program is running input 
+    5. When the program is running enter input.
+    6. To close the input stream send the EOF using Ctrl + d in Linux terminal or Ctrl + z in the Windows Powershell. 
+
     Sample input: 
         prog main { print ("Sample input", "S= ", 27, "I= ", 9.19);}
-    Sample output:
-	Used rule: 1 : [0:true:-1, 2:false:-1, 28:false:-1, 4:false:-1, 10:true:-1] : {Terminal: 10}
-	Top is same as front. Stack: [0:true:-1, 2:false:-1, 28:false:-1, 4:false:-1] : {Terminal: 10}
-	Used rule: 5 : [0:true:-1, 2:false:-1, 28:false:-1] : {Terminal: 11}
-	Used rule: 54 : [0:true:-1, 2:false:-1] : {Terminal: 11}   
-	Used rule: 2 : [0:true:-1, 3:false:-1, 11:true:-1] : {Terminal: 11}
-	Top is same as front. Stack: [0:true:-1, 3:false:-1] : {Terminal: 11}
-	Used rule: 3 : [0:true:-1, 34:true:-1, 36:false:-1, 4:false:-1, 33:true:-1] : {Terminal: 33}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 4:false:-1] : {Terminal: 33}
-	Used rule: 5 : [0:true:-1, 34:true:-1, 36:false:-1] : {Terminal: 23}
-	Used rule: 65 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 61:false:-1] : {Terminal: 23}
-	Used rule: 71 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 45:false:-1] : {Terminal: 23}
-	Used rule: 87 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 63:false:-1, 23:true:-1] : {Terminal: 23}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 63:false:-1] : {Terminal: 23}
-	Used rule: 134 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 64:false:-1, 37:true:-1] : {Terminal: 37}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 64:false:-1] : {Terminal: 37}
-	Used rule: 135 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1] : {Terminal: 5}
-	Used rule: 31 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 68:false:-1] : {Terminal: 5} 
-	Used rule: 141 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 70:false:-1] : {Terminal: 5}
-	Used rule: 144 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 72:false:-1] : {Terminal: 5}
-	Used rule: 147 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 49:false:-1] : {Terminal: 5}
-	Used rule: 97 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 50:false:-1] : {Terminal: 5}
-	Used rule: 104 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 5:true:-1] : {Terminal: 5}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1] : {Terminal: 5}
-	Used rule: 148 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1] : {Terminal: 6}
-	Used rule: 145 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1] : {Terminal: 6}
-	Used rule: 142 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1] : {Terminal: 6}
-	Used rule: 32 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1, 6:true:-1] : {Terminal: 6}   
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1] : {Terminal: 6} 
-	Used rule: 31 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 68:false:-1] : {Terminal: 5} 
-	Used rule: 141 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 70:false:-1] : {Terminal: 5}
-	Used rule: 144 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 72:false:-1] : {Terminal: 5}
-	Used rule: 147 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 49:false:-1] : {Terminal: 5}
-	Used rule: 97 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 50:false:-1] : {Terminal: 5}
-	Used rule: 104 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 5:true:-1] : {Terminal: 5}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1] : {Terminal: 5}
-	Used rule: 148 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1] : {Terminal: 6}
-	Used rule: 145 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1] : {Terminal: 6}
-	Used rule: 142 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1] : {Terminal: 6}
-	Used rule: 32 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1, 6:true:-1] : {Terminal: 6}   
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1] : {Terminal: 6} 
-	Used rule: 31 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 68:false:-1] : {Terminal: 3} 
-	Used rule: 141 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 70:false:-1] : {Terminal: 3}
-	Used rule: 144 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 72:false:-1] : {Terminal: 3}
-	Used rule: 147 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 49:false:-1] : {Terminal: 3}
-	Used rule: 97 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 50:false:-1] : {Terminal: 3}
-	Used rule: 102 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 3:true:-1] : {Terminal: 3}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1] : {Terminal: 3}
-	Used rule: 148 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1] : {Terminal: 6}
-	Used rule: 145 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1] : {Terminal: 6}
-	Used rule: 142 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1] : {Terminal: 6}
-	Used rule: 32 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1, 6:true:-1] : {Terminal: 6}   
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1] : {Terminal: 6} 
-	Used rule: 31 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 68:false:-1] : {Terminal: 5} 
-	Used rule: 141 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 70:false:-1] : {Terminal: 5}
-	Used rule: 144 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 72:false:-1] : {Terminal: 5}
-	Used rule: 147 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 49:false:-1] : {Terminal: 5}
-	Used rule: 97 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 50:false:-1] : {Terminal: 5}
-	Used rule: 104 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 5:true:-1] : {Terminal: 5}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1] : {Terminal: 5}
-	Used rule: 148 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1] : {Terminal: 6}
-	Used rule: 145 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1] : {Terminal: 6}
-	Used rule: 142 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1] : {Terminal: 6}
-	Used rule: 32 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1, 6:true:-1] : {Terminal: 6}   
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 19:false:-1] : {Terminal: 6} 
-	Used rule: 31 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 68:false:-1] : {Terminal: 4} 
-	Used rule: 141 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 70:false:-1] : {Terminal: 4}
-	Used rule: 144 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 72:false:-1] : {Terminal: 4}
-	Used rule: 147 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 49:false:-1] : {Terminal: 4}
-	Used rule: 97 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 50:false:-1] : {Terminal: 4}
-	Used rule: 103 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1, 4:true:-1] : {Terminal: 4}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1, 71:false:-1] : {Terminal: 4}
-	Used rule: 148 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1, 69:false:-1] : {Terminal: 38}
-	Used rule: 145 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1, 67:false:-1] : {Terminal: 38}
-	Used rule: 142 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1, 20:false:-1] : {Terminal: 38}
-	Used rule: 33 : [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1, 38:true:-1] : {Terminal: 38}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1, 7:true:-1] : {Terminal: 38}
-	Top is same as front. Stack: [0:true:-1, 34:true:-1, 36:false:-1] : {Terminal: 7}
-	Used rule: 66 : [0:true:-1, 34:true:-1] : {Terminal: 34}   
-	Top is same as front. Stack: [0:true:-1] : {Terminal: 34}  
-	Top is same as front. Stack: [] : {Terminal: 0}
-	Passed grammar check
-	
-	Parse Tree:
 
+    Sample output:
+	Parse Tree:
 	1:1 (
-  	{Terminal: 10}(Tok: 10  lin=  1,1   str = "prog") (  )   
- 	4:5 (  )
-  	28:54 (  )
-  	2:2 (
-    	{Terminal: 11}(Tok: 11  lin=  1,6   str = "main") (  ) 
-    	3:3 (
-      	{Terminal: 33}(Tok: 33  lin=  1,11  str = "{") (  )  
-      	4:5 (  )
-      	36:65 (
-        61:71 (
-          45:87 (
-            {Terminal: 23}(Tok: 23  lin=  1,13  str = "print") (  )
-            63:134 (
-              {Terminal: 37}(Tok: 37  lin=  1,19  str = "(") (  )
-              64:135 (
-                19:31 (
-                  68:141 (
-                    70:144 (
-                      72:147 (
-                        49:97 (
-                          50:104 (
-                            	{Terminal: 5}(Tok:  5  lin=  1,20  str = "Sample input") (  )  )  )
-                        		71:148 (  )  )
-                      	69:145 (  )  )
-                    	67:142 (  )  )
-                  	20:32 (
-                    	{Terminal: 6}(Tok:  6  lin=  1,34  str = ",") (  )
-                    	19:31 (
-                      	68:141 (
-                        	70:144 (
-                          	72:147 (
-                            	49:97 (
-                              	50:104 (
-                                	{Terminal: 5}(Tok:  5  lin=  1,36  str = "S= ") (  )  )  )
-                            	71:148 (  )  )
-                          	69:145 (  )  )
-                        	67:142 (  )  )
-                      	20:32 (
-                        	{Terminal: 6}(Tok:  6  lin=  1,41  str = ",") (  )
-                        	19:31 (
-                          	68:141 (
-                            	70:144 (
-                              	72:147 (
-                                	49:97 (
-                                  	50:102 (
-                                    	{Terminal: 3}(Tok:  3  lin=  1,43  str = "27", int=27) (  )  )  )
-                                	71:148 (  )  )
-                              	69:145 (  )  )
-                            	67:142 (  )  )
-                          	20:32 (
-                            	{Terminal: 6}(Tok:  6  lin=  1,45  str = ",") (  )
-                            	19:31 (
-                              	68:141 (
-                                	70:144 (
-                                  	72:147 (
-                                    	49:97 (
-                                      	50:104 (
-                                        	{Terminal: 5}(Tok:  5  lin=  1,47  str = "I= ") (  )  )  )
-                                    	71:148 (  )  )
-                                  	69:145 (  )  )
-                                	67:142 (  )  )
-                              	20:32 (
-                                	{Terminal: 6}(Tok:  6  lin=  1,52  str = ",") (  )
-                                	19:31 (
-                                  	68:141 (
-                                    	70:144 (
-                                      	72:147 (
-                                        	49:97 (
-                                          	50:103 (
-                                            	{Terminal: 4}(Tok:  4  lin=  1,54  str = "9.19", flo=9.190000) (  )  )  ) 
-                                        	71:148 (  )  )     
-                                      	69:145 (  )  )       
-                                    	67:142 (  )  )
-                                  	20:33 (  )  )  )  )  )  )  )  )  )  )
-                	{Terminal: 38}(Tok: 38  lin=  1,58  str = ")") (  )  )  )  )  )
-        	{Terminal: 7}(Tok:  7  lin=  1,59  str = ";") (  ) 
-        36:66 (  )  )
-      	{Terminal: 34}(Tok: 34  lin=  1,60  str = "}") (  )  )  )  )
+	  {Terminal: 10}(Tok: 10  lin=  1,1   str = "prog") (  )
+	  4:5 (  )
+	  28:54 (  )
+	  2:2 (
+	    {Terminal: 11}(Tok: 11  lin=  1,6   str = "main") (  )
+	    3:3 (
+	      {Terminal: 33}(Tok: 33  lin=  1,11  str = "{") (  )
+	      4:5 (  )
+	      36:65 (
+	        61:71 (
+	          45:87 (
+	            {Terminal: 23}(Tok: 23  lin=  1,13  str = "print") (  )
+	            63:134 (
+	              {Terminal: 37}(Tok: 37  lin=  1,18  str = "(") (  )
+	              64:135 (
+	                19:31 (
+	                  68:141 (
+	                    70:144 (
+	                      72:147 (
+	                        49:97 (
+	                          50:104 (
+	                            {Terminal: 5}(Tok:  5  lin=  1,20  str = "ASCII:") (  )  )  )
+	                        71:148 (  )  )
+	                      69:145 (  )  )
+	                    67:142 (  )  )
+	                  20:32 (
+	                    {Terminal: 6}(Tok:  6  lin=  1,28  str = ",") (  )
+	                    19:31 (
+                      68:141 (
+	                        70:144 (
+	                          72:147 (
+	                            49:97 (
+	                              50:104 (
+	                                {Terminal: 5}(Tok:  5  lin=  1,30  str = " A= ") (  )  )  )
+	                            71:148 (  )  )
+	                          69:145 (  )  )
+	                        67:142 (  )  )
+	                      20:32 (
+	                        {Terminal: 6}(Tok:  6  lin=  1,36  str = ",") (  )
+	                        19:31 (
+	                          68:141 (
+	                            70:144 (
+	                              72:147 (
+	                                49:97 (
+	                                  50:102 (
+	                                    {Terminal: 3}(Tok:  3  lin=  1,38  str = "65", int=65) (  )  )  )
+	                                71:148 (  )  )
+	                              69:145 (  )  )
+	                            67:142 (  )  )
+	                          20:32 (
+	                            {Terminal: 6}(Tok:  6  lin=  1,40  str = ",") (  )
+	                            19:31 (
+	                              68:141 (
+	                                70:144 (
+	                                  72:147 (
+	                                    49:97 (
+	                                      50:104 (
+	                                        {Terminal: 5}(Tok:  5  lin=  1,42  str = " Z= ") (  )  )  )
+	                                    71:148 (  )  )
+	                                  69:145 (  )  )
+	                                67:142 (  )  )
+	                              20:32 (
+	                                {Terminal: 6}(Tok:  6  lin=  1,48  str = ",") (  )
+	                                19:31 (
+	                                  68:141 (
+	                                    70:144 (
+	                                      72:147 (
+	                                        49:97 (
+	                                          50:102 (
+	                                            {Terminal: 3}(Tok:  3  lin=  1,50  str = "90", int=90) (  )  )  )
+	                                        71:148 (  )  )
+	                                      69:145 (  )  )
+	                                    67:142 (  )  )
+	                                  20:33 (  )  )  )  )  )  )  )  )  )  )
+	                {Terminal: 38}(Tok: 38  lin=  1,53  str = ")") (  )  )  )  )  )
+	        {Terminal: 7}(Tok:  7  lin=  1,54  str = ";") (  )
+	        36:66 (  )  )
+	      {Terminal: 34}(Tok: 34  lin=  1,56  str = "}") (  )  )  )  )
 
 	Abstract Syntax Tree:
 
-	{Terminal: 10}(Tok: 10  lin=  1,1   str = "prog") (        
-  	{Terminal: 11}(Tok: 11  lin=  1,6   str = "main") (      
-    	{Terminal: 33}(Tok: 33  lin=  1,11  str = "{") (       
-      	{Terminal: 7}(Tok:  7  lin=  1,59  str = ";") (      
-        {Terminal: 23}(Tok: 23  lin=  1,13  str = "print") 
-	(
-          {Terminal: 37}(Tok: 37  lin=  1,19  str = "(") ( 
-
-            {Terminal: 38}(Tok: 38  lin=  1,58  str = ")") 
-	(
-              {Terminal: 5}(Tok:  5  lin=  1,20  str = "Sample input") (
-                {Terminal: 6}(Tok:  6  lin=  1,34  str = ",") ("S= ") (
-                    {Terminal: 6}(Tok:  6  lin=  1,41  str = ",") (
-                      {Terminal: 3}(Tok:  3  lin=  1,43  str = "27", int=27) (
-                        {Terminal: 6}(Tok:  6  lin=  1,45  str = ",") (
-                          {Terminal: 5}(Tok:  5  lin=  1,47  str = "I= ") (
-                            {Terminal: 6}(Tok:  6  lin=  1,52  str = ",") (
-                              {Terminal: 4}(Tok:  4  lin=  1,54  str = "9.19", flo=9.190000) (  )  )  )  )  )  )  )  )  )  )  )  )  )
-      	{Terminal: 34}(Tok: 34  lin=  1,60  str = "}") (  )  )  )  )
+	{Terminal: 10}(Tok: 10  lin=  1,1   str = "prog") (
+  	  {Terminal: 11}(Tok: 11  lin=  1,6   str = "main") (
+    	    {Terminal: 33}(Tok: 33  lin=  1,11  str = "{") (
+      	      {Terminal: 7}(Tok:  7  lin=  1,54  str = ";") (
+        	{Terminal: 23}(Tok: 23  lin=  1,13  str = "print") (
+          	  {Terminal: 37}(Tok: 37  lin=  1,18  str = "(") (
+            	    {Terminal: 38}(Tok: 38  lin=  1,53  str = ")") (
+              	      {Terminal: 5}(Tok:  5  lin=  1,20  str = "ASCII:") (
+                	{Terminal: 6}(Tok:  6  lin=  1,28  str = ",") (
+                  	  {Terminal: 5}(Tok:  5  lin=  1,30  str = " A= ") (
+                    	    {Terminal: 6}(Tok:  6  lin=  1,36  str = ",") (
+                      	      {Terminal: 3}(Tok:  3  lin=  1,38  str = "65", int=65) (
+                        	{Terminal: 6}(Tok:  6  lin=  1,40  str = ",") (
+                          	  {Terminal: 5}(Tok:  5  lin=  1,42  str = " Z= ") (
+                            	    {Terminal: 6}(Tok:  6  lin=  1,48  str = ",") (
+                              	      {Terminal: 3}(Tok:  3  lin=  1,50  str = "90", int=90) (  )  )  )  )  )  )  )  )  )  )  )  )  )
+	{Terminal: 34}(Tok: 34  lin=  1,56  str = "}") (  )  )  )  )
     
 Features: 
     Included:
-        1. List all tokens found in the code source file that is piped into the program.
-        2. Display token details such as token ID, line and column number, text of token itself, as well as float and integer literals.
-        3. Distinguish between a negative number and minus operator by using spaces.
-        4. Ignore comments listed in the code source file.
-        5. Inform user of any syntax errors by outputting line and column details of error to standard input.
+        1. LL Parse machine implemented.
+        2. Prediction stack to predict input and generate a Parse Tree of the A7 program.
+        3. Error messages in case of user error.
+        4. Parse Tree to Abstract Syntax Tree conversion.
     Missing: N/A
 
 Bugs: No bugs found.
