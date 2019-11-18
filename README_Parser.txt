@@ -149,4 +149,10 @@ Features:
         4. Parse Tree to Abstract Syntax Tree conversion.
     Missing: N/A
 
-Bugs: No bugs found.
+Bugs: 
+    Not working:
+	1. Array parsing.
+	2. Class group parsing.
+	3. Interface parsing.	
+	4. Method parsing.
+	5. Object oriented parsing.
