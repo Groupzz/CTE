@@ -1,12 +1,20 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 2: Parser
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: PNode class that is used to represent both the PST and AST
+ * Each node has a reference to the symbol stored within it, what rule was used to expand it (if any) a link to grandma
+ * and an array of kids
+ */
 public class PNode {
 
-    public int ruleID;
+    int ruleID;
     PNode grandma;
 
-    public PNode[] kids;
-    public Symbol sym;
+    PNode[] kids;
+    Symbol sym;
 
     PNode(Symbol sym, PNode gma) {
         this.ruleID = -1;

@@ -1,9 +1,16 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 2: Parser
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: Wrapper class for PST and AST representations.
+ * Contains all the methods necessary for converting the PST to an AST.
+ * Has one attribute, the root node of the tree.
+ */
 public class SymbolTree {
 
     private PNode root;
-    private PNode curNode;
 
     public SymbolTree(PNode root) {
         this.root = root;
@@ -92,6 +99,7 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    // Specific method for LEXPR expansions
     private static void pta_lexpr(PNode n) {
         PNode bigSis = n.kids[0];
         PNode gma = n.getGrandma();
@@ -117,6 +125,7 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    // Specific method for LRTERM expansions
     private static void pta_lrterm(PNode n) {
         PNode bigSis = n.kids[0];
         PNode gma = n.getGrandma();
@@ -142,6 +151,7 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    // Specific method for LTERM expansions
     private static void pta_lterm(PNode n) {
         PNode bigSis = n.kids[0];
         PNode gma = n.getGrandma();
@@ -167,18 +177,11 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
-// kept this for reference only but its working from the wrong node
-//    private static void pta_varlist(PNode n){
-//        if(n.getGrandma().kids[1] != null)
-//        {
-//            n.kids[0] = n.getGrandma().kids[0];
-//            n.kids[1] = n.getGrandma().kids[2];
-//            n.hoist(n.getGrandma());
-//        }
-//        else
-//        System.out.println("varlist");
-//    }
-
+    /**
+     * This method is called for each tree in post order. It uses the ruleid of the node
+     * to determine how to handle its conversion to AST and calls the correct function
+     * @param n - The node we are working from
+     */
     private static void toAST(PNode n){
         if (n.sym.isTerminal()) {
             return;

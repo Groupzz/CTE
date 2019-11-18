@@ -1,8 +1,19 @@
 package main;
+/* CECS 444 Compiler Construction
+ * Project 2: Parser
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: Rule class that facilitates the LL parse mechanism
+ * A rule object is made up of symbols, one is the RHS and the rest are the LHS of a grammar rule
+ * Each rule is assigned an ID for easy access. The LL parse mechanism uses that ID to know what to push onto the stack
+ */
 
 import java.util.HashMap;
 import static main.Symbol.*;
 
+
+// Most of A7's rules are listed here. Rules related to classes/methods have been excluded or modified
 public class Rule {
 
     private static HashMap<Integer, Rule> rules = new HashMap<>();
@@ -20,7 +31,6 @@ public class Rule {
         rules.put(8, new Rule(VARLIST));
 
         // modified for simple rule set
-//        rules.put(12, new Rule(VARDECL, BASEKIND, ID));
         rules.put(12, new Rule(VARDECL, BASEKIND, VARSPEC));
 //        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
 
@@ -150,11 +160,13 @@ public class Rule {
 
     }
 
-//    private int ruleID;
     private Symbol LHS;
     private Symbol[] RHS;
 
-    public Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
+    // Creates a rule, the first symbol being the LHS of the grammar rule
+    // and all arguments after that making up the RHS
+    // Adding more than 10 symbols to the RHS will throw an exception
+    private Rule(Symbol leftHandSymbol, Symbol ... rightHandSymbols) {
         LHS = leftHandSymbol;
         RHS = new Symbol[10];
         int count = 0;
@@ -167,10 +179,6 @@ public class Rule {
     public static Rule getRule(int id) {
         return rules.get(id);
     }
-
-//    public int getRuleID() {
-//        return ruleID;
-//    }
 
     public Symbol getLHS() {
         return LHS;

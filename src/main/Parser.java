@@ -1,5 +1,15 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 2: Parser
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: Parser class that contains the LL table and LL parse mechanism code
+ * The LLtable is hard coded and fills when the program is ran
+ * Also contains the main function that takes each token line from stdin, converts into a token and uses
+ * that to parse
+ *
+ */
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -183,7 +193,7 @@ public class Parser {
             // m1: if top is the same as front, pop stack and advance input
             if(stack.peek().sym.equals(curSymbol)) {
                 PNode curNode = stack.pop(); // save current node (a terminal symbol) so we can give it proper token info
-                System.out.println("Top is same as front. Stack: " + stack + " : " + curSymbol);
+//                System.out.println("Top is same as front. Stack: " + stack + " : " + curSymbol); // debug print
                 if(stack.isEmpty()) {
                     break; // if the latest pop was the end of input we can exit the loop
                     // we need this because otherwise the loop would hang waiting for more tokens to be input
@@ -208,7 +218,9 @@ public class Parser {
             // m3E: cell is empty
             if (cell == 0) {
                 // if there isn't a rule in the table the input is grammatically incorrect. That's an error
-                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString());
+//                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString()); // debug print
+                Token errTok = curSymbol.getToken();
+                System.out.println("Unexpected symbol '" + errTok.getStr() + "' at lin:" + errTok.getLin() + " col:" + errTok.getLinCol());
                 System.exit(1);
                 break;
             }
@@ -216,14 +228,13 @@ public class Parser {
             PNode curNode = stack.pop(); // save top of stack so we can push RHS of rule to its kids in parse tree
             curNode.setRuleID(cell); // set the top of stack's rule to the one we matched for future AST conversion
             pushReverse(stack, cell, curNode); // method to push RHS to stack and kids at the same time
-            System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
+//            System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
         }
         // if there is still input but the stack is empty
         if(scanner.hasNext()) {
             System.out.println("ERROR: Expected EOF at " + curSymbol + " got " + scanner.nextLine() + " instead.");
             System.exit(1);
         }
-        System.out.println("Passed grammar check");
         scanner.close();
 
         // Print out the parse tree
@@ -232,10 +243,11 @@ public class Parser {
         System.out.println(parseTree);
     }
 
-
+    // Little function that takes a rule and expands it into both the parse tree and pushes it in reverse order
+    // onto the stack
     private static void pushReverse(Stack<PNode> stack, int ruleNum, PNode mom) {
         Rule rule = Rule.getRule(ruleNum);
-        if (rule == null) {
+        if (rule == null) { // if the rule isnt there we print an error and crash so we can figure out what's wrong
             System.out.println("ERROR: Rule specified by LLTable does not exist in Rule.java. Rule #: " + ruleNum);
             System.exit(1);
         }

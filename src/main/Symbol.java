@@ -1,5 +1,14 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 2: Parser
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: Symbol class for use with the parser
+ * Symbols are both terminals and non-terminals
+ * This file mostly consists of every symbol given an ID and a constant variable to make programming
+ * the parser easier.
+ */
 public class Symbol {
 
     // Non terminals
@@ -155,15 +164,9 @@ public class Symbol {
     public static final Symbol OPSHR = new Symbol(Token.OPSHR, true);
 
 
-    private int id;
-    private boolean terminal;
+    private int id; // Ids are separate for terminals and non-terminals
+    private boolean terminal; // True if this symbol is terminal, false if not
     private Token token;
-
-//    public Symbol(int id) {
-//        this.id = id;
-//        terminal = false;
-//        token = null;
-//    }
 
     public Symbol(int id, boolean term) {
         this.id = id;
@@ -193,6 +196,7 @@ public class Symbol {
     public boolean equals(Object other) {
         if(other instanceof  Symbol) {
             Symbol o = (Symbol) other;
+            // checks that both the id matches and they are both either terminal or nonterminal
             return this.id == o.id && this.terminal == o.terminal;
         }
         else {

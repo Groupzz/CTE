@@ -76,7 +76,19 @@ public class Token{
         return tokID;
     }
 
-    // Method to format the final output of the program 
+    public String getStr() {
+        return str;
+    }
+
+    public int getLin() {
+        return lin;
+    }
+
+    public int getLinCol() {
+        return linCol;
+    }
+
+    // Method to format the final output of the program
     public String toString() {
         // If the token is an integer add the actual parsed value
         if(tokID == 3) {
@@ -91,6 +103,8 @@ public class Token{
                 return String.format("(Tok: %2d  lin= %2d,%-2d  str = \"%s\")", tokID, lin, linCol, str);
         }
     }
+
+    // Here all tokens are given a constant identifier to make the code more readable.
 
     // Constants for Token and Terminal IDs
     public static final int ID = 2;
