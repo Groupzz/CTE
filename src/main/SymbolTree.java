@@ -190,10 +190,13 @@ public class SymbolTree {
             case 27:
             case 28:
             case 49:
+            case 57:
+            case 58:
             case 69:
             case 70:
             case 71:
             case 72:
+            case 76:
             case 97:
             case 99:
             case 101:
@@ -213,28 +216,48 @@ public class SymbolTree {
             case 116:
             case 117:
             case 118:
+            case 121:
+            case 124:
+            case 127:
+            case 130:
+            case 133:
             case 150:
+            case 154:
                 pta_bs1_k1(n);
                 break;
             case 2:
             case 4:
-            case 6:
             case 12:
+            case 31:
+            case 32:
+            case 53:
+            case 55:
+            case 61:
+            case 62:
+            case 87:
             case 122:
             case 125:
+            case 128:
+            case 131:
+            case 132:
+            case 134:
             case 139:
             case 149:
                 pta_bs1_k2(n);
                 break;
+            case 6:
             case 86:
             case 90:
                 pta_bs1_k3(n);
                 break;
             case 1:
             case 3:
+            case 56:
             case 82:
                 pta_bs1_k4(n);
                 break;
+            case 129:
+            case 135:
             case 137:
                 pta_bs2_k2_assign(n);
                 break;
@@ -258,14 +281,20 @@ public class SymbolTree {
                 break;
             case 5:
             case 8:
+            case 33:
             case 54:
+            case 63:
             case 66:
             case 85:
+            case 120:
             case 123:
             case 126:
+            case 136:
+            case 138:
             case 142:
             case 145:
             case 148:
+            case 151:
                 pta_epsilon(n);
                 break;
             default:
