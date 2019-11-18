@@ -6,7 +6,8 @@ Project Name: Project #2 - Parser
 Team Name: CTE
 
 Team Members: Aleks Dziewulska, Jessica Hilario, Jamil Khan, Joshua Lorenzen
-
+Emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+                       jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
 Intro: 
 The objective of this assignment is to write a parser for the A7 language lexicon. The parser implements the LL Parse based on an LL Parse table, token input and a prediction stack to construct a Parse Tree of a user's program. In case of a user error an error message is displayed.
 
