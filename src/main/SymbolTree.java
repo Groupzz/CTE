@@ -293,6 +293,10 @@ public class SymbolTree {
             case 147:
                 pta_2k_recursion(n);
                 break;
+            //Jamil
+            case 105:
+                pta_addrof_id(n);
+                break;
             case 7:
             case 65:
                 pta_bs2_k3(n);
