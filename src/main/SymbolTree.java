@@ -92,6 +92,13 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    //Jamil - rule 105
+    private static void pta_addrof_id(PNode n){
+        PNode bigSis = n.kids[1];
+        bigSis.kids[0] = n.kids[0];
+        bigSis.hoist(n);
+    }
+
     private static void pta_lexpr(PNode n) {
         PNode bigSis = n.kids[0];
         PNode gma = n.getGrandma();
