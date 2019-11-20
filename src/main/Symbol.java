@@ -204,6 +204,15 @@ public class Symbol {
         }
     }
 
+    @Override
+    public int hashCode() {
+        int code = id;
+        if (!terminal) {
+            code += 200;
+        }
+        return code;
+    }
+
     public String toString() {
         return String.format("{%s: %d}", terminal ? "Terminal" : "Non-terminal", id);
     }

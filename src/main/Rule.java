@@ -10,6 +10,9 @@ package main;
  */
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import static main.Symbol.*;
 
 
@@ -160,6 +163,8 @@ public class Rule {
 
     }
 
+    private static HashSet<Symbol> disappearing = new HashSet<>();
+
     private Symbol LHS;
     private Symbol[] RHS;
 
@@ -178,6 +183,64 @@ public class Rule {
 
     public static Rule getRule(int id) {
         return rules.get(id);
+    }
+
+    public static void main(String[] args) {
+        findDisappearing();
+        System.out.println(firstSet(FACT));
+    }
+
+    private static void findDisappearing() {
+        Set<Integer> ruleIDS = rules.keySet();
+        boolean foundNew = true;
+        while(foundNew) {
+            foundNew = false;
+            for (Integer id : ruleIDS) {
+                Rule rule = getRule(id);
+                if (disappearing.contains(rule.getLHS()))
+                    continue;
+                boolean allGone = true;
+                for (Symbol sym : rule.RHS) {
+                    if (sym == null)
+                        continue;
+                    if (!disappearing.contains(sym)) {
+                        allGone = false;
+                        break;
+                    }
+                }
+                if (allGone) {
+                    disappearing.add(rule.getLHS());
+                    foundNew = true;
+                }
+            }
+        }
+    }
+
+    public static HashSet<Symbol> firstSet(Symbol sym) {
+        Set<Integer> ruleIDS = rules.keySet();
+        HashSet<Symbol> firstSet = new HashSet<>();
+        for(Integer ruleID : ruleIDS) {
+            Rule rule = getRule(ruleID);
+            if(rule.LHS.equals(sym)) { // If this is one of our rules
+                for(Symbol rhsym : rule.RHS) { // we loop through all of them in case there's a disappearing non-t
+                    if(null == rhsym) {
+                        break;
+                    }
+                    if(rhsym.isTerminal()) {
+                        firstSet.add(rhsym);
+                        break; // break if its a terminal, terminals don't disappear
+                    }
+                    else {
+                        firstSet.addAll(firstSet(rhsym));
+                        if (!disappearing.contains(rhsym)) {
+                            break; // if its not disappearing, we don't need to loop again
+                        }
+                    }
+                }
+
+            }
+        }
+        return firstSet;
     }
 
     public Symbol getLHS() {
