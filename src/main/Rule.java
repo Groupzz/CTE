@@ -187,10 +187,11 @@ public class Rule {
 
     public static void main(String[] args) {
         findDisappearing();
-        System.out.println(firstSet(FACT));
+//        System.out.println(firstSet(FACT));
+        System.out.println(firstSet(DVARITEM));
     }
 
-    private static void findDisappearing() {
+    public static void findDisappearing() {
         Set<Integer> ruleIDS = rules.keySet();
         boolean foundNew = true;
         while(foundNew) {
@@ -241,6 +242,45 @@ public class Rule {
             }
         }
         return firstSet;
+    }
+
+    public static HashSet<Symbol> followSet(Symbol sym) {
+        return followSet(sym, new HashSet<>());
+    }
+
+    private static HashSet<Symbol> followSet(Symbol sym, HashSet<Symbol> repeats) {
+        repeats.add(sym);
+        HashSet<Symbol> followSet = new HashSet<>();
+        for(Rule rule : rules.values()) {
+            for(int i = 0; i < rule.RHS.length; i++) {
+                if(null == rule.RHS[i]) {
+                    break; // we reached the end of the rule
+                }
+                if(rule.RHS[i].equals(sym)) { // if we are computing this symbol's follow set
+                    for(int j = i + 1; j < rule.RHS.length; j++) {
+                        // loop to the end in case of disappearing non-terminals
+                        if(null == rule.RHS[j]) { // if we are at the last symbol of the rule
+                            if (!repeats.contains(rule.LHS)) {
+                                followSet.addAll(followSet(rule.LHS, repeats));
+                            }
+                            break;
+                        }
+                        if(rule.RHS[j].isTerminal()) {
+                            followSet.add(rule.RHS[j]);
+                            break;
+                        }
+                        else { // if the next symbol is non-terminal
+                            followSet.addAll(firstSet(rule.RHS[j]));
+                            if(!disappearing.contains(rule.RHS[j])) {
+                                break; // if this isn't a disappearing non-terminal we can stop iterating
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return followSet;
     }
 
     public Symbol getLHS() {

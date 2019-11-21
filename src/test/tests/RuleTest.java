@@ -1,21 +1,24 @@
 package tests;
 
-import main.Rule;
-
 import static main.Rule.firstSet;
+import static main.Rule.followSet;
 import static main.Symbol.*;
 
+import main.Rule;
 import main.Symbol;
-import main.Token;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
-
-import static org.junit.Assert.*;
 
 public class RuleTest {
 
+    @BeforeClass
+    public static void setupDisappearing() {
+        Rule.findDisappearing();
+    }
 
     @Test
     public void testFirstSet() {
@@ -23,33 +26,33 @@ public class RuleTest {
         pgmTest.add(KPROG);
         Assert.assertEquals("First set of PGM incorrect", pgmTest, firstSet(PGM));
 
-        HashSet<Symbol> factTest = new HashSet<>();
-        factTest.add(PARENS1);
-        factTest.add(INT);
-        factTest.add(FLOAT);
-        factTest.add(STRING);
-        factTest.add(AMPERSAND);
-        factTest.add(ID);
+        HashSet<Symbol> factTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID));
         Assert.assertEquals("First set of FACT incorrect", factTest, firstSet(FACT));
         Assert.assertEquals("First set of TERM incorrect", factTest, firstSet(TERM));
         Assert.assertEquals("First set of EXPR incorrect", factTest, firstSet(EXPR));
 
-        HashSet<Symbol> stmtTest = new HashSet<>();
-        stmtTest.add(ID);
-        stmtTest.add(KIF);
-        stmtTest.add(KWHILE);
-        stmtTest.add(KPRINT);
-        stmtTest.add(KRETURN);
+        HashSet<Symbol> stmtTest = new HashSet<>(Arrays.asList(ID, KIF, KWHILE, KPRINT, KRETURN));
         Assert.assertEquals("First set of STMT incorrect", stmtTest, firstSet(STMT));
         Assert.assertEquals("First set of STMTS incorrect", stmtTest, firstSet(STMTS));
 
-        HashSet<Symbol> dppexprsTest = new HashSet<>();
-        dppexprsTest.add(PARENS1);
-        dppexprsTest.add(INT);
-        dppexprsTest.add(FLOAT);
-        dppexprsTest.add(STRING);
-        dppexprsTest.add(AMPERSAND);
-        dppexprsTest.add(ID);
+        HashSet<Symbol> dppexprsTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID));
         Assert.assertEquals("First set of DPPEXPRS incorrect", dppexprsTest, firstSet(DPPEXPRS));
+    }
+
+    @Test
+    public void testFollowSet() {
+        HashSet<Symbol> dstmtTest = new HashSet<>();
+        dstmtTest.add(SEMI);
+        Assert.assertEquals("Follow set of DSTMT incorrect", dstmtTest, followSet(DSTMT));
+
+        HashSet<Symbol> dvarspecTest = new HashSet<>(Arrays.asList(PARENS2, COMMA, SEMI, EQUAL));
+        Assert.assertEquals("Follow set of DVARSPEC incorrect", dvarspecTest, followSet(DVARSPEC));
+
+        HashSet<Symbol> lexprTest = new HashSet<>(Arrays.asList(SEMI, BRACKET2, PARENS2, COMMA, BRACE2));
+        Assert.assertEquals("Follow set of LEXPR incorrect", lexprTest, followSet(LEXPR));
+
+        HashSet<Symbol> dfactTest = new HashSet<>(Arrays.asList(PLUS, MINUS, OPEQ, OPNE, OPLE, OPGE, ANGLE1, ANGLE2,
+                ASTER, CARET, SLASH, SEMI, BRACKET2, PARENS2, COMMA, BRACE2));
+        Assert.assertEquals("Follow set of DFACT incorrect", dfactTest, followSet(DFACT));
     }
 }
