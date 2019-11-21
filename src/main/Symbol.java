@@ -12,13 +12,13 @@ package main;
 public class Symbol {
 
     // Non terminals
-    public static final Symbol PGM = new Symbol(1, false);
-    public static final Symbol MAIN = new Symbol(2, false);
-    public static final Symbol BBLOCK = new Symbol(3, false);
+    public static final Symbol PGM = new Symbol(1, false, "PGM");
+    public static final Symbol MAIN = new Symbol(2, false, "MAIN");
+    public static final Symbol BBLOCK = new Symbol(3, false, "BBLOCK");
 
-    public static final Symbol VARGROUP = new Symbol(4, false);
-    public static final Symbol PPVARLIST = new Symbol(5, false);
-    public static final Symbol VARLIST = new Symbol(6, false);
+    public static final Symbol VARGROUP = new Symbol(4, false, "VARGROUP");
+    public static final Symbol PPVARLIST = new Symbol(5, false, "PPVARLIST");
+    public static final Symbol VARLIST = new Symbol(6, false, "VARLIST");
 
     public static final Symbol VARDECL = new Symbol(7, false);
     public static final Symbol SIMPLEKIND = new Symbol(8, false);
@@ -44,15 +44,15 @@ public class Symbol {
     public static final Symbol MDHEADER = new Symbol(26, false);
     public static final Symbol MD_ID = new Symbol(27, false);
 
-    public static final Symbol FCNDEFS = new Symbol(28, false);
+    public static final Symbol FCNDEFS = new Symbol(28, false, "FCNDEFS");
     public static final Symbol FCNDEF = new Symbol(29, false);
     public static final Symbol FCNHEADER = new Symbol(30, false);
     public static final Symbol FCNID = new Symbol(31, false);
     public static final Symbol RETKIND = new Symbol(32, false);
-    public static final Symbol VARSPECS = new Symbol(33, false);
-    public static final Symbol MORE_VARSPECS = new Symbol(34, false);
+    public static final Symbol VARSPECS = new Symbol(33, false, "VARSPECS");
+    public static final Symbol MORE_VARSPECS = new Symbol(34, false, "MORE_VARSPECS");
     public static final Symbol PPONLY = new Symbol(35, false);
-    public static final Symbol STMTS = new Symbol(36, false);
+    public static final Symbol STMTS = new Symbol(36, false, "STMTS");
     public static final Symbol PPARAMLIST = new Symbol(37, false);
     public static final Symbol STASGN = new Symbol(38, false);
     public static final Symbol LVAL = new Symbol(39, false);
@@ -167,17 +167,27 @@ public class Symbol {
     private int id; // Ids are separate for terminals and non-terminals
     private boolean terminal; // True if this symbol is terminal, false if not
     private Token token;
+    private String name;
+
+    public Symbol(int id, boolean term, String name) {
+        this.id = id;
+        terminal = term;
+        token = null;
+        this.name = name;
+    }
 
     public Symbol(int id, boolean term) {
         this.id = id;
         terminal = term;
         token = null;
+        this.name = String.valueOf(id);
     }
 
     public Symbol(Token tok) {
         this.id = tok.getID();
         terminal = true;
         token = tok;
+        name = String.valueOf(id);
     }
 
     public int getId() {
@@ -214,6 +224,6 @@ public class Symbol {
     }
 
     public String toString() {
-        return String.format("{%s: %d}", terminal ? "Terminal" : "Non-terminal", id);
+        return String.format("{%s: %s}", terminal ? "Terminal" : "Non-terminal", name);
     }
 }
