@@ -27,12 +27,13 @@ dependencies {
 sourceSets {
     main {
         java {
+            srcDir 'src'
             exclude 'test/**'
         }
     }
     test {
         java {
-            srcDir 'src'
+            srcDir 'src/test'
         }
     }
 }

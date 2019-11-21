@@ -1,10 +1,11 @@
-package test;
+package tests;
 
 
 
 import main.Parser;
 import main.Rule;
 
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -20,7 +21,7 @@ public class ParserTest {
                 if (ruleID == 0)
                     continue;
                 Rule rule = Rule.getRule(ruleID);
-                assertNotEquals("LLTable entry (" + i + ", " + j + ") must lead to an existing rule", rule, null);
+                Assert.assertNotEquals("LLTable entry (" + i + ", " + j + ") must lead to an existing rule", rule, null);
             }
         }
 
@@ -36,7 +37,7 @@ public class ParserTest {
                     continue;
                 Rule rule = Rule.getRule(ruleID);
                 if(rule != null)
-                    assertEquals("LLTable entry (" + i + ", " + j + ") must expand row header using rule it exists on the LHS of", rule.getLHS().getId(), i);
+                    Assert.assertEquals("LLTable entry (" + i + ", " + j + ") must expand row header using rule it exists on the LHS of", rule.getLHS().getId(), i);
             }
         }
 
