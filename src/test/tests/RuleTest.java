@@ -54,5 +54,8 @@ public class RuleTest {
         HashSet<Symbol> dfactTest = new HashSet<>(Arrays.asList(PLUS, MINUS, OPEQ, OPNE, OPLE, OPGE, ANGLE1, ANGLE2,
                 ASTER, CARET, SLASH, SEMI, BRACKET2, PARENS2, COMMA, BRACE2));
         Assert.assertEquals("Follow set of DFACT incorrect", dfactTest, followSet(DFACT));
+
+        HashSet<Symbol> vargroupTest = new HashSet<>(Arrays.asList(KFCN, ID, KIF, KWHILE, KPRINT, KRETURN, KMAIN, BRACE2));
+        Assert.assertEquals("Follow set of VARGROUP incorrect", vargroupTest, followSet(VARGROUP));
     }
 }

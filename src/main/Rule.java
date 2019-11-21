@@ -33,9 +33,10 @@ public class Rule {
         rules.put(7, new Rule(VARLIST, VARITEM, SEMI, VARLIST));
         rules.put(8, new Rule(VARLIST));
 
-        // modified for simple rule set
-        rules.put(12, new Rule(VARDECL, BASEKIND, VARSPEC));
-//        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
+        rules.put(11, new Rule(VARITEM, CLASSDECL));
+        // the REAL rule 12 is not included
+
+        rules.put(12, new Rule(VARDECL, SIMPLEKIND, VARSPEC));
 
         rules.put(13, new Rule(SIMPLEKIND, BASEKIND));
         rules.put(14, new Rule(SIMPLEKIND, CLASSID));
@@ -135,7 +136,10 @@ public class Rule {
 
         rules.put(134, new Rule(PPEXPRS, PARENS1, DPPEXPRS));
         rules.put(135, new Rule(DPPEXPRS, EXPRLIST, PARENS2));
-        rules.put(136, new Rule(DPPEXPRS));
+
+        rules.put(136, new Rule(DPPEXPRS, PARENS2));
+        // it used to be the below statement
+//        rules.put(136, new Rule(DPPEXPRS));
 
         rules.put(137, new Rule(VARITEM, VARDECL, DVARITEM));
         rules.put(138, new Rule(DVARITEM));
@@ -186,8 +190,7 @@ public class Rule {
     }
 
     public static void main(String[] args) {
-        findDisappearing();
-//        System.out.println(firstSet(FACT));
+//        findDisappearing();
         System.out.println(firstSet(DVARITEM));
     }
 
@@ -217,9 +220,46 @@ public class Rule {
         }
     }
 
+    public static void fillLLTable(int[][] llTable) {
+        findDisappearing();
+        for(Integer id : rules.keySet()) {
+            Rule rule = rules.get(id);
+            if(null != rule.RHS[0]) { // if its not an epsilon rule
+                HashSet<Symbol> firstSet = firstSet(rule);
+                addColumns(llTable, rule.LHS.getId(), id, firstSet);
+            }
+            else { // if it is an epsilon rule
+                HashSet<Symbol> followSet = followSet(rule.LHS);
+                addColumns(llTable, rule.LHS.getId(), id, followSet);
+            }
+        }
+    }
+
+    private static void addColumns(int[][] llTable, int symID, int ruleID, HashSet<Symbol> columns) {
+        for(Symbol term : columns) {
+            if (llTable[symID][term.getId()] == 0) {
+                llTable[symID][term.getId()] = ruleID;
+            }
+            else {
+                System.out.println("DOUBLE STUFF: " + symID + " " + term + "<--------------");
+            }
+        }
+    }
+
+    public static HashSet<Symbol> firstSet(Rule rule) {
+        if(null != rule.RHS[0]) {
+            return firstSet(rule.RHS[0]);
+        }
+        return new HashSet<>();
+    }
+
     public static HashSet<Symbol> firstSet(Symbol sym) {
         Set<Integer> ruleIDS = rules.keySet();
         HashSet<Symbol> firstSet = new HashSet<>();
+        if (sym.isTerminal()) {
+            firstSet.add(sym);
+            return firstSet;
+        }
         for(Integer ruleID : ruleIDS) {
             Rule rule = getRule(ruleID);
             if(rule.LHS.equals(sym)) { // If this is one of our rules
@@ -227,10 +267,10 @@ public class Rule {
                     if(null == rhsym) {
                         break;
                     }
-                    if(rhsym.isTerminal()) {
-                        firstSet.add(rhsym);
-                        break; // break if its a terminal, terminals don't disappear
-                    }
+//                    if(rhsym.isTerminal()) {
+//                        firstSet.add(rhsym);
+//                        break; // break if its a terminal, terminals don't disappear
+//                    }
                     else {
                         firstSet.addAll(firstSet(rhsym));
                         if (!disappearing.contains(rhsym)) {
@@ -249,7 +289,7 @@ public class Rule {
     }
 
     private static HashSet<Symbol> followSet(Symbol sym, HashSet<Symbol> repeats) {
-        repeats.add(sym);
+        repeats.add(sym); // remember that we already tried to find the follow set of this symbol
         HashSet<Symbol> followSet = new HashSet<>();
         for(Rule rule : rules.values()) {
             for(int i = 0; i < rule.RHS.length; i++) {
@@ -261,6 +301,8 @@ public class Rule {
                         // loop to the end in case of disappearing non-terminals
                         if(null == rule.RHS[j]) { // if we are at the last symbol of the rule
                             if (!repeats.contains(rule.LHS)) {
+                                // check if we already tried to find the follow set of this symbol
+                                // this prevents infinite recursion
                                 followSet.addAll(followSet(rule.LHS, repeats));
                             }
                             break;
