@@ -35,7 +35,7 @@ public class RuleTest {
         Assert.assertEquals("First set of STMT incorrect", stmtTest, firstSet(STMT));
         Assert.assertEquals("First set of STMTS incorrect", stmtTest, firstSet(STMTS));
 
-        HashSet<Symbol> dppexprsTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID));
+        HashSet<Symbol> dppexprsTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID, PARENS2));
         Assert.assertEquals("First set of DPPEXPRS incorrect", dppexprsTest, firstSet(DPPEXPRS));
     }
 
