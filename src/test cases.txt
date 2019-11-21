@@ -50,3 +50,11 @@ main {
         print(factorial(4));
 }
 
+prog
+fcn test(x) int {
+    return x;
+}
+main {
+return test(1);
+}
+

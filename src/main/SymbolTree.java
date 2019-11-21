@@ -41,36 +41,16 @@ public class SymbolTree {
     // For rules that have only one symbol on their RHS
     // Naming scheme is bs1: big sister is first symbol on RHS AKA index 0
     // k1: There is one symbol on the RHS AKA one kid in PST
-    private static void pta_bs1_k1(PNode n){
-        PNode bigSis = n.kids[0];
-        bigSis.hoist(n);
-    }
 
-    private static void pta_bs1_k2(PNode n){
-        PNode bigSis = n.kids[0];
-        bigSis.kids[0] = n.kids[1];
-        bigSis.hoist(n);
-    }
-
-    private static void pta_bs1_k3(PNode n){
-        PNode bigSis = n.kids[0];
-        bigSis.kids[0] = n.kids[1];
-        bigSis.kids[1] = n.kids[2];
-        bigSis.hoist(n);
-    }
-
-    private static void pta_bs1_k4(PNode n){
-        PNode bigSis = n.kids[0];
-        bigSis.kids[0] = n.kids[1];
-        bigSis.kids[1] = n.kids[2];
-        bigSis.kids[2] = n.kids[3];
-        bigSis.hoist(n);
-    }
-
-    private static void pta_bs2_k3(PNode n) {
-        PNode bigSis = n.kids[1];
-        bigSis.kids[0] = n.kids[0];
-        bigSis.kids[1] = n.kids[2];
+    private static void hoistTerm(PNode n, int termIndex, int numKids) {
+        PNode bigSis = n.kids[termIndex];
+        int posCount = 0;
+        for(int i = 0; i < numKids; i++) {
+            if (i == termIndex)
+                continue;
+            bigSis.kids[posCount] = n.kids[i];
+            posCount++;
+        }
         bigSis.hoist(n);
     }
 
@@ -208,7 +188,6 @@ public class SymbolTree {
             case 26:
             case 27:
             case 28:
-            case 49:
             case 57:
             case 58:
             case 69:
@@ -242,44 +221,42 @@ public class SymbolTree {
             case 133:
             case 150:
             case 154:
-                pta_bs1_k1(n);
+                hoistTerm(n, 0, 1);
                 break;
             case 2:
             case 4:
-            case 12:
-            case 31:
+//            case 12: // questionable
+//            case 31: // wrong
             case 32:
-            case 53:
-            case 55:
-            case 61:
+//            case 53: // wrong
+//            case 61: // wrong
             case 62:
             case 87:
             case 122:
-            case 125:
+//            case 125: // questionable
             case 128:
-            case 131:
+//            case 131: // ?
             case 132:
             case 134:
             case 139:
             case 149:
-                pta_bs1_k2(n);
+                hoistTerm(n, 0, 2);
                 break;
             case 6:
-            //Jamil
             case 24:
             case 86:
             case 90:
-                pta_bs1_k3(n);
+                hoistTerm(n, 0, 3);
                 break;
             case 1:
             case 3:
             case 56:
             case 82:
-                pta_bs1_k4(n);
+                hoistTerm(n, 0, 4);
                 break;
             case 129:
             case 135:
-            case 137:
+//            case 137: // ?
                 pta_bs2_k2_assign(n);
                 break;
             case 140:
@@ -300,9 +277,9 @@ public class SymbolTree {
             case 105:
                 pta_addrof_id(n);
                 break;
-            case 7:
+//            case 7: // ?
             case 65:
-                pta_bs2_k3(n);
+                hoistTerm(n, 1, 3);
                 break;
             case 5:
             case 8:
@@ -314,7 +291,6 @@ public class SymbolTree {
             case 120:
             case 123:
             case 126:
-            case 136:
             case 138:
             case 142:
             case 145:
