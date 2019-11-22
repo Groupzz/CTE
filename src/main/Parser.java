@@ -42,7 +42,7 @@ public class Parser {
         addRule(Symbol.DEREF_ID, 25, Token.ASTER);
         addRule(Symbol.DEREF, 26, Token.ASTER);
         addRule(Symbol.VARINIT, 27, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND, Token.ID, Token.PARENS1);
-
+        addRule(Symbol.VARINIT, 28, Token.BRACE1);
         llTable[Symbol.BBEXPRS.getId()][Token.BRACE1] = 152;
 
         addRule(Symbol.EXPRLIST, 31, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
@@ -148,7 +148,7 @@ public class Parser {
         addRule(Symbol.DVARITEM, 139, Token.EQUAL);
         addRule(Symbol.LEXPR, 140, Token.OPEQ, Token.OPNE, Token.OPLE, Token.OPGE, Token.ANGLE1, Token.ANGLE2);
         addRule(Symbol.EXPR, 141, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
-        addRule(Symbol.LEXPR, 142, Token.SEMI, Token.PARENS2, Token.BRACKET2, Token.COMMA);
+        addRule(Symbol.LEXPR, 142, Token.SEMI, Token.PARENS2, Token.BRACKET2, Token.COMMA, Token.BRACE2);
         addRule(Symbol.LRTERM, 143, Token.PLUS, Token.MINUS);
         addRule(Symbol.RTERM, 144, Token.PARENS1, Token.ID, Token.INT, Token.FLOAT, Token.STRING, Token.AMPERSAND);
         addRule(Symbol.LRTERM, 145, Token.SEMI, Token.PARENS2, Token.BRACKET2,
@@ -177,6 +177,18 @@ public class Parser {
     }
 
     public static void main(String[] args) {
+
+        int[][] llTable2 = new int[300][60];
+        Rule.fillLLTable(llTable2);
+        llTable = llTable2;
+
+        for(int i = 0; i < llTable2.length; i++) {
+            for(int j = 0; j < llTable2[0].length; j++) {
+                if(llTable[i][j] != llTable2[i][j]) {
+                    System.out.println("LLTable Mismatch: COL: " + i + " ROW: " + j + " ORIG: " + llTable[i][j] + " GEN: " + llTable2[i][j]);
+                }
+            }
+        }
 
         Scanner scanner = new Scanner(System.in);
         Stack<PNode> stack = new Stack<>();
