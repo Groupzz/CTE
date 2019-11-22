@@ -54,6 +54,24 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    private static void hoistNonterm(PNode n, int symIndex, int numKids) {
+        PNode bigSis = n.kids[symIndex];
+        int posCount = 0;
+        for(PNode node : bigSis.kids) {
+            if(null == node) {
+                break;
+            }
+            posCount++;
+        }
+        for(int i = 0; i < numKids; i++) {
+            if (i == symIndex)
+                continue;
+            bigSis.kids[posCount] = n.kids[i];
+            posCount++;
+        }
+        bigSis.hoist(n);
+    }
+
     private static void pta_bs2_k2_assign(PNode n) {
         PNode bigSis = n.kids[1];
         bigSis.kids[1] = bigSis.kids[0];
@@ -225,7 +243,7 @@ public class SymbolTree {
                 break;
             case 2:
             case 4:
-//            case 12: // questionable
+            case 12: // questionable
 //            case 31: // wrong
             case 32:
 //            case 53: // wrong
@@ -233,7 +251,7 @@ public class SymbolTree {
             case 62:
             case 87:
             case 122:
-//            case 125: // questionable
+            case 125: // questionable
             case 128:
 //            case 131: // ?
             case 132:
@@ -256,7 +274,7 @@ public class SymbolTree {
                 break;
             case 129:
             case 135:
-//            case 137: // ?
+            case 137:
                 pta_bs2_k2_assign(n);
                 break;
             case 140:
@@ -277,7 +295,7 @@ public class SymbolTree {
             case 105:
                 pta_addrof_id(n);
                 break;
-//            case 7: // ?
+            case 7:
             case 65:
                 hoistTerm(n, 1, 3);
                 break;
@@ -297,6 +315,9 @@ public class SymbolTree {
             case 148:
             case 151:
                 pta_epsilon(n);
+                break;
+            case 55:
+                hoistNonterm(n, 0, 2);
                 break;
             default:
              System.out.println(n.sym + ": no rule #" + rule + " found in AST conversion");
