@@ -16,8 +16,7 @@ prog main {
 // This has to be before any statements
 prog main {
     var (
-        int x = 1;
-        string name = "Josh";
+        int x = 1 + 1;
         float y = 3.14;
     )
 }
@@ -57,4 +56,18 @@ fcn test(x) int {
 main {
 return test(1);
 }
+
+prog main {
+var ( int x = 1; )
+}
+
+prog
+fcn test(x) int {
+}
+fcn test2(y) float {
+}
+fcn test3(z) string {
+}
+main {}
+
 

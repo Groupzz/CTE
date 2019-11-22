@@ -244,16 +244,15 @@ public class SymbolTree {
             case 2:
             case 4:
             case 12: // questionable
+            case 25:
 //            case 31: // wrong
             case 32:
-//            case 53: // wrong
-//            case 61: // wrong
             case 62:
             case 87:
             case 122:
             case 125: // questionable
             case 128:
-//            case 131: // ?
+            case 131: // seems fine
             case 132:
             case 134:
             case 139:
@@ -316,7 +315,9 @@ public class SymbolTree {
             case 151:
                 pta_epsilon(n);
                 break;
+            case 53:
             case 55:
+            case 61:
                 hoistNonterm(n, 0, 2);
                 break;
             default:
