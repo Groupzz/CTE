@@ -15,7 +15,7 @@ import static java.lang.System.exit;
 
 public class Lexer {
 
-	static HashMap<String, Integer> keywords;
+	private static HashMap<String, Integer> keywords;
 	private static HashMap<Character, Integer> tokenLookup;
 	private static ArrayList<Token> tokens = new ArrayList<>();
 
@@ -25,7 +25,14 @@ public class Lexer {
 	private static int col = 1;
 
 	public static void main(String[] args) throws IOException {
+		lexinput();
+		// Output all the tokens
+		for(Token tok : tokens) {
+			System.out.println(tok);
+		}
+	}
 
+	public static void lexinput() throws IOException {
 		//Calling methods to initialize keywords and tokens
 		//that should be recognized by the lexer
 		keywordInitialize();
@@ -36,7 +43,7 @@ public class Lexer {
 
 		// Read one character at a time from stdin until EOF
 		while ((ci = System.in.read()) != -1) { // -1 represents EOF
-		    char c = (char) ci; // read() returns an integer so we cast it to a character
+			char c = (char) ci; // read() returns an integer so we cast it to a character
 
 			nextState(c); // Sending the character input to check the current lexer state
 
@@ -44,9 +51,9 @@ public class Lexer {
 			col++;
 			// If we hit a newline increment line counter and reset position counter
 			if (c == '\n') {
-			    col = 1;
-			    line++;
-            }
+				col = 1;
+				line++;
+			}
 		}
 
 		// Send a space after the file has been read to make sure tokens in the middle of being read
@@ -55,11 +62,10 @@ public class Lexer {
 
 		// Add EOF token
 		tokens.add(new Token(0, line, col, ""));
+	}
 
-		// Output all the tokens
-		for(Token tok : tokens) {
-			System.out.println(tok);
-		}
+	public static ArrayList<Token> getTokens() {
+		return tokens;
 	}
 
 	//Method to check the state by peeking ahead to next character and advancing if allowed

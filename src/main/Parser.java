@@ -10,8 +10,11 @@ package main;
  * that to parse
  *
  */
+
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.Iterator;
+import java.util.Arrays;
 
 public class Parser {
 
@@ -178,8 +181,43 @@ public class Parser {
         }
     }
 
-    public static void main(String[] args) {
+    private static Scanner scanner;
+    private static Iterator<Token> tokIterator;
 
+    public static boolean hasNextToken() {
+        if (scanner != null) {
+            return scanner.hasNext();
+        }
+        else {
+            return tokIterator.hasNext();
+        }
+    }
+
+    public static Symbol getNextToken() {
+        if(scanner != null) {
+            return new Symbol(Token.TokenBuilder(scanner.nextLine()));
+        }
+        else {
+            if (tokIterator != null) {
+                return new Symbol(tokIterator.next());
+            }
+            else {
+                try {
+                    Lexer.lexinput();
+                }
+                catch (Exception e) {
+                    System.out.println(Arrays.toString(e.getStackTrace()));
+                    System.out.println("Faled to lex input");
+                }
+                tokIterator = Lexer.getTokens().iterator();
+                return new Symbol(tokIterator.next());
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        scanner = new Scanner(System.in);
 //        int[][] llTable2 = new int[300][60];
 //        Rule.fillLLTable(llTable2);
 //        llTable = llTable2;
@@ -193,12 +231,12 @@ public class Parser {
 //        }
 
         SymbolTree parseTree = parseAndGenerateAST();
+        scanner.close();
         // Print out the parse tree
         System.out.println("\nAbstract Syntax Tree:\n" + parseTree);
     }
 
     public static SymbolTree parseAndGenerateAST() {
-        Scanner scanner = new Scanner(System.in);
         Stack<PNode> stack = new Stack<>();
         // Initialize a parse tree with the start symbol as the root node
         SymbolTree parseTree = new SymbolTree(new PNode(new Symbol(1, false), null));
@@ -207,7 +245,8 @@ public class Parser {
         // Push the start symbol that is also the root of the parse tree onto the stack
         stack.push(parseTree.getRoot());
 
-        Symbol curSymbol = new Symbol(Token.TokenBuilder(scanner.nextLine())); // Get first token of input
+        Symbol curSymbol = getNextToken(); // Get first token of input
+
 
         while(!stack.empty()) {
             // m1: if top is the same as front, pop stack and advance input
@@ -221,7 +260,7 @@ public class Parser {
                 // Since we matched this terminal symbol with the input
                 // give the node in the parse tree the token information we got from the input
                 curNode.sym = curSymbol;
-                curSymbol = new Symbol(Token.TokenBuilder(scanner.nextLine())); // advance input
+                curSymbol = getNextToken(); // advance input
                 continue;
             }
             // m2E: top is a terminal and we didn't match the input
@@ -251,11 +290,10 @@ public class Parser {
 //            System.out.println("Used rule: " + cell + " : " + stack + " : " + curSymbol); // debug print
         }
         // if there is still input but the stack is empty
-        if(scanner.hasNext()) {
-            System.out.println("ERROR: Expected EOF at " + curSymbol + " got " + scanner.nextLine() + " instead.");
+        if(hasNextToken()) {
+            System.out.println("ERROR: Expected EOF at " + curSymbol + " got " + getNextToken() + " instead.");
             System.exit(1);
         }
-        scanner.close();
         System.out.println("\nParse Tree:\n" + parseTree);
         parseTree.convertToAST();
         return parseTree;
