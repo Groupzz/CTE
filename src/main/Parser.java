@@ -163,7 +163,9 @@ public class Parser {
 
         llTable[Symbol.DFACT.getId()][Token.PARENS1] = 124;
 
-
+        // Use generated llTable instead
+        llTable = new int[300][60];
+        Rule.fillLLTable(llTable);
     }
 
     private static void addRule(Symbol rowHeader, int ruleNumber, int ... columns) {
@@ -178,18 +180,24 @@ public class Parser {
 
     public static void main(String[] args) {
 
-        int[][] llTable2 = new int[300][60];
-        Rule.fillLLTable(llTable2);
-        llTable = llTable2;
+//        int[][] llTable2 = new int[300][60];
+//        Rule.fillLLTable(llTable2);
+//        llTable = llTable2;
+//
+//        for(int i = 0; i < llTable2.length; i++) {
+//            for(int j = 0; j < llTable2[0].length; j++) {
+//                if(llTable[i][j] != llTable2[i][j]) {
+//                    System.out.println("LLTable Mismatch: COL: " + i + " ROW: " + j + " ORIG: " + llTable[i][j] + " GEN: " + llTable2[i][j]);
+//                }
+//            }
+//        }
 
-        for(int i = 0; i < llTable2.length; i++) {
-            for(int j = 0; j < llTable2[0].length; j++) {
-                if(llTable[i][j] != llTable2[i][j]) {
-                    System.out.println("LLTable Mismatch: COL: " + i + " ROW: " + j + " ORIG: " + llTable[i][j] + " GEN: " + llTable2[i][j]);
-                }
-            }
-        }
+        SymbolTree parseTree = parseAndGenerateAST();
+        // Print out the parse tree
+        System.out.println("\nAbstract Syntax Tree:\n" + parseTree);
+    }
 
+    public static SymbolTree parseAndGenerateAST() {
         Scanner scanner = new Scanner(System.in);
         Stack<PNode> stack = new Stack<>();
         // Initialize a parse tree with the start symbol as the root node
@@ -248,11 +256,9 @@ public class Parser {
             System.exit(1);
         }
         scanner.close();
-
-        // Print out the parse tree
         System.out.println("\nParse Tree:\n" + parseTree);
         parseTree.convertToAST();
-        System.out.println("\nAbstract Syntax Tree:\n" + parseTree);
+        return parseTree;
     }
 
     // Little function that takes a rule and expands it into both the parse tree and pushes it in reverse order

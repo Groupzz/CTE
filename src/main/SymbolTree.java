@@ -315,6 +315,7 @@ public class SymbolTree {
             case 151:
                 pta_epsilon(n);
                 break;
+            case 31:
             case 53:
             case 55:
             case 61:
