@@ -56,19 +56,24 @@ public class SymbolTree {
 
     private static void hoistNonterm(PNode n, int symIndex, int numKids) {
         PNode bigSis = n.kids[symIndex];
+        PNode[] newKids = new PNode[10];
         int posCount = 0;
+        for(int i = 0; i < symIndex; i++) {
+            newKids[posCount] = n.kids[i];
+            posCount++;
+        }
         for(PNode node : bigSis.kids) {
             if(null == node) {
                 break;
             }
+            newKids[posCount] = node;
             posCount++;
         }
-        for(int i = 0; i < numKids; i++) {
-            if (i == symIndex)
-                continue;
-            bigSis.kids[posCount] = n.kids[i];
+        for(int i = symIndex + 1; i < numKids; i++) {
+            newKids[posCount] = n.kids[i];
             posCount++;
         }
+        bigSis.kids = newKids;
         bigSis.hoist(n);
     }
 
@@ -252,7 +257,7 @@ public class SymbolTree {
             case 122:
             case 125: // questionable
             case 128:
-            case 131: // seems fine
+//            case 131: // seems fine
             case 132:
             case 134:
             case 139:
@@ -320,6 +325,9 @@ public class SymbolTree {
             case 55:
             case 61:
                 hoistNonterm(n, 0, 2);
+                break;
+            case 131:
+                hoistNonterm(n, 1, 2);
                 break;
             default:
              System.out.println(n.sym + ": no rule #" + rule + " found in AST conversion");
