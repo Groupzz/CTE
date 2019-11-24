@@ -56,6 +56,81 @@ public class DynamicVal {
         }
     }
 
+    DynamicVal minus(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            return new DynamicVal(intVal - other.intVal);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(floatVal - other.floatVal);
+        }
+        else {
+            return null;
+        }
+    }
+
+    DynamicVal mul(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            return new DynamicVal(intVal * other.intVal);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(floatVal * other.floatVal);
+        }
+        else {
+            return null;
+        }
+    }
+
+    DynamicVal equals(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT") && this.intVal == other.intVal) {
+            return new DynamicVal(1);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT") && this.floatVal == other.floatVal) {
+            return new DynamicVal(1);
+        }
+        else if(this.type.equals("STRING") && other.type.equals("STRING") && this.strVal.equals(other.strVal)) {
+            return new DynamicVal(1);
+        }
+        else {
+            return new DynamicVal(0);
+        }
+    }
+
+    DynamicVal lessThan(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT") && this.intVal < other.intVal) {
+            return new DynamicVal(1);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT") && this.floatVal < other.floatVal) {
+            return new DynamicVal(1);
+        }
+        else if(this.type.equals("STRING") && other.type.equals("STRING") && this.strVal.compareTo(other.strVal) < 0) {
+            return new DynamicVal(1);
+        }
+        else {
+            return new DynamicVal(0);
+        }
+    }
+
+    DynamicVal greaterThan(DynamicVal other) {
+        DynamicVal less = this.lessThan(other);
+        DynamicVal equals = this.equals(other);
+        if(less.intVal == 0 && equals.intVal == 0) {
+            return new DynamicVal(1);
+        }
+        else {
+            return new DynamicVal(0);
+        }
+    }
+
+    DynamicVal notEqual(DynamicVal other) {
+        DynamicVal equal = this.equals(other);
+        if(equal.intVal == 1) {
+            return new DynamicVal(0);
+        }
+        else {
+            return new DynamicVal(1);
+        }
+    }
+
     public String toString() {
         switch (type) {
             case "INT":

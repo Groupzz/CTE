@@ -39,7 +39,14 @@ public class Interpreter {
             case Token.STRING:
                 return doLiteral(node);
             case Token.PLUS:
-                return doPlus(node);
+            case Token.MINUS:
+            case Token.OPEQ:
+            case Token.ANGLE1:
+            case Token.ANGLE2:
+            case Token.OPNE:
+                return doSimpleOP(node);
+            case Token.ASTER:
+                return doAster(node);
             case Token.BRACE1:
                 return doBrace(node);
             default:
@@ -96,10 +103,36 @@ public class Interpreter {
         return null;
     }
 
-    private DynamicVal doPlus(PNode node) {
+    private DynamicVal doSimpleOP(PNode node) {
         DynamicVal val1 = doNode(node.kids[0]);
         DynamicVal val2 = doNode(node.kids[1]);
-        return val1.plus(val2);
+        switch (node.sym.getId()) {
+            case Token.PLUS:
+                return val1.plus(val2);
+            case Token.MINUS:
+                return val1.minus(val2);
+            case Token.OPEQ:
+                return val1.equals(val2);
+            case Token.ANGLE1:
+                return val1.lessThan(val2);
+            case Token.ANGLE2:
+                return val1.greaterThan(val2);
+            case Token.OPNE:
+                return val1.notEqual(val2);
+        }
+        System.out.println("ERROR: Tried to do simple OP on an OP that isn't simple");
+        return null;
+    }
+
+    private DynamicVal doAster(PNode node) {
+        if(null != node.kids[1]) { // multiplication operator
+            DynamicVal val1 = doNode(node.kids[0]);
+            DynamicVal val2 = doNode(node.kids[1]);
+            return val1.mul(val2);
+        }
+        else {
+            return null; // missing implementation of dereference operator
+        }
     }
 
     private DynamicVal doLiteral(PNode node) {
