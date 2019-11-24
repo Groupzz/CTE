@@ -49,6 +49,8 @@ public class Interpreter {
                 return doAster(node);
             case Token.BRACE1:
                 return doBrace(node);
+            case Token.PARENS1:
+                return doParens(node);
             default:
                 for(PNode kid : node.kids) {
                     if(null != kid)
@@ -84,6 +86,10 @@ public class Interpreter {
 //        System.out.println(curScope);
         curScope = curScope.getParent();
         return result;
+    }
+
+    private DynamicVal doParens(PNode node) {
+        return doNode(node.kids[0]);
     }
 
     private DynamicVal doEquals(PNode node) {
