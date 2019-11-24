@@ -44,6 +44,11 @@ public class DynamicVal {
         strVal = val;
     }
 
+    // returns true if this dynamicVal represents a true value for conditional statements
+    boolean isTrue() {
+        return intVal > 0;
+    }
+
     DynamicVal plus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal + other.intVal);

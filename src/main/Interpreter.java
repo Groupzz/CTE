@@ -27,7 +27,9 @@ public class Interpreter {
             return null;
         }
         switch(node.sym.getId()) {
-
+            case Token.KIF:
+            case Token.KELSEIF:
+                return doIf(node);
             case Token.KRETURN:
                 return doReturn(node);
             case Token.SEMI:
@@ -57,6 +59,16 @@ public class Interpreter {
                         doNode(kid);
                 }
                 return null;
+        }
+    }
+
+    private DynamicVal doIf(PNode node) {
+        DynamicVal condition = doNode(node.kids[0]);
+        if(condition.isTrue()) {
+            return doNode(node.kids[1]); // do block
+        }
+        else {
+            return doNode(node.kids[2]); // do else part
         }
     }
 

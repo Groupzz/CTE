@@ -1,8 +1,16 @@
 // Note that the if statement block ends with a semicolon
 // IMPORTANT: ALL statements in A7 end with a semicolon
 prog main {
-    if (x == 1) {
-        return 1;
+    var(int x = 0;)
+    x = 2;
+    if (1 != 1) {
+        x = 1;
+    }
+    elseif (2 == 2) {
+        x = 55;
+    }
+    else {
+        x = 3;
     };
 }
 

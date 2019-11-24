@@ -255,6 +255,7 @@ public class SymbolTree {
 //            case 31: // wrong
             case 32:
             case 62:
+            case 84:
             case 87:
             case 122:
             case 125: // questionable
@@ -276,6 +277,7 @@ public class SymbolTree {
             case 3:
             case 56:
             case 82:
+            case 83:
                 hoistTerm(n, 0, 4);
                 break;
             case 129:
