@@ -28,6 +28,10 @@ public class Interpreter {
         }
         switch(node.sym.getId()) {
 
+            case Token.KRETURN:
+                return doReturn(node);
+            case Token.SEMI:
+                return doSemi(node);
             case Token.EQUAL:
                 return doEquals(node);
             case Token.INT:
@@ -45,6 +49,23 @@ public class Interpreter {
                 }
                 return null;
         }
+    }
+
+    private DynamicVal doReturn(PNode node) {
+        if(null != node.kids[0]) {
+            return doNode(node.kids[0]);
+        }
+        else {
+            return new DynamicVal("INT", "0"); // temporary solution for returning nothing
+        }
+    }
+
+    private DynamicVal doSemi(PNode node) {
+        DynamicVal result = doNode(node.kids[0]);
+        if(null == result) {
+            result = doNode(node.kids[1]);
+        }
+        return result;
     }
 
     private DynamicVal doBrace(PNode node) {

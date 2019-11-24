@@ -72,7 +72,11 @@ main {}
 
 prog
 var ( int x = 1; )
-main { return x; }
+main {
+x = 2;
+return;
+x = 3;
+}
 
 prog
 var ( int x = 1; )
