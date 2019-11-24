@@ -59,8 +59,10 @@ public class SymbolTree {
         PNode[] newKids = new PNode[10];
         int posCount = 0;
         for(int i = 0; i < symIndex; i++) {
-            newKids[posCount] = n.kids[i];
-            posCount++;
+            if(null != n.kids[i]) {
+                newKids[posCount] = n.kids[i];
+                posCount++;
+            }
         }
         for(PNode node : bigSis.kids) {
             if(null == node) {

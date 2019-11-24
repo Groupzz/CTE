@@ -76,4 +76,7 @@ main { return x; }
 
 prog
 var ( int x = 1; )
-main { x = 2; }
+main {
+var (int x = 55; )
+ x = 74;
+}
