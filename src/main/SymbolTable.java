@@ -29,11 +29,15 @@ public class SymbolTable {
             rows.put(id.getStr(), newRow);
         }
         else {
-            System.out.println("Identifier '" + id.getStr() +  "' already exists in symbol table for this scope: lin: " + id.getLin() + " col: " + id.getLinCol());
+            System.out.println("Runtime error: Identifier '" + id.getStr() +  "' already exists in symbol table for this scope: lin: " + id.getLin() + " col: " + id.getLinCol());
         }
 
     }
 
+    /* Automatically searches through this scope and all its parents for the first occurrence of an identifier
+     * then updates its value to the new value passed
+     * If it can't find one, prints an error saying it doesn't exist.
+     */
     void updateVar(DynamicVal val, String id) {
         if(rows.containsKey(id)) {
             SymTabRow row = rows.get(id);
@@ -44,7 +48,7 @@ public class SymbolTable {
                 parent.updateVar(val, id);
             }
             else {
-                System.out.println("Identifier '" + id +  "' doesn't exist");
+                System.out.println("Runtime error: Identifier '" + id +  "' doesn't exist in the current scope");
             }
         }
     }
@@ -65,7 +69,7 @@ public class SymbolTable {
         return str.toString();
     }
 
-    public SymbolTable getParent() {
+    SymbolTable getParent() {
         return parent;
     }
 }

@@ -1,8 +1,22 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 3: Interpreter
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: Class that handles interpretation of the abstract syntax tree.
+ * Calls the necessary methods to obtain an abstract syntax tree from raw A7 code.
+ * Recursively iterates over the nodes of the AST doing different things based on what
+ * token the node represents.
+ * Keeps track of the current scope as it is iterating over the AST.
+ */
 public class Interpreter {
 
     private SymbolTree AST;
+    /* Represents the current scope we are executing in
+     * While we are working in a scope, this variable should always be set to that scope
+     * As such, it only changes when entering or exiting a brace block
+     */
     private SymbolTable curScope = SymbolTable.root;
 
     private Interpreter() {
@@ -18,9 +32,17 @@ public class Interpreter {
 
     private void beginExecution() {
         doNode(AST.getRoot());
+        // print out curScope's symtable and all of its children symtables
+        // so we can see what's happening in them
         System.out.println(curScope);
     }
 
+    /*
+     * Main recursive function that handles the treewalk of the AST
+     * Has a return type of DynamicVal so when arithmetic operators are performed it can return the resulting value
+     * This is also used so handle return values of functions or the return value of a boolean operator
+     * The individual cases are separated into other functions to improve readability and modularity
+     */
     private DynamicVal doNode(PNode node) {
         if(null == node)
         {
@@ -53,6 +75,7 @@ public class Interpreter {
                 return doBrace(node);
             case Token.PARENS1:
                 return doParens(node);
+                // by default we simply recurse to all children and return null
             default:
                 for(PNode kid : node.kids) {
                     if(null != kid)
@@ -63,8 +86,8 @@ public class Interpreter {
     }
 
     private DynamicVal doIf(PNode node) {
-        DynamicVal condition = doNode(node.kids[0]);
-        if(condition.isTrue()) {
+        DynamicVal condition = doNode(node.kids[0]); // get result of condition
+        if(condition.isTrue()) { // check if condition is true
             return doNode(node.kids[1]); // do block
         }
         else {
@@ -74,36 +97,38 @@ public class Interpreter {
 
     private DynamicVal doReturn(PNode node) {
         if(null != node.kids[0]) {
+            // return the result of the expression after the 'return' statement
+            // this will result in no more statements after the 'return' statement is executed
             return doNode(node.kids[0]);
         }
         else {
-            return new DynamicVal("INT", "0"); // temporary solution for returning nothing
+            return new DynamicVal("INT", "0"); // temporary solution for 'return;' with no value
         }
     }
 
     private DynamicVal doSemi(PNode node) {
-        DynamicVal result = doNode(node.kids[0]);
-        if(null == result) {
-            result = doNode(node.kids[1]);
+        DynamicVal result = doNode(node.kids[0]); // check if the first statement results in a return value
+        if(null == result) { // if it has no return value
+            result = doNode(node.kids[1]); // do the next statement and return that
         }
-        return result;
+        return result; // otherwise return the result of the first statement: it has led to an A7 'return' statement
     }
 
     private DynamicVal doBrace(PNode node) {
-        curScope = curScope.addNewScope(node);
+        curScope = curScope.addNewScope(node); // create new scope for this block and enter it
         DynamicVal result;
-        doNode(node.kids[0]); // do vargroup if it exists;
-        result = doNode(node.kids[1]); // do block next and return result in case of return statement
-//        System.out.println("OUTPUTTING SCOPE BEFORE LEAVING: ");
-//        System.out.println(curScope);
-        curScope = curScope.getParent();
-        return result;
+        doNode(node.kids[0]); // do vargroup if it exists
+        result = doNode(node.kids[1]); // do block next and keep result in case of 'return' statement
+        curScope = curScope.getParent(); // return to parent scope
+        return result; // return result, may be null if no return statement
     }
 
     private DynamicVal doParens(PNode node) {
-        return doNode(node.kids[0]);
+        return doNode(node.kids[0]); //  return result in case of 'return' statement, may be null if no return statement
     }
 
+    /* Handles assignment and initialization of variables
+     */
     private DynamicVal doEquals(PNode node) {
 
         DynamicVal val = doNode(node.kids[1]);
@@ -116,11 +141,14 @@ public class Interpreter {
             curScope.updateVar(val, lkid.getToken().getStr());
         }
         else {
-            System.out.println("Error: Unexpected token on left of equals in AST");
+           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
         }
         return null;
     }
 
+    /* This function is meant to cover all arithmetic and boolean operators that do nothing other than their
+     * mathematical operation. Some operators such as ASTER need a designated function as they have other uses
+     */
     private DynamicVal doSimpleOP(PNode node) {
         DynamicVal val1 = doNode(node.kids[0]);
         DynamicVal val2 = doNode(node.kids[1]);
@@ -138,12 +166,11 @@ public class Interpreter {
             case Token.OPNE:
                 return val1.notEqual(val2);
         }
-        System.out.println("ERROR: Tried to do simple OP on an OP that isn't simple");
-        return null;
+        throw new RuntimeException("ERROR: Tried to do simple OP on an OP that isn't simple");
     }
 
     private DynamicVal doAster(PNode node) {
-        if(null != node.kids[1]) { // multiplication operator
+        if(null != node.kids[1]) { // we are a multiplication operator
             DynamicVal val1 = doNode(node.kids[0]);
             DynamicVal val2 = doNode(node.kids[1]);
             return val1.mul(val2);
@@ -153,6 +180,7 @@ public class Interpreter {
         }
     }
 
+    // Simply returns the dynamic value version of the literal
     private DynamicVal doLiteral(PNode node) {
         switch(node.sym.getId()) {
             case Token.INT:
@@ -162,7 +190,7 @@ public class Interpreter {
             case Token.STRING:
                 return new DynamicVal("STRING", node.sym.getToken().getStr());
         }
-        return null;
+        throw new RuntimeException("ERROR: Tried to treat an AST node that wasn't a literal as a literal");
     }
 
 }
