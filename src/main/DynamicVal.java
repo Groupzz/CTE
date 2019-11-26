@@ -121,13 +121,11 @@ public class DynamicVal {
             if(this.floatVal == other.floatVal){
                 return new DynamicVal(1);
             }
-            //return new DynamicVal(0);
         }
         else if(this.type.equals("STRING") && other.type.equals("STRING")) {
             if(this.strVal.equals(other.strVal)){
                 return new DynamicVal(1);
             }
-            //return new DynamicVal(0);
         }
         //Jamil Exception
         else {
