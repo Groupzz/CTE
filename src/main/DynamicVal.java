@@ -73,6 +73,14 @@ public class DynamicVal {
         else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
             return new DynamicVal(floatVal + other.floatVal);
         }
+        //Jamil additional condition
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+            return new DynamicVal(floatVal + other.intVal);
+        }
+        //Jamil additional condition
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(intVal + other.floatVal);
+        }
         else {
             return null;
         }
@@ -103,23 +111,37 @@ public class DynamicVal {
     }
 
     DynamicVal equals(DynamicVal other) {
-        if(this.type.equals("INT") && other.type.equals("INT") && this.intVal == other.intVal) {
-            return new DynamicVal(1);
+        //Jamil third condition separated and put into the inner if block of all
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            if(this.intVal == other.intVal){
+                return new DynamicVal(1);
+            }
         }
-        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT") && this.floatVal == other.floatVal) {
-            return new DynamicVal(1);
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            if(this.floatVal == other.floatVal){
+                return new DynamicVal(1);
+            }
+            //return new DynamicVal(0);
         }
-        else if(this.type.equals("STRING") && other.type.equals("STRING") && this.strVal.equals(other.strVal)) {
-            return new DynamicVal(1);
+        else if(this.type.equals("STRING") && other.type.equals("STRING")) {
+            if(this.strVal.equals(other.strVal)){
+                return new DynamicVal(1);
+            }
+            //return new DynamicVal(0);
         }
+        //Jamil Exception
         else {
-            return new DynamicVal(0);
+            throw new RuntimeException("Error: Cannot compare between " + this.type + " and " + other.type);
         }
+        return new DynamicVal(0);
     }
 
     DynamicVal lessThan(DynamicVal other) {
-        if(this.type.equals("INT") && other.type.equals("INT") && this.intVal < other.intVal) {
-            return new DynamicVal(1);
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            if(this.intVal < other.intVal){
+                return new DynamicVal(1);
+            }
+            return new DynamicVal(0);
         }
         else if(this.type.equals("FLOAT") && other.type.equals("FLOAT") && this.floatVal < other.floatVal) {
             return new DynamicVal(1);
@@ -127,15 +149,17 @@ public class DynamicVal {
         else if(this.type.equals("STRING") && other.type.equals("STRING") && this.strVal.compareTo(other.strVal) < 0) {
             return new DynamicVal(1);
         }
+        //Jamil Exception
         else {
-            return new DynamicVal(0);
+            throw new RuntimeException("Error: Cannot compare between " + this.type + " and " + other.type);
         }
     }
 
     DynamicVal greaterThan(DynamicVal other) {
         DynamicVal less = this.lessThan(other);
         DynamicVal equals = this.equals(other);
-        if(less.intVal == 0 && equals.intVal == 0) {
+        //Jamil condition modified
+        if(!less.isTrue() && !equals.isTrue()) {
             return new DynamicVal(1);
         }
         else {
@@ -145,7 +169,8 @@ public class DynamicVal {
 
     DynamicVal notEqual(DynamicVal other) {
         DynamicVal equal = this.equals(other);
-        if(equal.intVal == 1) {
+        //Jamil condition modified
+        if(equal.isTrue()) {
             return new DynamicVal(0);
         }
         else {
