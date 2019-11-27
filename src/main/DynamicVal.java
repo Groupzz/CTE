@@ -81,6 +81,10 @@ public class DynamicVal {
         else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
             return new DynamicVal(intVal + other.floatVal);
         }
+        //Jamil additional condition
+        else if(this.type.equals("STRING") && other.type.equals("STRING")) {
+            return new DynamicVal(strVal + other.strVal);
+        }
         else {
             return null;
         }
@@ -139,18 +143,22 @@ public class DynamicVal {
             if(this.intVal < other.intVal){
                 return new DynamicVal(1);
             }
-            return new DynamicVal(0);
         }
-        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT") && this.floatVal < other.floatVal) {
-            return new DynamicVal(1);
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            if(this.floatVal < other.floatVal){
+                return new DynamicVal(1);
+            }
         }
-        else if(this.type.equals("STRING") && other.type.equals("STRING") && this.strVal.compareTo(other.strVal) < 0) {
-            return new DynamicVal(1);
+        else if(this.type.equals("STRING") && other.type.equals("STRING")) {
+            if(this.strVal.compareTo(other.strVal) < 0){
+                return new DynamicVal(1);
+            }
         }
         //Jamil Exception
         else {
             throw new RuntimeException("Error: Cannot compare between " + this.type + " and " + other.type);
         }
+        return new DynamicVal(0);
     }
 
     DynamicVal greaterThan(DynamicVal other) {
@@ -160,9 +168,7 @@ public class DynamicVal {
         if(!less.isTrue() && !equals.isTrue()) {
             return new DynamicVal(1);
         }
-        else {
-            return new DynamicVal(0);
-        }
+        return new DynamicVal(0);
     }
 
     DynamicVal notEqual(DynamicVal other) {
@@ -171,9 +177,7 @@ public class DynamicVal {
         if(equal.isTrue()) {
             return new DynamicVal(0);
         }
-        else {
-            return new DynamicVal(1);
-        }
+        return new DynamicVal(1);
     }
 
     public String toString() {
@@ -188,6 +192,4 @@ public class DynamicVal {
                 return "NULL";
         }
     }
-
-
 }
