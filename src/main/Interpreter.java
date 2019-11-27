@@ -64,7 +64,10 @@ public class Interpreter {
                 return doLiteral(node);
             case Token.PLUS:
             case Token.MINUS:
-            //adding other cases such as mult, div, power, ople, opge
+            case Token.SLASH:
+            case Token.CARET:
+            case Token.OPLE:
+            case Token.OPGE:
             case Token.OPEQ:
             case Token.ANGLE1:
             case Token.ANGLE2:
@@ -158,9 +161,6 @@ public class Interpreter {
                 return val1.plus(val2);
             case Token.MINUS:
                 return val1.minus(val2);
-            //added mul case
-            case Token.ASTER:
-                return val1.mul(val2);
             //added div case
             case Token.SLASH:
                 return val1.div(val2);
