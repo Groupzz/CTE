@@ -17,7 +17,7 @@ public class DynamicVal {
 
     // Attempts to parse the string input we get from the parser as whatever type we are expecting
     // This is called when declaring a variable
-    DynamicVal(String type, String val) {
+    public DynamicVal(String type, String val) {
         this.type = type;
         try {
             switch (type) {
@@ -62,11 +62,11 @@ public class DynamicVal {
      * anything else is considered false.
      * This method returns true if this dynamicVal represents a true value for conditional statements
      */
-    boolean isTrue() {
+    public boolean isTrue() {
         return intVal > 0;
     }
 
-    DynamicVal plus(DynamicVal other) {
+    public DynamicVal plus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal + other.intVal);
         }
@@ -114,7 +114,7 @@ public class DynamicVal {
         }
     }
 
-    DynamicVal equals(DynamicVal other) {
+    public DynamicVal equals(DynamicVal other) {
         //Jamil third condition separated and put into the inner if block of all
         if(this.type.equals("INT") && other.type.equals("INT")) {
             if(this.intVal == other.intVal){
@@ -138,7 +138,7 @@ public class DynamicVal {
         return new DynamicVal(0);
     }
 
-    DynamicVal lessThan(DynamicVal other) {
+    public DynamicVal lessThan(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             if(this.intVal < other.intVal){
                 return new DynamicVal(1);
@@ -154,14 +154,13 @@ public class DynamicVal {
                 return new DynamicVal(1);
             }
         }
-        //Jamil Exception
         else {
             throw new RuntimeException("Error: Cannot compare between " + this.type + " and " + other.type);
         }
         return new DynamicVal(0);
     }
 
-    DynamicVal greaterThan(DynamicVal other) {
+    public DynamicVal greaterThan(DynamicVal other) {
         DynamicVal less = this.lessThan(other);
         DynamicVal equals = this.equals(other);
         //Jamil condition modified
@@ -171,7 +170,7 @@ public class DynamicVal {
         return new DynamicVal(0);
     }
 
-    DynamicVal notEqual(DynamicVal other) {
+    public DynamicVal notEqual(DynamicVal other) {
         DynamicVal equal = this.equals(other);
         //Jamil condition modified
         if(equal.isTrue()) {
