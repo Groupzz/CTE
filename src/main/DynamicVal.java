@@ -17,7 +17,7 @@ public class DynamicVal {
 
     // Attempts to parse the string input we get from the parser as whatever type we are expecting
     // This is called when declaring a variable
-    DynamicVal(String type, String val) {
+    public DynamicVal(String type, String val) {
         this.type = type;
         try {
             switch (type) {
@@ -62,11 +62,11 @@ public class DynamicVal {
      * anything else is considered false.
      * This method returns true if this dynamicVal represents a true value for conditional statements
      */
-    boolean isTrue() {
+    public boolean isTrue() {
         return intVal > 0;
     }
 
-    DynamicVal plus(DynamicVal other) {
+    public DynamicVal plus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal + other.intVal);
         }
@@ -102,7 +102,7 @@ public class DynamicVal {
         }
     }
 
-    DynamicVal equals(DynamicVal other) {
+    public DynamicVal equals(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT") && this.intVal == other.intVal) {
             return new DynamicVal(1);
         }
