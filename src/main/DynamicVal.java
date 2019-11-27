@@ -66,6 +66,7 @@ public class DynamicVal {
         return intVal > 0;
     }
 
+    //Jamil float + int combo and string combo operation added
     public DynamicVal plus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal + other.intVal);
@@ -90,6 +91,7 @@ public class DynamicVal {
         }
     }
 
+    //Jamil float - int combo operation added
     public DynamicVal minus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal - other.intVal);
@@ -97,17 +99,68 @@ public class DynamicVal {
         else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
             return new DynamicVal(floatVal - other.floatVal);
         }
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+            return new DynamicVal(floatVal - other.intVal);
+        }
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(intVal - other.floatVal);
+        }
         else {
             return null;
         }
     }
 
+    //Jamil multiplication between float and int added
     public DynamicVal mul(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal * other.intVal);
         }
         else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
             return new DynamicVal(floatVal * other.floatVal);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+            return new DynamicVal(floatVal * other.intVal);
+        }
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(intVal * other.floatVal);
+        }
+        else {
+            return null;
+        }
+    }
+
+    //Jamil division operation function added
+    public DynamicVal div(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            return new DynamicVal(intVal / other.intVal);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(floatVal / other.floatVal);
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+            return new DynamicVal(floatVal / other.intVal);
+        }
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+            return new DynamicVal(intVal / other.floatVal);
+        }
+        else {
+            return null;
+        }
+    }
+
+    //Jamil exponent function added
+    public DynamicVal pow(DynamicVal other) {
+        if(this.type.equals("INT") && other.type.equals("INT")) {
+            return new DynamicVal((int) Math.pow(intVal, other.intVal));
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("FLOAT")) {
+            return new DynamicVal((float) Math.pow(floatVal, other.floatVal));
+        }
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+            return new DynamicVal((float) Math.pow(floatVal, other.intVal));
+        }
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+            return new DynamicVal((float) Math.pow(intVal, other.floatVal));
         }
         else {
             return null;
