@@ -157,10 +157,17 @@ public class Interpreter {
                 return val1.plus(val2);
             case Token.MINUS:
                 return val1.minus(val2);
+            case Token.ASTER:
+                return val1.mul(val2);
+            case Token.SLASH:
+                return val1.div(val2);
+            case Token.CARET:
+                return val1.pow(val2);
             case Token.OPEQ:
                 return val1.equals(val2);
             case Token.ANGLE1:
                 return val1.lessThan(val2);
+            //add <= and >= operations
             case Token.ANGLE2:
                 return val1.greaterThan(val2);
             case Token.OPNE:
