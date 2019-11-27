@@ -64,6 +64,7 @@ public class Interpreter {
                 return doLiteral(node);
             case Token.PLUS:
             case Token.MINUS:
+            //adding other cases such as mult, div, power, ople, opge
             case Token.OPEQ:
             case Token.ANGLE1:
             case Token.ANGLE2:
@@ -157,19 +158,27 @@ public class Interpreter {
                 return val1.plus(val2);
             case Token.MINUS:
                 return val1.minus(val2);
+            //added mul case
             case Token.ASTER:
                 return val1.mul(val2);
+            //added div case
             case Token.SLASH:
                 return val1.div(val2);
+            //added exponent case
             case Token.CARET:
                 return val1.pow(val2);
             case Token.OPEQ:
                 return val1.equals(val2);
             case Token.ANGLE1:
                 return val1.lessThan(val2);
-            //add <= and >= operations
+            //added <= case
+            case Token.OPLE:
+                return val1.lessThanOrEqual(val2);
             case Token.ANGLE2:
                 return val1.greaterThan(val2);
+            //added >= case
+            case Token.OPGE:
+                return val1.greaterThanOrEqual(val2);
             case Token.OPNE:
                 return val1.notEqual(val2);
         }
