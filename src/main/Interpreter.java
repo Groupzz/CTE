@@ -71,7 +71,9 @@ public class Interpreter {
                 }
                 break;
             case Token.ID:
-                curScope.linkID(node);
+                if(null == node.kids[0]) { // if id is a variable
+                    curScope.linkID(node);
+                }
                 break;
             default:
                 for(PNode kid : node.kids) {
