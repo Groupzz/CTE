@@ -127,6 +127,8 @@ public class Interpreter {
                 return doBrace(node);
             case Token.PARENS1:
                 return doParens(node);
+            case Token.ID:
+                return doIdentifier(node);
                 // by default we simply recurse to all children and return null
             default:
                 for(PNode kid : node.kids) {
@@ -255,4 +257,11 @@ public class Interpreter {
         throw new RuntimeException("ERROR: Tried to treat an AST node that wasn't a literal as a literal");
     }
 
+    private DynamicVal doIdentifier(PNode node) {
+        if(null == node.kids[0]) { // if we are a variable identifier
+            return node.symTabLink.getValue();
+        }
+        // Put function call logic here
+        return null;
+    }
 }

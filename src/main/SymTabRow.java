@@ -26,6 +26,10 @@ public class SymTabRow {
         }
     }
 
+    DynamicVal getValue() {
+        return value;
+    }
+
     public String toString() {
         return String.format("%-10s | %-8s | %-4d | %-4d | %-40s", name, type, line, col, value);
     }

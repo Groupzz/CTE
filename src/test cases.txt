@@ -108,8 +108,13 @@ x = 3;
 }
 
 prog
-var ( int x = 1; )
+var (
+    int x = 1;
+    float y = 3.14;
+)
 main {
-var (int x = 55; )
- x = 74;
+var(float y = 1.0;)
+y = y + x;
+x = x + 1;
+x = x ^ 10;
 }
