@@ -266,7 +266,7 @@ public class Parser {
             // m2E: top is a terminal and we didn't match the input
             else if(stack.peek().sym.isTerminal()) {
 //                throw new RuntimeException(String.format("Terminal not predicted by parser. Top of stack: %s ", stack.peek(), curSymbol));
-                System.out.println("ERROR: Terminal " + curSymbol.getId() + " not predicted by parser");
+                System.out.println("ERROR: Terminal " + curSymbol.getId() + " at lin: " + curSymbol.getToken().getLin() + " Expected: " + stack.peek().sym);
                 System.exit(1);
                 break;
             }
