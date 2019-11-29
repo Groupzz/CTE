@@ -189,6 +189,25 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    // Specific method for MOREEXPR expansions
+    private static void pta_commas(PNode n) {
+        PNode bigSis = n.kids[0];
+        PNode gma = n.getGrandma();
+        if (gma.sym.equals(Symbol.EXPRLIST) || gma.sym.equals(Symbol.VARSPECS))
+        {
+            bigSis.kids[0] = gma.kids[0];
+            gma.kids[0] = null;
+        }
+        else {
+            System.out.println("Error converting COMMA EXPR to AST");
+            System.exit(1);
+        }
+        bigSis.kids[0].grandma = bigSis;
+
+        bigSis.kids[1] = n.kids[1];
+        bigSis.hoist(n);
+    }
+
     /**
      * This method is called for each tree in post order. It uses the ruleid of the node
      * to determine how to handle its conversion to AST and calls the correct function
@@ -252,9 +271,6 @@ public class SymbolTree {
             case 4:
             case 12: // questionable
             case 25:
-//            case 31: // wrong
-            case 32:
-            case 62:
             case 84:
             case 87:
             case 122:
@@ -294,6 +310,8 @@ public class SymbolTree {
             case 146:
                 pta_lterm(n);
                 break;
+            case 31:
+            case 61:
             case 141: 
             case 144:
             case 147:
@@ -324,14 +342,16 @@ public class SymbolTree {
             case 151:
                 pta_epsilon(n);
                 break;
-            case 31:
             case 53:
             case 55:
-            case 61:
                 hoistNonterm(n, 0, 2);
                 break;
             case 131:
                 hoistNonterm(n, 1, 2);
+                break;
+            case 32:
+            case 62:
+                pta_commas(n);
                 break;
             default:
              System.out.println(n.sym + ": no rule #" + rule + " found in AST conversion");

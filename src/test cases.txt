@@ -58,11 +58,12 @@ main {
 }
 
 prog
-fcn test(x) int {
+fcn test(x, y, z) int {
+    var(float y = 2.6;)
     return x;
 }
 main {
-return test(1);
+return test(1, 2, 3);
 }
 
 prog main {
