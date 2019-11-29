@@ -7,20 +7,22 @@ public class SymTabRow {
     private int line;
     private int col;
     private DynamicVal value;
+    private PNode decl;
 
-    SymTabRow(String name, String type, int line, int col, DynamicVal val) {
+    SymTabRow(String name, String type, int line, int col, DynamicVal val, PNode decl) {
         this.name = name;
         this.type = type;
         this.line = line;
         this.col = col;
         value = val;
+        this.decl = decl;
     }
 
-    public void setValue(DynamicVal value) {
-        if(value.type.equals(this.value.type))
+    void setValue(DynamicVal value) {
+        if(value.type.equals(type))
             this.value = value;
         else{
-            System.out.println("Error: Attempted to assign incorrect type");
+            throw new RuntimeException("Error: Attempted to assign incorrect type");
         }
     }
 

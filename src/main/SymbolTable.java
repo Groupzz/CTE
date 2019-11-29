@@ -17,38 +17,39 @@ public class SymbolTable {
         this.bblock = bblock;
     }
 
-    public SymbolTable addNewScope(PNode bblock) {
+    SymbolTable addNewScope(PNode bblock) {
         kids.add(new SymbolTable(this, bblock));
         return kids.get(kids.size() - 1);
     }
 
-    void declareVar(DynamicVal val, String type, Token id) {
+    void declareVar(String type, Token id, PNode declNode) {
 
         if(!rows.containsKey(id.getStr())) {
-            SymTabRow newRow = new SymTabRow(id.getStr(), type, id.getLin(), id.getLinCol(), val);
+            SymTabRow newRow = new SymTabRow(id.getStr(), type, id.getLin(), id.getLinCol(), null, declNode);
             rows.put(id.getStr(), newRow);
         }
         else {
-            System.out.println("Runtime error: Identifier '" + id.getStr() +  "' already exists in symbol table for this scope: lin: " + id.getLin() + " col: " + id.getLinCol());
+            throw new RuntimeException("Error: Identifier '" + id.getStr() +  "' already exists in symbol table for this scope: lin: " + id.getLin() + " col: " + id.getLinCol());
         }
 
     }
 
     /* Automatically searches through this scope and all its parents for the first occurrence of an identifier
-     * then updates its value to the new value passed
+     * then updates the AST node to link to the correct SymTabRow for easy access
      * If it can't find one, prints an error saying it doesn't exist.
      */
-    void updateVar(DynamicVal val, String id) {
+    void linkID(PNode idNode) {
+        String id = idNode.sym.getToken().getStr();
         if(rows.containsKey(id)) {
-            SymTabRow row = rows.get(id);
-            row.setValue(val);
+            idNode.symTabLink = rows.get(id);
         }
         else {
             if(null != parent) {
-                parent.updateVar(val, id);
+                parent.linkID(idNode);
             }
             else {
-                System.out.println("Runtime error: Identifier '" + id +  "' doesn't exist in the current scope");
+                throw new RuntimeException("Error: Identifier '" + id +  "' doesn't exist in the current scope. Lin: "
+                        + idNode.sym.getToken().getLin() + " Col: " + idNode.sym.getToken().getLinCol());
             }
         }
     }
@@ -56,7 +57,7 @@ public class SymbolTable {
     public String toString() {
         StringBuilder str = new StringBuilder();
         if(bblock != null) { // global scope doesn't have a block
-            str.append("SymTab for BBLOCK at lin: " + bblock.sym.getToken().getLin() + " col: " + bblock.sym.getToken().getLinCol() + "\n");
+            str.append("\nSymTab for BBLOCK at lin: " + bblock.sym.getToken().getLin() + " col: " + bblock.sym.getToken().getLinCol() + "\n");
         }
         str.append(String.format("%-10s | %-8s | %-4s | %-4s | %-40s\n", "ID", "TYPE", "LINE", "COL", "VALUE"));
         for(SymTabRow row : rows.values()) {

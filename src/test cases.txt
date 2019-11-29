@@ -78,6 +78,26 @@ fcn test3(z) string {
 }
 main {}
 
+prog main {
+    var(
+    int x = 1;
+    float y = 3.14;
+    string z = "hello";
+    )
+    if(0) {
+        var( int x = 2;)
+    }
+    elseif(1) {
+        var(
+            int x = 3;
+            int y = 4;
+        )
+    }
+    else {
+        var( float z = 2.14;)
+    };
+}
+
 prog
 var ( int x = 1; )
 main {
