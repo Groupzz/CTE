@@ -59,12 +59,25 @@ public class Interpreter {
                 buildSCT(node.kids[1], curScope); // check rhs of equals for any identifier usage
                 Symbol lkid = node.kids[0].sym; // check lhs of equals for type in case of initializer
                 if(lkid.getId() == Token.KINT || lkid.getId() == Token.KFLOAT || lkid.getId() == Token.KSTRING) {
-                    curScope.declareVar(lkid.getToken().getStr().toUpperCase(), node.kids[0].kids[0].sym.getToken(), node);
+                    PNode idNode;
+                    boolean isPtr;
+                    if(node.kids[0].kids[0].sym.getId() == Token.ASTER) {
+                        idNode = node.kids[0].kids[0].kids[0];
+                        isPtr = true;
+                    }
+                    else {
+                        idNode = node.kids[0].kids[0];
+                        isPtr = false;
+                    }
+                    curScope.declareVar(lkid.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, isPtr);
                     // link LHS identifier of initializer to its SymTabRow for later assignment
-                    curScope.linkID(node.kids[0].kids[0]);
+                    curScope.linkID(idNode);
                 }
                 else if(lkid.getId() == Token.ID) { // if not an initializer, we simply link it to its SymTabRow
                     curScope.linkID(node.kids[0]);
+                }
+                else if(lkid.getId() == Token.ASTER) {
+                    curScope.linkID(node.kids[0].kids[0]); // skip the aster
                 }
                 else {
                     throw new RuntimeException("Error: Unexpected token on left of equals in AST");
@@ -187,14 +200,30 @@ public class Interpreter {
         PNode idNode;
         if(lkid.getId() == Token.KINT || lkid.getId() == Token.KFLOAT || lkid.getId() == Token.KSTRING) {
             idNode = node.kids[0].kids[0]; // if its an initializer, the identifier is one node down
+            if (idNode.sym.getId() == Token.ASTER) {
+                idNode = idNode.kids[0]; // if its a ptr initializer go straight to the ID
+            }
         }
-        else if(lkid.getId() == Token.ID) {
+//        else if(lkid.getId() == Token.ID) {
+        else {
             idNode = node.kids[0]; // if its assignment the identifier is right on the left
         }
-        else {
-           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
+//        else {
+//           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
+//        }
+        if(idNode.sym.getId() == Token.ASTER) { // if there is a deref specifically in assignment
+            idNode = idNode.kids[0]; // move to identifier
+            if(idNode.symTabLink.isPtr()) { // check for correct type
+                DynamicVal memAddr = idNode.symTabLink.getValue(); // get the memory address
+                SymTabRow.setMem(memAddr, val); // set value at memory address
+            }
+            else {
+                throw new RuntimeException("Error: Attempted to dereference an identifier that isn't a pointer");
+            }
         }
-        idNode.symTabLink.setValue(val); // assign calculated expr to existing symtabrow
+        else {
+            idNode.symTabLink.setValue(val); // assign calculated expr to existing symtabrow
+        }
         return null;
     }
 
@@ -240,7 +269,8 @@ public class Interpreter {
             return val1.mul(val2);
         }
         else {
-            return null; // missing implementation of dereference operator
+            DynamicVal memAddr = node.kids[0].symTabLink.getValue();
+            return SymTabRow.getFromMem(memAddr);
         }
     }
 

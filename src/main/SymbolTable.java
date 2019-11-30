@@ -22,10 +22,10 @@ public class SymbolTable {
         return kids.get(kids.size() - 1);
     }
 
-    void declareVar(String type, Token id, PNode declNode) {
+    void declareVar(String type, Token id, PNode declNode, boolean isPtr) {
 
         if(!rows.containsKey(id.getStr())) {
-            SymTabRow newRow = new SymTabRow(id.getStr(), type, id.getLin(), id.getLinCol(), null, declNode);
+            SymTabRow newRow = new SymTabRow(id.getStr(), type, id.getLin(), id.getLinCol(), null, declNode, isPtr);
             rows.put(id.getStr(), newRow);
         }
         else {
@@ -59,7 +59,7 @@ public class SymbolTable {
         if(bblock != null) { // global scope doesn't have a block
             str.append("\nSymTab for BBLOCK at lin: " + bblock.sym.getToken().getLin() + " col: " + bblock.sym.getToken().getLinCol() + "\n");
         }
-        str.append(String.format("%-10s | %-8s | %-4s | %-4s | %-40s\n", "ID", "TYPE", "LINE", "COL", "VALUE"));
+        str.append(String.format("%-10s | %-9s | %-8s | %-4s | %-4s | %-40s\n", "ID", "TYPE", "ADDR", "LINE", "COL", "VALUE"));
         for(SymTabRow row : rows.values()) {
             str.append(row.toString());
             str.append('\n');

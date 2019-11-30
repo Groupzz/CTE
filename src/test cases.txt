@@ -100,21 +100,19 @@ prog main {
 }
 
 prog
-var ( int x = 1; )
+var ( int x; )
 main {
-x = 2;
-return;
-x = 3;
+x[0] = 1;
 }
 
 prog
 var (
     int x = 1;
-    float y = 3.14;
+    float z = 3.14;
 )
 main {
-var(float y = 1.0;)
+var(float *y = 0;)
 y = y + x;
-x = x + 1;
-x = x ^ 10;
+*y = 55;
+z = *y + z;
 }

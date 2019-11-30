@@ -277,7 +277,7 @@ public class Parser {
             // m3E: cell is empty
             if (cell == 0) {
                 // if there isn't a rule in the table the input is grammatically incorrect. That's an error
-//                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString()); // debug print
+                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString()); // debug print
                 Token errTok = curSymbol.getToken();
                 System.out.println("Unexpected symbol '" + errTok.getStr() + "' at lin:" + errTok.getLin() + " col:" + errTok.getLinCol());
                 System.exit(1);

@@ -10,7 +10,7 @@ package main;
  * The interpreter uses this class when evaluating operators, assigning variables and reading from variables
  */
 public class DynamicVal {
-    private int intVal;
+    int intVal;
     private float floatVal;
     private String strVal;
     String type;

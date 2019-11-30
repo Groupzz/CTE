@@ -349,6 +349,7 @@ public class SymbolTree {
                 hoistNonterm(n, 0, 2);
                 break;
             case 131:
+            case 157:
                 hoistNonterm(n, 1, 2);
                 break;
             case 32:
