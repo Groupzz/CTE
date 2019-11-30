@@ -265,6 +265,8 @@ public class SymbolTree {
             case 133:
             case 150:
             case 154:
+            case 155:
+            case 156:
                 hoistTerm(n, 0, 1);
                 break;
             case 2:
