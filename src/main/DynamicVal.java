@@ -209,7 +209,7 @@ public class DynamicVal {
             }
         }
         //Jamil condition added
-        if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
             if(this.intVal == other.floatVal){
                 return new DynamicVal(1);
             }
@@ -220,7 +220,7 @@ public class DynamicVal {
             }
         }
         //Jamil condition added
-        if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
             if(this.floatVal == other.intVal){
                 return new DynamicVal(1);
             }
@@ -244,7 +244,7 @@ public class DynamicVal {
             }
         }
         //Jamil added condition
-        if(this.type.equals("INT") && other.type.equals("FLOAT")) {
+        else if(this.type.equals("INT") && other.type.equals("FLOAT")) {
             if(this.intVal < other.floatVal){
                 return new DynamicVal(1);
             }
@@ -255,7 +255,7 @@ public class DynamicVal {
             }
         }
         //Jamil added condition
-        if(this.type.equals("FLOAT") && other.type.equals("INT")) {
+        else if(this.type.equals("FLOAT") && other.type.equals("INT")) {
             if(this.floatVal < other.intVal){
                 return new DynamicVal(1);
             }
