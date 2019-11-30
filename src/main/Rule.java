@@ -165,6 +165,13 @@ public class Rule {
         rules.put(153, new Rule(DBBEXPRS, EXPRLIST, BRACE2));
         rules.put(154, new Rule(DBBEXPRS, BRACE2));
 
+        // Missing LVAL rules
+        rules.put(155, new Rule(DFACT, KKEXPR));
+        rules.put(156, new Rule(FACT, DEREF_ID));
+
+        // More missing LVAL rules
+        rules.put(157, new Rule(STMT, DEREF_ID, DSTMT));
+//        rules.put(158, new Rule(DSTMT, KKEXPR, EQUAL, EXPR)); // adds support for LHS arrays
     }
 
     private static HashSet<Symbol> disappearing = new HashSet<>();
@@ -241,7 +248,7 @@ public class Rule {
                 llTable[symID][term.getId()] = ruleID;
             }
             else {
-                System.out.println("DOUBLE STUFF: " + symID + " " + term + "<--------------");
+                System.out.println("DOUBLE STUFF: " + symID + " " + term + "RULEID: " + ruleID + " PREVRULE: " + llTable[symID][term.getId()] + "<--------------");
             }
         }
     }

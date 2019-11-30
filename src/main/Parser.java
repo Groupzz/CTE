@@ -266,7 +266,7 @@ public class Parser {
             // m2E: top is a terminal and we didn't match the input
             else if(stack.peek().sym.isTerminal()) {
 //                throw new RuntimeException(String.format("Terminal not predicted by parser. Top of stack: %s ", stack.peek(), curSymbol));
-                System.out.println("ERROR: Terminal " + curSymbol.getId() + " not predicted by parser");
+                System.out.println("ERROR: Terminal " + curSymbol.getId() + " at lin: " + curSymbol.getToken().getLin() + " Expected: " + stack.peek().sym);
                 System.exit(1);
                 break;
             }
@@ -277,7 +277,7 @@ public class Parser {
             // m3E: cell is empty
             if (cell == 0) {
                 // if there isn't a rule in the table the input is grammatically incorrect. That's an error
-//                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString()); // debug print
+                System.out.println("ERROR: No rule exists for given input: Stack: " + stack.peek() + " Input: " + curSymbol.toString()); // debug print
                 Token errTok = curSymbol.getToken();
                 System.out.println("Unexpected symbol '" + errTok.getStr() + "' at lin:" + errTok.getLin() + " col:" + errTok.getLinCol());
                 System.exit(1);

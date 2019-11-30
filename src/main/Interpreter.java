@@ -13,11 +13,7 @@ package main;
 public class Interpreter {
 
     private SymbolTree AST;
-    /* Represents the current scope we are executing in
-     * While we are working in a scope, this variable should always be set to that scope
-     * As such, it only changes when entering or exiting a brace block
-     */
-    private SymbolTable curScope = SymbolTable.root;
+    private SymbolTable SCT = SymbolTable.root; // Root node of scope tree
 
     private Interpreter() {
         AST = Parser.parseAndGenerateAST();
@@ -27,14 +23,77 @@ public class Interpreter {
         Interpreter interpreter = new Interpreter();
         System.out.println(interpreter.AST);
 
+        interpreter.buildSCT();
         interpreter.beginExecution();
+    }
+
+    // Helper method for recursive buildSCT
+    private void buildSCT() {
+        buildSCT(AST.getRoot(), SCT);
+        System.out.println("---GENERATED SCOPE TREE---");
+        System.out.println(SCT);
     }
 
     private void beginExecution() {
         doNode(AST.getRoot());
         // print out curScope's symtable and all of its children symtables
         // so we can see what's happening in them
-        System.out.println(curScope);
+        System.out.println("---EXECUTION FINISHED---");
+        System.out.println(SCT);
+    }
+
+    // Recursive buildSCT function
+    private void buildSCT(PNode node, SymbolTable curScope) {
+        if(null == node)
+            return;
+        switch(node.sym.getId()) {
+            case Token.KFCN:
+                return; // ignore functions for now
+            case Token.BRACE1:
+                curScope = curScope.addNewScope(node); // create new scope for this block and enter it
+                buildSCT(node.kids[0], curScope); // do vargroup if it exists
+                buildSCT(node.kids[1], curScope); // enter block to look for more blocks
+//                curScope = curScope.getParent(); // return to parent scope
+                break;
+            case Token.EQUAL:
+                buildSCT(node.kids[1], curScope); // check rhs of equals for any identifier usage
+                Symbol lkid = node.kids[0].sym; // check lhs of equals for type in case of initializer
+                if(lkid.getId() == Token.KINT || lkid.getId() == Token.KFLOAT || lkid.getId() == Token.KSTRING) {
+                    PNode idNode;
+                    boolean isPtr;
+                    if(node.kids[0].kids[0].sym.getId() == Token.ASTER) {
+                        idNode = node.kids[0].kids[0].kids[0];
+                        isPtr = true;
+                    }
+                    else {
+                        idNode = node.kids[0].kids[0];
+                        isPtr = false;
+                    }
+                    curScope.declareVar(lkid.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, isPtr);
+                    // link LHS identifier of initializer to its SymTabRow for later assignment
+                    curScope.linkID(idNode);
+                }
+                else if(lkid.getId() == Token.ID) { // if not an initializer, we simply link it to its SymTabRow
+                    curScope.linkID(node.kids[0]);
+                }
+                else if(lkid.getId() == Token.ASTER) {
+                    curScope.linkID(node.kids[0].kids[0]); // skip the aster
+                }
+                else {
+                    throw new RuntimeException("Error: Unexpected token on left of equals in AST");
+                }
+                break;
+            case Token.ID:
+                if(null == node.kids[0]) { // if id is a variable
+                    curScope.linkID(node);
+                }
+                break;
+            default:
+                for(PNode kid : node.kids) {
+                    if(null != kid)
+                        buildSCT(kid, curScope);
+                }
+        }
     }
 
     /*
@@ -49,6 +108,8 @@ public class Interpreter {
             return null;
         }
         switch(node.sym.getId()) {
+            case Token.KFCN:
+                return null; // ignore functions for now
             case Token.KIF:
             case Token.KELSEIF:
                 return doIf(node);
@@ -79,6 +140,8 @@ public class Interpreter {
                 return doBrace(node);
             case Token.PARENS1:
                 return doParens(node);
+            case Token.ID:
+                return doIdentifier(node);
                 // by default we simply recurse to all children and return null
             default:
                 for(PNode kid : node.kids) {
@@ -119,11 +182,9 @@ public class Interpreter {
     }
 
     private DynamicVal doBrace(PNode node) {
-        curScope = curScope.addNewScope(node); // create new scope for this block and enter it
         DynamicVal result;
         doNode(node.kids[0]); // do vargroup if it exists
         result = doNode(node.kids[1]); // do block next and keep result in case of 'return' statement
-        curScope = curScope.getParent(); // return to parent scope
         return result; // return result, may be null if no return statement
     }
 
@@ -131,21 +192,37 @@ public class Interpreter {
         return doNode(node.kids[0]); //  return result in case of 'return' statement, may be null if no return statement
     }
 
-    /* Handles assignment and initialization of variables
+    /* Handles assignment of variables only
      */
     private DynamicVal doEquals(PNode node) {
-
-        DynamicVal val = doNode(node.kids[1]);
-
+        DynamicVal val = doNode(node.kids[1]); // calculate expr on RHS
         Symbol lkid = node.kids[0].sym;
+        PNode idNode;
         if(lkid.getId() == Token.KINT || lkid.getId() == Token.KFLOAT || lkid.getId() == Token.KSTRING) {
-            curScope.declareVar(val, lkid.getToken().getStr().toUpperCase(), node.kids[0].kids[0].sym.getToken());
+            idNode = node.kids[0].kids[0]; // if its an initializer, the identifier is one node down
+            if (idNode.sym.getId() == Token.ASTER) {
+                idNode = idNode.kids[0]; // if its a ptr initializer go straight to the ID
+            }
         }
-        else if(lkid.getId() == Token.ID) {
-            curScope.updateVar(val, lkid.getToken().getStr());
+//        else if(lkid.getId() == Token.ID) {
+        else {
+            idNode = node.kids[0]; // if its assignment the identifier is right on the left
+        }
+//        else {
+//           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
+//        }
+        if(idNode.sym.getId() == Token.ASTER) { // if there is a deref specifically in assignment
+            idNode = idNode.kids[0]; // move to identifier
+            if(idNode.symTabLink.isPtr()) { // check for correct type
+                DynamicVal memAddr = idNode.symTabLink.getValue(); // get the memory address
+                SymTabRow.setMem(memAddr, val); // set value at memory address
+            }
+            else {
+                throw new RuntimeException("Error: Attempted to dereference an identifier that isn't a pointer");
+            }
         }
         else {
-           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
+            idNode.symTabLink.setValue(val); // assign calculated expr to existing symtabrow
         }
         return null;
     }
@@ -192,7 +269,8 @@ public class Interpreter {
             return val1.mul(val2);
         }
         else {
-            return null; // missing implementation of dereference operator
+            DynamicVal memAddr = node.kids[0].symTabLink.getValue();
+            return SymTabRow.getFromMem(memAddr);
         }
     }
 
@@ -209,4 +287,11 @@ public class Interpreter {
         throw new RuntimeException("ERROR: Tried to treat an AST node that wasn't a literal as a literal");
     }
 
+    private DynamicVal doIdentifier(PNode node) {
+        if(null == node.kids[0]) { // if we are a variable identifier
+            return node.symTabLink.getValue();
+        }
+        // Put function call logic here
+        return null;
+    }
 }

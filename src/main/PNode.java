@@ -10,7 +10,7 @@ package main;
  */
 public class PNode {
 
-    static int IDGenerator = 0;
+    private static int IDGenerator = 0;
 
     int ruleID;
     int nodeID;
@@ -18,6 +18,8 @@ public class PNode {
 
     PNode[] kids;
     Symbol sym;
+
+    SymTabRow symTabLink = null;
 
     PNode(Symbol sym, PNode gma) {
         this.ruleID = -1;

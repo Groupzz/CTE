@@ -26,7 +26,7 @@ public class RuleTest {
         pgmTest.add(KPROG);
         Assert.assertEquals("First set of PGM incorrect", pgmTest, firstSet(PGM));
 
-        HashSet<Symbol> factTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID));
+        HashSet<Symbol> factTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID, ASTER));
         Assert.assertEquals("First set of FACT incorrect", factTest, firstSet(FACT));
         Assert.assertEquals("First set of TERM incorrect", factTest, firstSet(TERM));
         Assert.assertEquals("First set of EXPR incorrect", factTest, firstSet(EXPR));
@@ -35,7 +35,7 @@ public class RuleTest {
         Assert.assertEquals("First set of STMT incorrect", stmtTest, firstSet(STMT));
         Assert.assertEquals("First set of STMTS incorrect", stmtTest, firstSet(STMTS));
 
-        HashSet<Symbol> dppexprsTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID, PARENS2));
+        HashSet<Symbol> dppexprsTest = new HashSet<>(Arrays.asList(PARENS1, INT, FLOAT, STRING, AMPERSAND, ID, PARENS2, ASTER));
         Assert.assertEquals("First set of DPPEXPRS incorrect", dppexprsTest, firstSet(DPPEXPRS));
     }
 

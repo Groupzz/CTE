@@ -58,11 +58,12 @@ main {
 }
 
 prog
-fcn test(x) int {
+fcn test(x, y, z) int {
+    var(float y = 2.6;)
     return x;
 }
 main {
-return test(1);
+return test(1, 2, 3);
 }
 
 prog main {
@@ -78,17 +79,40 @@ fcn test3(z) string {
 }
 main {}
 
-prog
-var ( int x = 1; )
-main {
-x = 2;
-return;
-x = 3;
+prog main {
+    var(
+    int x = 1;
+    float y = 3.14;
+    string z = "hello";
+    )
+    if(0) {
+        var( int x = 2;)
+    }
+    elseif(1) {
+        var(
+            int x = 3;
+            int y = 4;
+        )
+    }
+    else {
+        var( float z = 2.14;)
+    };
 }
 
 prog
-var ( int x = 1; )
+var ( int x; )
 main {
-var (int x = 55; )
- x = 74;
+x[0] = 1;
+}
+
+prog
+var (
+    int x = 1;
+    float z = 3.14;
+)
+main {
+var(float *y = 0;)
+y = y + x;
+*y = 55;
+z = *y + z;
 }
