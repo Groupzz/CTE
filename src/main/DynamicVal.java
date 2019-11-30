@@ -42,7 +42,7 @@ public class DynamicVal {
     /* These three constructors allow creating a dynamic val more easily
      * when we already know its type
      */
-    private DynamicVal(int val) {
+    DynamicVal(int val) {
         type = "INT";
         intVal = val;
     }

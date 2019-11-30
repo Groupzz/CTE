@@ -142,6 +142,8 @@ public class Interpreter {
                 return doParens(node);
             case Token.ID:
                 return doIdentifier(node);
+            case Token.AMPERSAND:
+                return doAmpersand(node);
                 // by default we simply recurse to all children and return null
             default:
                 for(PNode kid : node.kids) {
@@ -285,6 +287,10 @@ public class Interpreter {
                 return new DynamicVal("STRING", node.sym.getToken().getStr());
         }
         throw new RuntimeException("ERROR: Tried to treat an AST node that wasn't a literal as a literal");
+    }
+
+    private DynamicVal doAmpersand(PNode node) {
+        return node.kids[0].symTabLink.getMemAddr();
     }
 
     private DynamicVal doIdentifier(PNode node) {

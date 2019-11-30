@@ -104,13 +104,6 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
-    //Jamil - rule 105
-    private static void pta_addrof_id(PNode n){
-        PNode bigSis = n.kids[1];
-        bigSis.kids[0] = n.kids[0];
-        bigSis.hoist(n);
-    }
-
     // Specific method for LEXPR expansions
     private static void pta_lexpr(PNode n) {
         PNode bigSis = n.kids[0];
@@ -275,10 +268,10 @@ public class SymbolTree {
             case 25:
             case 84:
             case 87:
+            case 105:
             case 122:
             case 125: // questionable
             case 128:
-//            case 131: // seems fine
             case 132:
             case 134:
             case 139:
@@ -318,10 +311,6 @@ public class SymbolTree {
             case 144:
             case 147:
                 pta_2k_recursion(n);
-                break;
-            //Jamil
-            case 105:
-                pta_addrof_id(n);
                 break;
             case 7:
             case 65:

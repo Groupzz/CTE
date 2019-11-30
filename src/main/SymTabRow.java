@@ -62,6 +62,10 @@ public class SymTabRow {
         return memory.get(memAddr);
     }
 
+    DynamicVal getMemAddr() {
+        return new DynamicVal(memAddr);
+    }
+
     public String toString() {
         return String.format("%-10s | %-9s | %-8d | %-4d | %-4d | %-40s", name, type + (isPtr ? "PTR" : ""), memAddr, line, col, getValue());
     }
