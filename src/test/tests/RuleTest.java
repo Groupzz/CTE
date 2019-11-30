@@ -31,7 +31,7 @@ public class RuleTest {
         Assert.assertEquals("First set of TERM incorrect", factTest, firstSet(TERM));
         Assert.assertEquals("First set of EXPR incorrect", factTest, firstSet(EXPR));
 
-        HashSet<Symbol> stmtTest = new HashSet<>(Arrays.asList(ID, KIF, KWHILE, KPRINT, KRETURN));
+        HashSet<Symbol> stmtTest = new HashSet<>(Arrays.asList(ID, KIF, KWHILE, KPRINT, KRETURN, ASTER));
         Assert.assertEquals("First set of STMT incorrect", stmtTest, firstSet(STMT));
         Assert.assertEquals("First set of STMTS incorrect", stmtTest, firstSet(STMTS));
 
@@ -55,7 +55,7 @@ public class RuleTest {
                 ASTER, CARET, SLASH, SEMI, BRACKET2, PARENS2, COMMA, BRACE2));
         Assert.assertEquals("Follow set of DFACT incorrect", dfactTest, followSet(DFACT));
 
-        HashSet<Symbol> vargroupTest = new HashSet<>(Arrays.asList(KFCN, ID, KIF, KWHILE, KPRINT, KRETURN, KMAIN, BRACE2));
+        HashSet<Symbol> vargroupTest = new HashSet<>(Arrays.asList(KFCN, ID, KIF, KWHILE, KPRINT, KRETURN, KMAIN, BRACE2, ASTER));
         Assert.assertEquals("Follow set of VARGROUP incorrect", vargroupTest, followSet(VARGROUP));
     }
 }
