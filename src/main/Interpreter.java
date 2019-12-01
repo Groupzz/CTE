@@ -1,4 +1,7 @@
 package main;
+
+import java.util.ArrayList;
+
 /* CECS 444 Compiler Construction
  * Project 3: Interpreter
  * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
@@ -35,10 +38,11 @@ public class Interpreter {
     }
 
     private void beginExecution() {
-        doNode(AST.getRoot());
+        DynamicVal exitCode = doNode(AST.getRoot());
         // print out curScope's symtable and all of its children symtables
         // so we can see what's happening in them
         System.out.println("---EXECUTION FINISHED---");
+        System.out.println("Program finished with exit code: " + exitCode);
         System.out.println(SCT);
     }
 
@@ -48,12 +52,12 @@ public class Interpreter {
             return;
         switch(node.sym.getId()) {
             case Token.KFCN:
-                return; // ignore functions for now
+                declareFunction(node, curScope);
+                break;
             case Token.BRACE1:
                 curScope = curScope.addNewScope(node); // create new scope for this block and enter it
                 buildSCT(node.kids[0], curScope); // do vargroup if it exists
                 buildSCT(node.kids[1], curScope); // enter block to look for more blocks
-//                curScope = curScope.getParent(); // return to parent scope
                 break;
             case Token.EQUAL:
                 buildSCT(node.kids[1], curScope); // check rhs of equals for any identifier usage
@@ -72,7 +76,7 @@ public class Interpreter {
                 }
                 break;
             case Token.ID:
-                if(null == node.kids[0]) { // if id is a variable
+                if(null == node.kids[0] || node.kids[0].sym.getId() == Token.BRACKET1) { // if id is not a function
                     curScope.linkID(node);
                 }
                 break;
@@ -82,7 +86,7 @@ public class Interpreter {
                 PNode idNode;
                 if(node.kids[0].sym.getId() == Token.ID) {
                     idNode = node.kids[0];
-                    if(null == node.kids[0].kids[0]) { // not an array
+                    if(null == idNode.kids[0]) { // not an array
                         curScope.declareVar(node.sym.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, false);
                         curScope.linkID(idNode);
                     }
@@ -110,6 +114,14 @@ public class Interpreter {
         }
     }
 
+    private void declareFunction(PNode node, SymbolTable curScope) {
+        buildSCT(node.kids[3], curScope); // handle function definition and all of its declarations
+        buildSCT(node.kids[1], curScope.getKidByBlock(node.kids[3])); // link args to var decls inside block
+        String funcID = node.kids[0].sym.getToken().getStr(); // get name of function
+        curScope.declareFunc(funcID, node);
+        buildSCT(node.kids[4], curScope); // declare next function
+    }
+
     /*
      * Main recursive function that handles the treewalk of the AST
      * Has a return type of DynamicVal so when arithmetic operators are performed it can return the resulting value
@@ -125,7 +137,7 @@ public class Interpreter {
             case Token.KINT:
             case Token.KFLOAT:
             case Token.KSTRING:
-            case Token.KFCN: // ignore functions for now
+            case Token.KFCN: // ignore functions
                 return null;
             case Token.KIF:
             case Token.KELSEIF:
@@ -163,6 +175,10 @@ public class Interpreter {
             case Token.AMPERSAND:
                 return doAmpersand(node);
                 // by default we simply recurse to all children and return null
+            case Token.KMAIN:
+                return doNode(node.kids[0]);
+            case Token.KPROG:
+                return doProg(node);
             default:
                 for(PNode kid : node.kids) {
                     if(null != kid)
@@ -180,6 +196,11 @@ public class Interpreter {
         else {
             return doNode(node.kids[2]); // do else part
         }
+    }
+
+    private DynamicVal doProg(PNode node) {
+        doNode(node.kids[0]); // vargroup
+        return doNode(node.kids[2]); // main
     }
 
     private DynamicVal doReturn(PNode node) {
@@ -258,22 +279,18 @@ public class Interpreter {
                 return val1.plus(val2);
             case Token.MINUS:
                 return val1.minus(val2);
-            //added div case
             case Token.SLASH:
                 return val1.div(val2);
-            //added exponent case
             case Token.CARET:
                 return val1.pow(val2);
             case Token.OPEQ:
                 return val1.equals(val2);
             case Token.ANGLE1:
                 return val1.lessThan(val2);
-            //added <= case
             case Token.OPLE:
                 return val1.lessThanOrEqual(val2);
             case Token.ANGLE2:
                 return val1.greaterThan(val2);
-            //added >= case
             case Token.OPGE:
                 return val1.greaterThanOrEqual(val2);
             case Token.OPNE:
@@ -321,7 +338,42 @@ public class Interpreter {
             }
             return val;
         }
-        // Put function call logic here
-        return null;
+        // Function call logic
+        String funcID = node.sym.getToken().getStr();
+        PNode funcNode = SCT.getFuncNode(funcID);
+
+        ArrayList<DynamicVal> args = collectArgs(node.kids[0].kids[0].kids[0]); // move down to first comma or literal
+        fillParams(funcNode.kids[1].kids[0].kids[0], args);
+        return doNode(funcNode.kids[3]);
+    }
+
+    // Returns an ArrayList of all the resulting values of a function's arguments in the order they are listed
+    private ArrayList<DynamicVal> collectArgs(PNode node) {
+        ArrayList<DynamicVal> result = new ArrayList<>();
+        if (node.sym.getId() == Token.COMMA) {
+            result.addAll(collectArgs(node.kids[0]));
+            result.addAll(collectArgs(node.kids[1]));
+        }
+        else {
+            result.add(doNode(node));
+        }
+        return result;
+    }
+
+    // Takes an ArrayList and puts its values into a function's parameters in the order they are listed
+    private void fillParams(PNode node, ArrayList<DynamicVal> params) {
+        if(node.sym.getId() == Token.COMMA) {
+            fillParams(node.kids[0], params);
+            fillParams(node.kids[1], params);
+        }
+        else if(node.sym.getId() == Token.ASTER) {
+            fillParams(node.kids[0], params);
+        }
+        else {
+            if(node.symTabLink == null) {
+                System.out.println(node.sym.getToken());
+            }
+            node.symTabLink.setValue(params.remove(0));
+        }
     }
 }

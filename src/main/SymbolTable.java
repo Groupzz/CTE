@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class SymbolTable {
 
     static SymbolTable root = new SymbolTable(null, null); // scope tree root
+    private static HashMap<String, PNode> funcNode = new HashMap<>();
 
     private SymbolTable parent = null; // scope node parent
     private ArrayList<SymbolTable> kids = new ArrayList<>(); // scope node kids
@@ -20,6 +21,17 @@ public class SymbolTable {
     SymbolTable addNewScope(PNode bblock) {
         kids.add(new SymbolTable(this, bblock));
         return kids.get(kids.size() - 1);
+    }
+
+    void declareFunc(String id, PNode fcnNode) {
+        if(funcNode.containsKey(id)) {
+            throw new RuntimeException("Error: Function '" + id +  "' already exists. Line: " + fcnNode.sym.getToken().getLin());
+        }
+        funcNode.put(id, fcnNode);
+    }
+
+    PNode getFuncNode(String id) {
+        return funcNode.get(id);
     }
 
     void declareVar(String type, Token id, PNode declNode, boolean isPtr) {
@@ -82,5 +94,14 @@ public class SymbolTable {
 
     SymbolTable getParent() {
         return parent;
+    }
+
+    SymbolTable getKidByBlock(PNode block) {
+        for(SymbolTable kid : kids) {
+            if(kid.bblock == block) {
+                return kid;
+            }
+        }
+        return null;
     }
 }
