@@ -77,7 +77,7 @@ fcn test2(x) int {
     return x ^ 2;
 }
 main {
-return test(66.6, 11.1) + test2(100);
+return test(66.6, 11.1);
 }
 
 prog main {
@@ -86,13 +86,13 @@ return x;
 }
 
 prog
-fcn test(x) int {
+fcn greet(x, y) string {
+    var(string x; string y;)
+    return "Hello " + x + "! I'm a computer.";
 }
-fcn test2(y) float {
+main {
+    return greet("Josh", "Hello");
 }
-fcn test3(z) string {
-}
-main {}
 
 prog main {
     var(

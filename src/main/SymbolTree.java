@@ -207,6 +207,16 @@ public class SymbolTree {
         bigSis.hoist(n);
     }
 
+    // Rule 131
+    private static void pta_dstmt(PNode n) {
+        if(n.kids[1].sym.getId() == Token.EQUAL) { // assignment
+            hoistNonterm(n, 1, 2);
+        }
+        else { // void function call
+            hoistTerm(n, 0, 2);
+        }
+    }
+
     /**
      * This method is called for each tree in post order. It uses the ruleid of the node
      * to determine how to handle its conversion to AST and calls the correct function
@@ -343,13 +353,15 @@ public class SymbolTree {
             case 55:
                 hoistNonterm(n, 0, 2);
                 break;
-            case 131:
             case 157:
                 hoistNonterm(n, 1, 2);
                 break;
             case 32:
             case 62:
                 pta_commas(n);
+                break;
+            case 131:
+                pta_dstmt(n);
                 break;
             default:
              System.out.println(n.sym + ": no rule #" + rule + " found in AST conversion");

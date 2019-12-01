@@ -216,7 +216,7 @@ public class Interpreter {
 
     private DynamicVal doSemi(PNode node) {
         DynamicVal result = doNode(node.kids[0]); // check if the first statement results in a return value
-        if(null == result) { // if it has no return value
+        if(null == result || node.kids[0].sym.getId() == Token.ID) { // if it has no return value or was a void function
             result = doNode(node.kids[1]); // do the next statement and return that
         }
         return result; // otherwise return the result of the first statement: it has led to an A7 'return' statement
