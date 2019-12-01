@@ -42,30 +42,42 @@ public class Lexer {
 		lexinput();
 	}
 
-	public void lexinput() throws IOException {
+	Lexer(String input) {
+		lexinput(input);
+	}
 
+	private void lexinput() throws IOException {
 		//Initialize int variable to store next character from system input
 		int ci;
-
 		// Read one character at a time from stdin until EOF
 		while ((ci = System.in.read()) != -1) { // -1 represents EOF
 			char c = (char) ci; // read() returns an integer so we cast it to a character
-
-			nextState(c); // Sending the character input to check the current lexer state
-
-			// Increment position counter for each character
-			col++;
-			// If we hit a newline increment line counter and reset position counter
-			if (c == '\n') {
-				col = 1;
-				line++;
-			}
+			doLexLoop(c);
 		}
+		endLex();
+	}
 
+	private void lexinput(String input) {
+		for(char c : input.toCharArray()) {
+			doLexLoop(c);
+		}
+		endLex();
+	}
+
+	private void doLexLoop(char c) {
+		nextState(c); // Sending the character input to check the current lexer state
+		// Increment position counter for each character
+		col++;
+		// If we hit a newline increment line counter and reset position counter
+		if (c == '\n') {
+			col = 1;
+			line++;
+		}
+	}
+	private void endLex() {
 		// Send a space after the file has been read to make sure tokens in the middle of being read
 		// are accepted and added to the list of tokens
 		nextState(' ');
-
 		// Add EOF token
 		tokens.add(new Token(0, line, col, ""));
 	}
