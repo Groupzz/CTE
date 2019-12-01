@@ -88,6 +88,29 @@ public class Interpreter {
                     curScope.linkID(node);
                 }
                 break;
+            case Token.KINT:
+            case Token.KFLOAT:
+            case Token.KSTRING:
+                PNode idNode;
+                if(node.kids[0].sym.getId() == Token.ID) {
+                    idNode = node.kids[0];
+                    if(null == node.kids[0].kids[0]) { // not an array
+                        curScope.declareVar(node.sym.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, false);
+                        curScope.linkID(idNode);
+                    }
+                    else { // an array
+                        DynamicVal arraySize = doNode(node.kids[0].kids[0]);
+                        curScope.declareArr(node.sym.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, arraySize);
+                        curScope.linkID(idNode);
+                    }
+                }
+                else {
+                    idNode = node.kids[0].kids[0];
+                    // should be an asterisk
+                    curScope.declareVar(node.sym.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, true);
+                    curScope.linkID(idNode);
+                }
+                break;
             default:
                 for(PNode kid : node.kids) {
                     if(null != kid)
@@ -108,8 +131,11 @@ public class Interpreter {
             return null;
         }
         switch(node.sym.getId()) {
-            case Token.KFCN:
-                return null; // ignore functions for now
+            case Token.KINT:
+            case Token.KFLOAT:
+            case Token.KSTRING:
+            case Token.KFCN: // ignore functions for now
+                return null;
             case Token.KIF:
             case Token.KELSEIF:
                 return doIf(node);
@@ -139,6 +165,7 @@ public class Interpreter {
             case Token.BRACE1:
                 return doBrace(node);
             case Token.PARENS1:
+            case Token.BRACKET1:
                 return doParens(node);
             case Token.ID:
                 return doIdentifier(node);
@@ -295,7 +322,13 @@ public class Interpreter {
 
     private DynamicVal doIdentifier(PNode node) {
         if(null == node.kids[0]) { // if we are a variable identifier
-            return node.symTabLink.getValue();
+            DynamicVal val = node.symTabLink.getValue();
+            if(null == val) {
+                Token idTok = node.sym.getToken();
+                throw new RuntimeException("ERROR: Variable '" + idTok.getStr() + "' referenced before assignment (Lin: "
+                        + idTok.getLin() + " Col: " + idTok.getLinCol() + ")");
+            }
+            return val;
         }
         // Put function call logic here
         return null;

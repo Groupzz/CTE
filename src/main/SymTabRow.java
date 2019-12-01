@@ -37,6 +37,34 @@ public class SymTabRow {
         this.isPtr = isPtr;
     }
 
+    SymTabRow(String name, String type, int line, int col, PNode decl, int arrSize) {
+        this.memAddr = memIndex++;
+        this.name = name;
+        this.type = type;
+        this.line = line;
+        this.col = col;
+        this.decl = decl;
+        memory.add(new DynamicVal(memIndex));
+        this.isPtr = true;
+
+        for(int i = 0; i < arrSize; i++) {
+            memIndex++;
+            switch (type) {
+                case "INT":
+                    memory.add(new DynamicVal(0));
+                    break;
+                case "FLOAT":
+                    memory.add(new DynamicVal(0.0f));
+                    break;
+                case "STRING":
+                    memory.add(new DynamicVal(""));
+                    break;
+                default:
+                    throw new RuntimeException("Error: Attempted to create array of invalid type");
+            }
+        }
+    }
+
     boolean isPtr() {
         return isPtr;
     }

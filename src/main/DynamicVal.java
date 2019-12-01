@@ -47,12 +47,12 @@ public class DynamicVal {
         intVal = val;
     }
 
-    private DynamicVal(float val) {
+    DynamicVal(float val) {
         type = "FLOAT";
         floatVal = val;
     }
 
-    private DynamicVal(String val) {
+    DynamicVal(String val) {
         type = "STRING";
         strVal = val;
     }

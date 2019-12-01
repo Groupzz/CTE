@@ -34,6 +34,16 @@ public class SymbolTable {
 
     }
 
+    void declareArr(String type, Token id, PNode declNode, DynamicVal size) {
+        if(!rows.containsKey(id.getStr())) {
+            SymTabRow newRow = new SymTabRow(id.getStr(), type, id.getLin(), id.getLinCol(), declNode, size.intVal);
+            rows.put(id.getStr(), newRow);
+        }
+        else {
+            throw new RuntimeException("Error: Identifier '" + id.getStr() +  "' already exists in symbol table for this scope: lin: " + id.getLin() + " col: " + id.getLinCol());
+        }
+    }
+
     /* Automatically searches through this scope and all its parents for the first occurrence of an identifier
      * then updates the AST node to link to the correct SymTabRow for easy access
      * If it can't find one, prints an error saying it doesn't exist.

@@ -80,10 +80,16 @@ public class SymbolTree {
     }
 
     private static void pta_bs2_k2_assign(PNode n) {
-        PNode bigSis = n.kids[1];
-        bigSis.kids[1] = bigSis.kids[0];
-        bigSis.kids[0] = n.kids[0];
-        bigSis.hoist(n);
+        if(null != n.kids[1]) {
+            PNode bigSis = n.kids[1];
+            bigSis.kids[1] = bigSis.kids[0];
+            bigSis.kids[0] = n.kids[0];
+            bigSis.hoist(n);
+        }
+        else {
+            PNode bigSis = n.kids[0];
+            bigSis.hoist(n);
+        }
     }
 
     private static void pta_2k_recursion(PNode n) {
