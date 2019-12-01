@@ -59,25 +59,13 @@ public class Interpreter {
                 buildSCT(node.kids[1], curScope); // check rhs of equals for any identifier usage
                 Symbol lkid = node.kids[0].sym; // check lhs of equals for type in case of initializer
                 if(lkid.getId() == Token.KINT || lkid.getId() == Token.KFLOAT || lkid.getId() == Token.KSTRING) {
-                    PNode idNode;
-                    boolean isPtr;
-                    if(node.kids[0].kids[0].sym.getId() == Token.ASTER) {
-                        idNode = node.kids[0].kids[0].kids[0];
-                        isPtr = true;
-                    }
-                    else {
-                        idNode = node.kids[0].kids[0];
-                        isPtr = false;
-                    }
-                    curScope.declareVar(lkid.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, isPtr);
-                    // link LHS identifier of initializer to its SymTabRow for later assignment
-                    curScope.linkID(idNode);
+                    buildSCT(node.kids[0], curScope); // if its an initializer we let the type node handle it
                 }
                 else if(lkid.getId() == Token.ID) { // if not an initializer, we simply link it to its SymTabRow
                     curScope.linkID(node.kids[0]);
                 }
                 else if(lkid.getId() == Token.ASTER) {
-                    curScope.linkID(node.kids[0].kids[0]); // skip the aster
+                    curScope.linkID(node.kids[0].kids[0]); // skip the aster for pointers
                 }
                 else {
                     throw new RuntimeException("Error: Unexpected token on left of equals in AST");
@@ -104,11 +92,14 @@ public class Interpreter {
                         curScope.linkID(idNode);
                     }
                 }
-                else {
+                else if (node.kids[0].sym.getId() == Token.ASTER) {
                     idNode = node.kids[0].kids[0];
                     // should be an asterisk
                     curScope.declareVar(node.sym.getToken().getStr().toUpperCase(), idNode.sym.getToken(), node, true);
                     curScope.linkID(idNode);
+                }
+                else {
+                    throw new RuntimeException("Error: Unexpected token on left of initializer in AST");
                 }
                 break;
             default:
