@@ -183,6 +183,7 @@ public class Parser {
 
     private static Scanner scanner;
     private static Iterator<Token> tokIterator;
+    private static Lexer lexer;
 
     public static boolean hasNextToken() {
         if (scanner != null) {
@@ -203,13 +204,13 @@ public class Parser {
             }
             else {
                 try {
-                    Lexer.lexinput();
+                    lexer = new Lexer();
                 }
                 catch (Exception e) {
                     System.out.println(Arrays.toString(e.getStackTrace()));
                     System.out.println("Faled to lex input");
                 }
-                tokIterator = Lexer.getTokens().iterator();
+                tokIterator = lexer.getTokens().iterator();
                 return new Symbol(tokIterator.next());
             }
         }

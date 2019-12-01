@@ -17,26 +17,32 @@ public class Lexer {
 
 	private static HashMap<String, Integer> keywords;
 	private static HashMap<Character, Integer> tokenLookup;
-	private static ArrayList<Token> tokens = new ArrayList<>();
-
-	private static int state = 1; // Represents our current state in the DFA
-	private static StringBuilder tokenText = new StringBuilder();
-	private static int line = 1; // Tracks line and column number for each token
-	private static int col = 1;
-
-	public static void main(String[] args) throws IOException {
-		lexinput();
-		// Output all the tokens
-		for(Token tok : tokens) {
-			System.out.println(tok);
-		}
-	}
-
-	public static void lexinput() throws IOException {
+	static {
 		//Calling methods to initialize keywords and tokens
 		//that should be recognized by the lexer
 		keywordInitialize();
 		tokenInitialize();
+	}
+
+	private ArrayList<Token> tokens = new ArrayList<>();
+	private int state = 1; // Represents our current state in the DFA
+	private StringBuilder tokenText = new StringBuilder();
+	private int line = 1; // Tracks line and column number for each token
+	private int col = 1;
+
+	public static void main(String[] args) throws IOException {
+		Lexer lexer = new Lexer();
+		// Output all the tokens
+		for(Token tok : lexer.tokens) {
+			System.out.println(tok);
+		}
+	}
+
+	Lexer() throws IOException {
+		lexinput();
+	}
+
+	public void lexinput() throws IOException {
 
 		//Initialize int variable to store next character from system input
 		int ci;
@@ -64,12 +70,12 @@ public class Lexer {
 		tokens.add(new Token(0, line, col, ""));
 	}
 
-	public static ArrayList<Token> getTokens() {
+	ArrayList<Token> getTokens() {
 		return tokens;
 	}
 
 	//Method to check the state by peeking ahead to next character and advancing if allowed
-	private static void nextState(char c) {
+	private void nextState(char c) {
 	    if (c == '\t' || c == '\r') {
 	        return; // ignore indentation
         }
@@ -296,7 +302,7 @@ public class Lexer {
 
 	// Method for accepting identifiers and keywords specifically
     // checks if the identifier is a keyword and accepts the appropriate token
-	private static void acceptIdentifier() {
+	private void acceptIdentifier() {
 		Integer keywordID = keywords.get(tokenText.toString());
 		if (keywordID != null) {
 			// its a keyword, use the right tokenID
@@ -309,26 +315,26 @@ public class Lexer {
 	}
 
 	// Adds a new token to the output and resets the state
-	private static void acceptToken(int ID) {
+	private void acceptToken(int ID) {
 		Token newToken = new Token(ID, line, col, tokenText.toString());
 		tokens.add(newToken);
 		resetState();
 	}
 
 	//Method to reset start state of lexer.
-	private static void resetState() {
+	private void resetState() {
 		tokenText = new StringBuilder();
 		state = 1;
 	}
 
 	//Method to throw syntax errors for any tokens that are syntactically incorrect.
-	private static void tokenError() {
+	private void tokenError() {
 		System.out.println("Token syntax error: " + "lin: " + line + " col: " + col);
 		exit(0);
 	}
 
 	//Method to place keywords that should be recognized by the lexer in a new HashMap.
-	static void keywordInitialize()
+	private static void keywordInitialize()
 	{
 		keywords = new HashMap<>();
 		keywords.put("prog", 10);
