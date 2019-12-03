@@ -252,6 +252,8 @@ public class Interpreter {
             case Token.KIF:
             case Token.KELSEIF:
                 return doIf(node);
+            case Token.KWHILE:
+                return doWhile(node);
             case Token.KRETURN:
                 return doReturn(node);
             case Token.SEMI:
