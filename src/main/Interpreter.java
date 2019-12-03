@@ -175,6 +175,8 @@ public class Interpreter {
             case Token.AMPERSAND:
                 return doAmpersand(node);
                 // by default we simply recurse to all children and return null
+            case Token.KPRINT:
+                return doPrint(node);
             case Token.KMAIN:
                 return doNode(node.kids[0]);
             case Token.KPROG:
@@ -345,6 +347,14 @@ public class Interpreter {
         ArrayList<DynamicVal> args = collectArgs(node.kids[0].kids[0].kids[0]); // move down to first comma or literal
         fillParams(funcNode.kids[1].kids[0].kids[0], args);
         return doNode(funcNode.kids[3]);
+    }
+
+    private DynamicVal doPrint(PNode node){
+        String output = "";
+        for(Object word : collectArgs(node.kids[0].kids[0].kids[0]))
+            output += word + " ";
+        System.out.println(output.trim());
+        return null;
     }
 
     // Returns an ArrayList of all the resulting values of a function's arguments in the order they are listed

@@ -131,3 +131,17 @@ y = &z;
 *y = 55.0;
 z = *y + z;
 }
+
+prog
+main {
+    print("Josh", "Hello");
+}
+
+prog
+fcn greet(x, y) string {
+    var(string x; string y;)
+    print("Hello " + x + "! I'm a computer.");
+}
+main {
+    greet("Josh", "Hello");
+}
