@@ -199,6 +199,17 @@ public class Interpreter {
             return doNode(node.kids[2]); // do else part
         }
     }
+    
+    private DynamicVal doWhile(PNode node){
+        DynamicVal result = null;
+        while(doNode(node.kids[0]).isTrue()){
+            result = doNode(node.kids[1]);
+            if(result != null){
+                return result;
+            }
+        }
+        return result;
+    }
 
     private DynamicVal doProg(PNode node) {
         doNode(node.kids[0]); // vargroup
