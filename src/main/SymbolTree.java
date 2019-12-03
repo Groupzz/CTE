@@ -210,10 +210,21 @@ public class SymbolTree {
     // Rule 131
     private static void pta_dstmt(PNode n) {
         if(n.kids[1].sym.getId() == Token.EQUAL) { // assignment
-            hoistNonterm(n, 1, 2);
+            if(n.kids[1].kids[0].sym.getId() == Token.BRACKET1) { // assignment to array
+                n.kids[0].kids[0] = n.kids[1].kids[0];
+                n.kids[1].kids[0] = n.kids[1].kids[1];
+                n.kids[1].kids[1] = null;
+                hoistNonterm(n, 1, 2);
+            }
+            else {
+                hoistNonterm(n, 1, 2); // regular assignment
+            }
         }
-        else { // void function call
+        else if(n.kids[1].sym.getId() == Token.PARENS1){ // void function call
             hoistTerm(n, 0, 2);
+        }
+        else {
+            throw new RuntimeException("DSTMT EXPANDED UNEXPECTEDLY");
         }
     }
 
@@ -296,6 +307,7 @@ public class SymbolTree {
                 break;
             case 6:
             case 24:
+            case 78:
             case 86:
             case 90:
                 hoistTerm(n, 0, 3);
@@ -330,6 +342,7 @@ public class SymbolTree {
                 break;
             case 7:
             case 65:
+            case 158:
                 hoistTerm(n, 1, 3);
                 break;
             case 5:

@@ -115,9 +115,11 @@ prog main {
 }
 
 prog
-var ( int x; )
+var ( int x[4]; int y;)
 main {
-x[0] = 1;
+x[0] = 5;
+x[1] = 10;
+y = x[1] * x[0];
 }
 
 prog

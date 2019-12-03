@@ -171,7 +171,7 @@ public class Rule {
 
         // More missing LVAL rules
         rules.put(157, new Rule(STMT, DEREF_ID, DSTMT));
-//        rules.put(158, new Rule(DSTMT, KKEXPR, EQUAL, EXPR)); // adds support for LHS arrays
+        rules.put(158, new Rule(DSTMT, KKEXPR, EQUAL, EXPR)); // adds support for LHS arrays
     }
 
     private static HashSet<Symbol> disappearing = new HashSet<>();

@@ -265,7 +265,14 @@ public class Interpreter {
             }
         }
         else {
-            idNode.symTabLink.setValue(val); // assign calculated expr to existing symtabrow
+            if(null == idNode.kids[0]) { // if LHS is an ID by itself
+                idNode.symTabLink.setValue(val); // assign calculated expr to existing symtabrow
+            }
+            else { // if LHS includes brackets for array assignment
+                DynamicVal memAddr = idNode.symTabLink.getValue();
+                DynamicVal offset = doNode(idNode.kids[0]);
+                SymTabRow.setMem(memAddr.plus(offset), val);
+            }
         }
         return null;
     }
@@ -340,13 +347,24 @@ public class Interpreter {
             }
             return val;
         }
-        // Function call logic
-        String funcID = node.sym.getToken().getStr();
-        PNode funcNode = SCT.getFuncNode(funcID);
+        else if(node.kids[0].sym.getId() == Token.PARENS1) {
+            // Function call logic
+            String funcID = node.sym.getToken().getStr();
+            PNode funcNode = SCT.getFuncNode(funcID);
 
-        ArrayList<DynamicVal> args = collectArgs(node.kids[0].kids[0].kids[0]); // move down to first comma or literal
-        fillParams(funcNode.kids[1].kids[0].kids[0], args);
-        return doNode(funcNode.kids[3]);
+            ArrayList<DynamicVal> args = collectArgs(node.kids[0].kids[0].kids[0]); // move down to first comma or literal
+            fillParams(funcNode.kids[1].kids[0].kids[0], args);
+            return doNode(funcNode.kids[3]);
+        }
+        else if(node.kids[0].sym.getId() == Token.BRACKET1) {
+            // Array logic
+            DynamicVal memAddr = node.symTabLink.getValue();
+            DynamicVal offset = doNode(node.kids[0]);
+            return SymTabRow.getFromMem(memAddr.plus(offset));
+        }
+        else {
+            throw new RuntimeException("Identifier has weird kids");
+        }
     }
 
     private DynamicVal doPrint(PNode node){
