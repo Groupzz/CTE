@@ -9,9 +9,9 @@ import java.util.ArrayList;
  *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
  * Description: Class that handles interpretation of the abstract syntax tree.
  * Calls the necessary methods to obtain an abstract syntax tree from raw A7 code.
- * Recursively iterates over the nodes of the AST doing different things based on what
+ * First treewalks to build a scope tree and link identifier usages to their respective scope.
+ * Then recursively iterates over the nodes of the AST doing different things based on what
  * token the node represents.
- * Keeps track of the current scope as it is iterating over the AST.
  */
 public class Interpreter {
 
@@ -29,7 +29,12 @@ public class Interpreter {
         interpreter.buildSCT();
         //interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
+//        interpreter.typeCheck();
         interpreter.beginExecution();
+    }
+
+    private String getLinCol(PNode node) {
+        return " (Lin: " + node.sym.getToken().getLin() + " Col: " + node.sym.getToken().getLinCol() + ") ";
     }
 
     // Helper method for recursive buildSCT
@@ -37,6 +42,10 @@ public class Interpreter {
         buildSCT(AST.getRoot(), SCT);
         System.out.println("---GENERATED SCOPE TREE---");
         System.out.println(SCT);
+    }
+
+    private void typeCheck() {
+        typeCheck(AST.getRoot());
     }
 
     private void beginExecution() {
@@ -123,6 +132,107 @@ public class Interpreter {
         curScope.declareFunc(funcID, node);
         buildSCT(node.kids[4], curScope); // declare next function
     }
+
+    private String typeCheck(PNode node) {
+        if(null == node) {
+            return null;
+        }
+        switch(node.sym.getId()) {
+            case Token.PLUS:
+            case Token.MINUS:
+            case Token.SLASH:
+            case Token.CARET:
+            case Token.OPLE:
+            case Token.OPGE:
+            case Token.OPEQ:
+            case Token.ANGLE1:
+            case Token.ANGLE2:
+            case Token.OPNE:
+                return typeCheckOP(node);
+            case Token.INT:
+                return "INT";
+            case Token.STRING:
+                return "STRING";
+            case Token.FLOAT:
+                return "FLOAT";
+            case Token.ID:
+                if(null == node.kids[0])
+                    return node.symTabLink.getType();
+                else if(node.kids[0].sym.getId() == Token.PARENS1) {
+                    // Function call
+                    return SCT.getFuncNode(node.sym.getToken().getStr()).kids[2].sym.getToken().getStr().toUpperCase();
+                }
+                else if(node.kids[0].sym.getId() == Token.BRACE1) {
+                    if(!typeCheck(node.kids[0]).equals("INT")) {
+                        throw new RuntimeException("Attempt to access index that is not of type INT " + getLinCol(node));
+                    }
+                    return node.symTabLink.getType();
+                }
+            case Token.BRACE1:
+            case Token.PARENS1:
+                return typeCheck(node.kids[0]);
+            default:
+                for(PNode kid : node.kids) {
+                    typeCheck(kid);
+                }
+                return "";
+        }
+    }
+
+    private DynamicVal dummyVal(String type) {
+        if(null == type) {
+            throw new RuntimeException("Type error");
+        }
+        switch (type) {
+            case "INT":
+                return new DynamicVal(0);
+            case "FLOAT":
+                return new DynamicVal(0.0f);
+            case "STRING":
+                return new DynamicVal("");
+            default:
+                throw new RuntimeException("Type error");
+        }
+    }
+
+    private String typeCheckOP(PNode node) {
+        String type1 = typeCheck(node.kids[0]);
+        String type2 = typeCheck(node.kids[1]);
+        DynamicVal val1 = dummyVal(type1);
+        DynamicVal val2 = dummyVal(type2);
+        try {
+            switch (node.sym.getId()) {
+                case Token.PLUS:
+                    return val1.plus(val2).type;
+                case Token.MINUS:
+                    return val1.minus(val2).type;
+                case Token.SLASH:
+                    return val1.div(val2).type;
+                case Token.CARET:
+                    return val1.pow(val2).type;
+                case Token.OPEQ:
+                    return val1.equals(val2).type;
+                case Token.ANGLE1:
+                    return val1.lessThan(val2).type;
+                case Token.OPLE:
+                    return val1.lessThanOrEqual(val2).type;
+                case Token.ANGLE2:
+                    return val1.greaterThan(val2).type;
+                case Token.OPGE:
+                    return val1.greaterThanOrEqual(val2).type;
+                case Token.OPNE:
+                    return val1.notEqual(val2).type;
+                default:
+                    throw new RuntimeException("SIMPLE OPPPP");
+            }
+        }
+        catch (Exception e) {
+            System.out.print(getLinCol(node) + " : ");
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
+
 
     /*
      * Main recursive function that handles the treewalk of the AST
@@ -250,7 +360,7 @@ public class Interpreter {
         return doNode(node.kids[0]); //  return result in case of 'return' statement, may be null if no return statement
     }
 
-    /* Handles assignment of variables only
+    /* Handles assignment only
      */
     private DynamicVal doEquals(PNode node) {
         DynamicVal val = doNode(node.kids[1]); // calculate expr on RHS

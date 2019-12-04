@@ -3,7 +3,7 @@
 prog main {
     var(int x = 0;)
     x = 2;
-    if (1 != 1) {
+    if (x <= 1) {
         x = 1;
     }
     elseif (x == 2) {
@@ -15,8 +15,9 @@ prog main {
 }
 
 prog main {
+    var(x = 5;)
     while(x > 0) {
-        x = 0;
+        x = x - 1;
     };
 }
 
@@ -48,7 +49,7 @@ fcn test(x, y) int {
     return x + y;
 }
 main {
-    print(test(x, y) + test(y));
+    print(test(80, 57));
 }
 
 prog
@@ -91,7 +92,7 @@ fcn greet(x, y) string {
     return "Hello " + x + "! I'm a computer.";
 }
 main {
-    return greet("Josh", "Hello");
+    print(greet("Josh", "Hello"));
 }
 
 prog main {
