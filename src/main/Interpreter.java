@@ -27,6 +27,8 @@ public class Interpreter {
         System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
+        //interpreter.optimizer(interpreter.AST.getRoot());
+        System.out.println(interpreter.AST);
         interpreter.beginExecution();
     }
 
@@ -417,4 +419,72 @@ public class Interpreter {
             node.symTabLink.setValue(params.remove(0));
         }
     }
+
+    // Propagates up the value by replacing the node operator with the value of the
+    // arithmetic equations
+    private void doPropagation(PNode node) {
+        if (node == null) return;
+        doPropagation(node.kids[0]);
+        doPropagation(node.kids[1]);
+        // If left child is a constant
+        if (node.kids[0].sym.getId() == Token.INT || node.kids[0].sym.getId() == Token.FLOAT || node.kids[0].sym.getId() == Token.STRING) {
+            // If right child is a constant
+            if (node.kids[1].sym.getId() == Token.INT || node.kids[1].sym.getId() == Token.FLOAT || node.kids[1].sym.getId() == Token.STRING) {
+                // Get the value
+                DynamicVal newVal = doSimpleOP(node);
+                // Make a symbol of the dynamic val
+                Symbol newSymbol = makeSymbol(newVal, node.sym.getToken().getLin(), node.sym.getToken().getLinCol());
+
+                node.sym = newSymbol;
+
+                node.kids[0] = null;
+                node.kids[1] = null;
+            } /*else if(node.kids[1].sym.getId() == Token.ID) {
+                Get value at the ID
+            }*/
+        } /*else if (node.kids[0].sym.getId() == Token.ID) {
+
+        } */
+    }
+    // Makes a symbol based off of the Dynamic Value by creating the Token first
+    private Symbol makeSymbol(DynamicVal dv, int lin, int lincol) {
+        switch (dv.type) {
+            case "INT":
+                Token intToken = new Token(Token.INT, lin, lincol, String.valueOf(dv.intVal));
+                return new Symbol(intToken);
+            case "FLOAT":
+                Token floatToken = new Token(Token.FLOAT, lin, lincol, String.valueOf(dv.floatVal));
+                return  new Symbol(floatToken);
+            case "STRING":
+                Token strToken = new Token(Token.FLOAT, lin, lincol, dv.strVal);
+                return  new Symbol(strToken);
+            default:
+                throw new RuntimeException("Not a valid type");
+        }
+    }
+    // Recursive propagation tree function
+    private void optimizer(PNode node) {
+        if(null == node)
+            return;
+        switch(node.sym.getId()) {
+            case Token.PLUS:
+            case Token.MINUS:
+            case Token.SLASH:
+            case Token.CARET:
+            case Token.OPEQ:
+            case Token.ANGLE1:
+            case Token.ANGLE2:
+            case Token.OPLE:
+            case Token.OPGE:
+            case Token.OPNE:
+                doPropagation(node);
+            default:
+                for(PNode kid : node.kids) {
+                    if(null != kid)
+                        optimizer(kid);
+                }
+        }
+    }
 }
+
+

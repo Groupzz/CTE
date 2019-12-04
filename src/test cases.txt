@@ -147,3 +147,24 @@ fcn greet(x, y) string {
 main {
     greet("Josh", "Hello");
 }
+
+prog main {
+    return 1 + 2;
+}
+
+prog main {
+    return 1.0 - 4;
+}
+
+prog main {
+    return 1.0 - 4 + 5;
+}
+prog
+fcn test(x) int {
+    var(int x;)
+    return x ^ 2;
+}
+main {
+    return test(4*2);
+}
+

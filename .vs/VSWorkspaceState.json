@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.github",
+    "\\.idea",
+    "\\gradle",
+    "\\gradle\\wrapper",
+    "\\src",
+    "\\src\\main",
+    "\\src\\test",
+    "\\src\\test\\tests"
+  ],
+  "SelectedNode": "\\src\\test cases.txt",
+  "PreviewInSolutionExplorer": true
+}

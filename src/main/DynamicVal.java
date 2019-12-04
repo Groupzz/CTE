@@ -11,8 +11,8 @@ package main;
  */
 public class DynamicVal {
     int intVal;
-    private float floatVal;
-    private String strVal;
+    float floatVal;
+    String strVal;
     String type;
 
     // Attempts to parse the string input we get from the parser as whatever type we are expecting
