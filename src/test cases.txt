@@ -15,7 +15,7 @@ prog main {
 }
 
 prog main {
-    var(x = 5;)
+    var(int x = 5;)
     while(x > 0) {
         x = x - 1;
     };
@@ -154,12 +154,15 @@ prog main {
 }
 
 prog main {
-    return 1.0 - 4;
+    var (int x = 1;)
+    return ((2 - 1) + 5) - x;
 }
 
 prog main {
-    return 1.0 - 4 + 5;
+    return 1 ^ 2 * 2;
 }
+
+
 prog
 fcn test(x) int {
     var(int x;)

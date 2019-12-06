@@ -27,7 +27,7 @@ public class Interpreter {
         System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
-        //interpreter.optimizer(interpreter.AST.getRoot());
+        interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
 //        interpreter.typeCheck();
         interpreter.beginExecution();
@@ -538,6 +538,9 @@ public class Interpreter {
         doPropagation(node.kids[0]);
         doPropagation(node.kids[1]);
         // If left child is a constant
+        if(node.kids[0].sym.getId() == Token.PARENS1) {
+            node.kids[0] = node.kids[0].kids[0];
+        }
         if (node.kids[0].sym.getId() == Token.INT || node.kids[0].sym.getId() == Token.FLOAT || node.kids[0].sym.getId() == Token.STRING) {
             // If right child is a constant
             if (node.kids[1].sym.getId() == Token.INT || node.kids[1].sym.getId() == Token.FLOAT || node.kids[1].sym.getId() == Token.STRING) {
