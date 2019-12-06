@@ -533,7 +533,8 @@ public class Interpreter {
     // Propagates up the value by replacing the node operator with the value of the
     // arithmetic equations
     private void doPropagation(PNode node) {
-        if (node == null) return;
+//        if (node == null || node.sym.getId() == Token.ID) return;
+        if(node.kids[0] == null || node.kids[1] == null) return;
         doPropagation(node.kids[0]);
         doPropagation(node.kids[1]);
         // If left child is a constant
@@ -541,15 +542,22 @@ public class Interpreter {
             // If right child is a constant
             if (node.kids[1].sym.getId() == Token.INT || node.kids[1].sym.getId() == Token.FLOAT || node.kids[1].sym.getId() == Token.STRING) {
                 // Get the value
-                DynamicVal newVal = doSimpleOP(node);
-                // Make a symbol of the dynamic val
-                Symbol newSymbol = makeSymbol(newVal, node.sym.getToken().getLin(), node.sym.getToken().getLinCol());
+                DynamicVal newVal;
+                if(node.sym.getId() == Token.ASTER) {
+                    if(node.kids[1] != null)
+                        newVal = doAster(node); // multiplication operator
+                    else
+                        return; // dereference operator, not a constant so we return
+                }
+                else
+                    newVal = doSimpleOP(node); // simple op can be done simply
 
-                node.sym = newSymbol;
+                // Make a symbol of the dynamic val
+                node.sym = makeSymbol(newVal, node.sym.getToken().getLin(), node.sym.getToken().getLinCol());
 
                 node.kids[0] = null;
                 node.kids[1] = null;
-            } /*else if(node.kids[1].sym.getId() == Token.ID) {
+            } /*else if(node.kids[1].sym.getId() == Token.ID) {z
                 Get value at the ID
             }*/
         } /*else if (node.kids[0].sym.getId() == Token.ID) {
