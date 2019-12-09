@@ -27,7 +27,7 @@ public class Interpreter {
         System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
-        //interpreter.optimizer(interpreter.AST.getRoot());
+        interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
 //        interpreter.typeCheck();
         interpreter.beginExecution();
