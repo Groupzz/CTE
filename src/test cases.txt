@@ -172,3 +172,23 @@ main {
     return test(4*2);
 }
 
+prog
+fcn test(x) int {
+    var(int x;)
+    return x ^ 2;
+}
+fcn foo(y) int {
+    var(int y;)
+    return y * 2;
+}
+main {
+    print( test(4*2) + foo(8 - 3) );
+}
+
+prog
+var ( int x; string y;)
+main {
+x = 5;
+y = "Hello";
+y = x ^ y;
+}

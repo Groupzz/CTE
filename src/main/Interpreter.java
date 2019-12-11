@@ -27,6 +27,7 @@ public class Interpreter {
         System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
+//        interpreter.typeCheck();
         interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
 //        interpreter.typeCheck();
@@ -162,7 +163,7 @@ public class Interpreter {
                     // Function call
                     return SCT.getFuncNode(node.sym.getToken().getStr()).kids[2].sym.getToken().getStr().toUpperCase();
                 }
-                else if(node.kids[0].sym.getId() == Token.BRACE1) {
+                else if(node.kids[0].sym.getId() == Token.BRACKET1) {
                     if(!typeCheck(node.kids[0]).equals("INT")) {
                         throw new RuntimeException("Attempt to access index that is not of type INT " + getLinCol(node));
                     }
