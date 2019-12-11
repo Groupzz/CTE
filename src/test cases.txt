@@ -186,9 +186,30 @@ main {
 }
 
 prog
+var ( int x[4]; int y;)
+main {
+x[0] = 5;
+x[1] = 10;
+y = x[1] * x[0];
+}
+
+prog
 var ( int x; string y;)
 main {
 x = 5;
-y = "Hello";
-y = x ^ y;
+y = "Hi";
+y = x - y;
+}
+
+prog
+fcn test(x) int {
+    var(int x;)
+    return x ^ 2;
+}
+fcn foo(y) int {
+    var(int y;)
+    return y * 2;
+}
+main {
+    print( test(4*2) + foo("Hi") );
 }

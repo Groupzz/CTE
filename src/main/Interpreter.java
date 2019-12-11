@@ -27,7 +27,7 @@ public class Interpreter {
         System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
-//        interpreter.typeCheck();
+        interpreter.typeCheck();
         interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
 //        interpreter.typeCheck();
@@ -156,6 +156,10 @@ public class Interpreter {
                 return "STRING";
             case Token.FLOAT:
                 return "FLOAT";
+            case Token.KFCN:
+                typeCheck(node.kids[3]);
+                typeCheck(node.kids[4]);
+                return typeCheck(node.kids[1]);
             case Token.ID:
                 if(null == node.kids[0])
                     return node.symTabLink.getType();
@@ -169,7 +173,7 @@ public class Interpreter {
                     }
                     return node.symTabLink.getType();
                 }
-            case Token.BRACE1:
+            case Token.BRACKET1:
             case Token.PARENS1:
                 return typeCheck(node.kids[0]);
             default:
