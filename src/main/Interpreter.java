@@ -151,11 +151,15 @@ public class Interpreter {
             case Token.OPNE:
                 return typeCheckOP(node);
             case Token.EQUAL:
-                if(typeCheck(node.kids[0]).equals(typeCheck(node.kids[1])))
-                    return typeCheck(node.kids[0]);
+                String typeLHS = typeCheck(node.kids[0]);
+                String typeRHS = typeCheck(node.kids[1]);
+                if(typeLHS.equals(typeRHS))
+                    return typeLHS;
                 else
-                    throw new RuntimeException("Wrong assignment at " + getLinCol(node));
+                    throw new RuntimeException("Wrong assignment at " + getLinCol(node) + "expected " + typeLHS + " got " + typeRHS + " instead.");
             case Token.INT:
+            case Token.KINT: // if its a declaration, ptr or not we look for an integer
+            case Token.AMPERSAND: // a reference to a variable's address is an integer
                 return "INT";
             case Token.STRING:
                 return "STRING";
@@ -167,8 +171,12 @@ public class Interpreter {
                 typeCheck(node.kids[2]);
                 return typeCheck(node.kids[1]);
             case Token.ID:
-                if(null == node.kids[0])
+                if(null == node.kids[0]) {
+                    if(node.symTabLink.isPtr()) {
+                        return "INT";
+                    }
                     return node.symTabLink.getType();
+                }
                 else if(node.kids[0].sym.getId() == Token.PARENS1) {
                     // Function call
                     return SCT.getFuncNode(node.sym.getToken().getStr()).kids[2].sym.getToken().getStr().toUpperCase();
@@ -179,15 +187,32 @@ public class Interpreter {
                     }
                     return node.symTabLink.getType();
                 }
+                break;
+            case Token.KFLOAT:
+                if(node.kids[0].sym.getId() == Token.ASTER)
+                    return "INT"; // if its a ptr declaration, we assign an integer
+                else return "FLOAT";
+            case Token.KSTRING:
+                if(node.kids[0].sym.getId() == Token.ASTER)
+                    return "INT"; // if its a ptr declaration, we assign an integer
+                else return "STRING";
             case Token.BRACKET1:
             case Token.PARENS1:
                 return typeCheck(node.kids[0]);
+            case Token.ASTER:
+                if(node.kids[1] != null) {
+                    return typeCheckOP(node);
+                }
+                else {
+                    return node.kids[0].symTabLink.getType();
+                }
             default:
                 for(PNode kid : node.kids) {
                     typeCheck(kid);
                 }
                 return "";
         }
+        return null;
     }
 
     private DynamicVal dummyVal(String type) {
@@ -196,9 +221,9 @@ public class Interpreter {
         }
         switch (type) {
             case "INT":
-                return new DynamicVal(0);
+                return new DynamicVal(1);
             case "FLOAT":
-                return new DynamicVal(0.0f);
+                return new DynamicVal(1.0f);
             case "STRING":
                 return new DynamicVal("");
             default:
@@ -233,6 +258,8 @@ public class Interpreter {
                     return val1.greaterThanOrEqual(val2).type;
                 case Token.OPNE:
                     return val1.notEqual(val2).type;
+                case Token.ASTER:
+                    return val1.mul(val2).type;
                 default:
                     throw new RuntimeException("SIMPLE OPPPP");
             }
