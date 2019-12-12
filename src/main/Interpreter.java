@@ -26,12 +26,11 @@ public class Interpreter {
 
     public static void main (String[] args) {
         Interpreter interpreter = new Interpreter();
-        System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
         interpreter.typeCheck();
         interpreter.optimizer(interpreter.AST.getRoot());
-        System.out.println(interpreter.AST);
+        System.out.println("---BEGIN EXECUTION---");
         interpreter.beginExecution();
     }
 
@@ -42,8 +41,8 @@ public class Interpreter {
     // Helper method for recursive buildSCT
     private void buildSCT() {
         buildSCT(AST.getRoot(), SCT);
-        System.out.println("---GENERATED SCOPE TREE---");
-        System.out.println(SCT);
+//        System.out.println("---GENERATED SCOPE TREE---");
+//        System.out.println(SCT);
     }
 
     private void typeCheck() {
@@ -52,11 +51,10 @@ public class Interpreter {
 
     private void beginExecution() {
         DynamicVal exitCode = doNode(AST.getRoot());
-        // print out curScope's symtable and all of its children symtables
-        // so we can see what's happening in them
-        System.out.println("---EXECUTION FINISHED---");
-        System.out.println("Program finished with exit code: " + exitCode);
-        System.out.println(SCT);
+        System.out.println("---EXECUTION SUCCESSFUL---");
+        if(null != exitCode) {
+            System.out.println("Program finished with return value: " + exitCode);
+        }
     }
 
     // ----------------- SCT BUILDER -----------------
@@ -468,13 +466,9 @@ public class Interpreter {
                 idNode = idNode.kids[0]; // if its a ptr initializer go straight to the ID
             }
         }
-//        else if(lkid.getId() == Token.ID) {
         else {
             idNode = node.kids[0]; // if its assignment the identifier is right on the left
         }
-//        else {
-//           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
-//        }
         if(idNode.sym.getId() == Token.ASTER) { // if there is a deref specifically in assignment
             idNode = idNode.kids[0]; // move to identifier
             if(idNode.symTabLink.isPtr()) { // check for correct type
@@ -631,7 +625,6 @@ public class Interpreter {
     // Propagates up the value by replacing the node operator with the value of the
     // arithmetic equations
     private void doPropagation(PNode node) {
-//        if (node == null || node.sym.getId() == Token.ID) return;
         if(node.kids[0] == null || node.kids[1] == null) return;
         doPropagation(node.kids[0]);
         doPropagation(node.kids[1]);
@@ -658,12 +651,9 @@ public class Interpreter {
 
                 node.kids[0] = null;
                 node.kids[1] = null;
-            } /*else if(node.kids[1].sym.getId() == Token.ID) {z
-                Get value at the ID
-            }*/
-        } /*else if (node.kids[0].sym.getId() == Token.ID) {
+            }
+        }
 
-        } */
     }
     // Makes a symbol based off of the Dynamic Value by creating the Token first
     private Symbol makeSymbol(DynamicVal dv, int lin, int lincol) {

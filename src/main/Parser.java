@@ -295,7 +295,7 @@ public class Parser {
             System.out.println("ERROR: Expected EOF at " + curSymbol + " got " + getNextToken() + " instead.");
             System.exit(1);
         }
-        System.out.println("\nParse Tree:\n" + parseTree);
+//        System.out.println("\nParse Tree:\n" + parseTree);
         parseTree.convertToAST();
         return parseTree;
     }
