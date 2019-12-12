@@ -150,7 +150,7 @@ main {
 }
 
 prog main {
-    return 1 + 2;
+    return 10 * "hello";
 }
 
 prog main {
@@ -186,11 +186,13 @@ main {
 }
 
 prog
-var ( int x[4]; int y;)
+var ( int x[4]; int y; int *z;)
 main {
 x[0] = 5;
-x[1] = 10;
-y = x[1] * x[0];
+x[1] = 1;
+z = x + 2;
+*z = 3;
+y = x[2] + x[0] / x[1];
 }
 
 ERROR Handling
@@ -208,7 +210,7 @@ fcn test(x) int {
     return x ^ 2;
 }
 fcn foo(y) int {
-    var(int y;)
+    var(string y;)
     return y * 2;
 }
 main {
@@ -226,11 +228,21 @@ fcn test(x) int {
     var(int x;)
     return x ^ 2;
 }
-fcn foo() int {
-    var(int y;)
-    y = 5.0;
+fcn foo(y, z) int {
+    var(string y; int z;)
+    y = "HELLO";
     return y * 2;
 }
 main {
-    print( test(4*2) + foo() );
+    print( test(4*2) + foo(11 + "", 11 / 1) );
+}
+
+
+prog
+fcn test(x) int {
+    var(float *x;)
+    print(x);
+}
+main {
+    test(2);
 }

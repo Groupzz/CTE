@@ -182,7 +182,12 @@ public class Interpreter {
                 }
                 else if(node.kids[0].sym.getId() == Token.PARENS1) {
                     // Function call
-                    return SCT.getFuncNode(node.sym.getToken().getStr()).kids[2].sym.getToken().getStr().toUpperCase();
+
+                    ArrayList<String> argTypes = collectArgTypes(node.kids[0].kids[0].kids[0]);
+
+                    PNode fcnNode = SCT.getFuncNode(node.sym.getToken().getStr());
+                    typeCheckParams(fcnNode.kids[1].kids[0].kids[0], argTypes);
+                    return fcnNode.kids[2].sym.getToken().getStr().toUpperCase();
                 }
                 else if(node.kids[0].sym.getId() == Token.BRACKET1) {
                     if(!typeCheck(node.kids[0]).equals("INT")) {
@@ -274,6 +279,39 @@ public class Interpreter {
         }
     }
 
+    private ArrayList<String> collectArgTypes(PNode node) {
+        ArrayList<String> result = new ArrayList<>();
+        if (node.sym.getId() == Token.COMMA) {
+            result.addAll(collectArgTypes(node.kids[0]));
+            result.addAll(collectArgTypes(node.kids[1]));
+        }
+        else {
+            result.add(typeCheck(node));
+        }
+        return result;
+    }
+
+    // Takes an ArrayList and puts its values into a function's parameters in the order they are listed
+    private void typeCheckParams(PNode node, ArrayList<String> types) {
+        if(node.sym.getId() == Token.COMMA) {
+            typeCheckParams(node.kids[0], types);
+            typeCheckParams(node.kids[1], types);
+        }
+        else if(node.sym.getId() == Token.ASTER) {
+            typeCheckParams(node.kids[0], types);
+        }
+        else {
+            String argType = types.remove(0);
+            // if its a ptr we want an INT. Otherwise we want the type
+            String paramType = node.symTabLink.isPtr() ? "INT" : node.symTabLink.getType();
+            if(!paramType.equals(argType)) {
+                throw new RuntimeException("Argument type mismatch at " + getLinCol(node) + "expected " +
+                        paramType + " got " + argType + " instead.");
+            }
+        }
+    }
+
+    // ----------------- INTERPRETER -----------------
 
     /*
      * Main recursive function that handles the treewalk of the AST
