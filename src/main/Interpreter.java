@@ -18,12 +18,8 @@ public class Interpreter {
     private SymbolTree AST;
     private SymbolTable SCT = SymbolTable.root; // Root node of scope tree
 
-<<<<<<< HEAD
-    // Every new interpreter builds an AST
-=======
     private String returnType = null; // used for typechecking return value of functions
 
->>>>>>> ebba1f076efee4540030507c169919d04c8691ec
     private Interpreter() {
         AST = Parser.parseAndGenerateAST();
     }
