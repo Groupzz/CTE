@@ -150,6 +150,11 @@ public class Interpreter {
             case Token.ANGLE2:
             case Token.OPNE:
                 return typeCheckOP(node);
+            case Token.EQUAL:
+                if(typeCheck(node.kids[0]).equals(typeCheck(node.kids[1])))
+                    return typeCheck(node.kids[0]);
+                else
+                    throw new RuntimeException("Wrong assignment at " + getLinCol(node));
             case Token.INT:
                 return "INT";
             case Token.STRING:
@@ -159,6 +164,7 @@ public class Interpreter {
             case Token.KFCN:
                 typeCheck(node.kids[3]);
                 typeCheck(node.kids[4]);
+                typeCheck(node.kids[2]);
                 return typeCheck(node.kids[1]);
             case Token.ID:
                 if(null == node.kids[0])

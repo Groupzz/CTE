@@ -193,6 +193,7 @@ x[1] = 10;
 y = x[1] * x[0];
 }
 
+ERROR Handling
 prog
 var ( int x; string y;)
 main {
@@ -212,4 +213,24 @@ fcn foo(y) int {
 }
 main {
     print( test(4*2) + foo("Hi") );
+}
+
+prog
+main {
+    var(int y;)
+    y = 2.0;
+}
+
+prog
+fcn test(x) int {
+    var(int x;)
+    return x ^ 2;
+}
+fcn foo() int {
+    var(int y;)
+    y = 5.0;
+    return y * 2;
+}
+main {
+    print( test(4*2) + foo() );
 }
