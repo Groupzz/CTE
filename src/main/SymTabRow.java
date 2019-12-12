@@ -1,5 +1,15 @@
 package main;
-
+/* CECS 444 Compiler Construction
+ * Project 3: Interpreter
+ * Authors: Aleks Dziewulska, Jamil Khan, Jessica Hilario, Josh Lorenzen
+ * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
+ *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
+ * Description: SymTabRow that represents an entry in a symbol table
+ * Contains name of the identifier, its type, line and column it was declared, a link to the AST declaration node,
+ * memory address of stored value and a boolean of whether or not it is a pointer type
+ * Contains methods to set and get the value in memory
+ * Class contains static 'memory' array that provides addresses for use with dereference and ampersand operators
+ */
 import java.util.ArrayList;
 
 public class SymTabRow {
@@ -74,14 +84,14 @@ public class SymTabRow {
             if(value.type.equals(type))
                 memory.set(memAddr, value);
             else{
-                throw new RuntimeException("Error: Attempted to assign incorrect type");
+                throw new RuntimeException("Error: Attempted to assign incorrect type. GOT " + value.type + " EXPECTED " + type);
             }
         }
         else {
             if(value.type.equals("INT"))
                 memory.set(memAddr, value);
             else{
-                throw new RuntimeException("Error: Attempted to assign incorrect type");
+                throw new RuntimeException("Error: Attempted to assign incorrect type. GOT " + value.type + " EXPECTED INT");
             }
         }
     }

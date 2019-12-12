@@ -18,19 +18,23 @@ public class Interpreter {
     private SymbolTree AST;
     private SymbolTable SCT = SymbolTable.root; // Root node of scope tree
 
+<<<<<<< HEAD
     // Every new interpreter builds an AST
+=======
+    private String returnType = null; // used for typechecking return value of functions
+
+>>>>>>> ebba1f076efee4540030507c169919d04c8691ec
     private Interpreter() {
         AST = Parser.parseAndGenerateAST();
     }
 
     public static void main (String[] args) {
         Interpreter interpreter = new Interpreter();
-        System.out.println(interpreter.AST);
 
         interpreter.buildSCT();
+        interpreter.typeCheck();
         interpreter.optimizer(interpreter.AST.getRoot());
-        System.out.println(interpreter.AST);
-//        interpreter.typeCheck();
+        System.out.println("---BEGIN EXECUTION---");
         interpreter.beginExecution();
     }
     // Displays the line and column number where each symbol is found in the program
@@ -41,8 +45,8 @@ public class Interpreter {
     // Helper method for recursive buildSCT
     private void buildSCT() {
         buildSCT(AST.getRoot(), SCT);
-        System.out.println("---GENERATED SCOPE TREE---");
-        System.out.println(SCT);
+//        System.out.println("---GENERATED SCOPE TREE---");
+//        System.out.println(SCT);
     }
 
     private void typeCheck() {
@@ -51,12 +55,13 @@ public class Interpreter {
     // Starts to add onto the AST
     private void beginExecution() {
         DynamicVal exitCode = doNode(AST.getRoot());
-        // print out curScope's symtable and all of its children symtables
-        // so we can see what's happening in them
-        System.out.println("---EXECUTION FINISHED---");
-        System.out.println("Program finished with exit code: " + exitCode);
-        System.out.println(SCT);
+        System.out.println("---EXECUTION SUCCESSFUL---");
+        if(null != exitCode) {
+            System.out.println("Program finished with return value: " + exitCode);
+        }
     }
+
+    // ----------------- SCT BUILDER -----------------
 
     // Recursive buildSCT function
     private void buildSCT(PNode node, SymbolTable curScope) {
@@ -133,7 +138,8 @@ public class Interpreter {
         curScope.declareFunc(funcID, node);
         buildSCT(node.kids[4], curScope); // declare next function
     }
-    // Makes sure that what is being passed through is a valid type
+
+    // ----------------- TYPECHECKER -----------------
     private String typeCheck(PNode node) {
         if(null == node) {
             return null;
@@ -150,34 +156,89 @@ public class Interpreter {
             case Token.ANGLE2:
             case Token.OPNE:
                 return typeCheckOP(node);
+            case Token.EQUAL:
+                String typeLHS = typeCheck(node.kids[0]);
+                String typeRHS = typeCheck(node.kids[1]);
+                if(typeLHS.equals(typeRHS))
+                    return typeLHS;
+                else
+                    throw new RuntimeException("Wrong assignment at " + getLinCol(node) + "expected " + typeLHS + " got " + typeRHS + " instead.");
             case Token.INT:
+            case Token.KINT: // if its a declaration, ptr or not we look for an integer
+            case Token.AMPERSAND: // a reference to a variable's address is an integer
                 return "INT";
             case Token.STRING:
                 return "STRING";
             case Token.FLOAT:
                 return "FLOAT";
+            case Token.KFCN:
+                returnType = node.kids[2].sym.getToken().getStr().toUpperCase();
+                typeCheck(node.kids[3]);
+                typeCheck(node.kids[4]);
+                typeCheck(node.kids[2]);
+                return typeCheck(node.kids[1]);
             case Token.ID:
-                if(null == node.kids[0])
+                if(null == node.kids[0]) {
+                    if(node.symTabLink.isPtr()) {
+                        return "INT";
+                    }
                     return node.symTabLink.getType();
+                }
                 else if(node.kids[0].sym.getId() == Token.PARENS1) {
                     // Function call
-                    return SCT.getFuncNode(node.sym.getToken().getStr()).kids[2].sym.getToken().getStr().toUpperCase();
+
+                    ArrayList<String> argTypes = collectArgTypes(node.kids[0].kids[0].kids[0]);
+
+                    PNode fcnNode = SCT.getFuncNode(node.sym.getToken().getStr());
+                    typeCheckParams(fcnNode.kids[1].kids[0].kids[0], argTypes);
+                    return fcnNode.kids[2].sym.getToken().getStr().toUpperCase();
                 }
-                else if(node.kids[0].sym.getId() == Token.BRACE1) {
+                else if(node.kids[0].sym.getId() == Token.BRACKET1) {
                     if(!typeCheck(node.kids[0]).equals("INT")) {
                         throw new RuntimeException("Attempt to access index that is not of type INT " + getLinCol(node));
                     }
                     return node.symTabLink.getType();
                 }
-            case Token.BRACE1:
+                break;
+            case Token.KFLOAT:
+                if(node.kids[0].sym.getId() == Token.ASTER)
+                    return "INT"; // if its a ptr declaration, we assign an integer
+                else return "FLOAT";
+            case Token.KSTRING:
+                if(node.kids[0].sym.getId() == Token.ASTER)
+                    return "INT"; // if its a ptr declaration, we assign an integer
+                else return "STRING";
+            case Token.BRACKET1:
             case Token.PARENS1:
                 return typeCheck(node.kids[0]);
+            case Token.ASTER:
+                if(node.kids[1] != null) {
+                    return typeCheckOP(node);
+                }
+                else {
+                    return node.kids[0].symTabLink.getType();
+                }
+            case Token.KRETURN:
+                if(returnType == null) {
+                    return null;
+                }
+                else {
+                    String RHS = typeCheck(node.kids[0]);
+                    if(!returnType.equals(RHS)) {
+                        throw new RuntimeException("Wrong return value at " + getLinCol(node) + "expected " + returnType + " got " + RHS + " instead.");
+                    }
+                }
+                break;
+            case Token.KMAIN:
+                returnType = null;
+                // fall into default
             default:
                 for(PNode kid : node.kids) {
                     typeCheck(kid);
                 }
                 return "";
         }
+        return null;
     }
 
     private DynamicVal dummyVal(String type) {
@@ -186,9 +247,9 @@ public class Interpreter {
         }
         switch (type) {
             case "INT":
-                return new DynamicVal(0);
+                return new DynamicVal(1);
             case "FLOAT":
-                return new DynamicVal(0.0f);
+                return new DynamicVal(1.0f);
             case "STRING":
                 return new DynamicVal("");
             default:
@@ -224,6 +285,8 @@ public class Interpreter {
                     return val1.greaterThanOrEqual(val2).type;
                 case Token.OPNE:
                     return val1.notEqual(val2).type;
+                case Token.ASTER:
+                    return val1.mul(val2).type;
                 default:
                     throw new RuntimeException("SIMPLE OPPPP");
             }
@@ -235,6 +298,39 @@ public class Interpreter {
         }
     }
 
+    private ArrayList<String> collectArgTypes(PNode node) {
+        ArrayList<String> result = new ArrayList<>();
+        if (node.sym.getId() == Token.COMMA) {
+            result.addAll(collectArgTypes(node.kids[0]));
+            result.addAll(collectArgTypes(node.kids[1]));
+        }
+        else {
+            result.add(typeCheck(node));
+        }
+        return result;
+    }
+
+    // Takes an ArrayList and puts its values into a function's parameters in the order they are listed
+    private void typeCheckParams(PNode node, ArrayList<String> types) {
+        if(node.sym.getId() == Token.COMMA) {
+            typeCheckParams(node.kids[0], types);
+            typeCheckParams(node.kids[1], types);
+        }
+        else if(node.sym.getId() == Token.ASTER) {
+            typeCheckParams(node.kids[0], types);
+        }
+        else {
+            String argType = types.remove(0);
+            // if its a ptr we want an INT. Otherwise we want the type
+            String paramType = node.symTabLink.isPtr() ? "INT" : node.symTabLink.getType();
+            if(!paramType.equals(argType)) {
+                throw new RuntimeException("Argument type mismatch at " + getLinCol(node) + "expected " +
+                        paramType + " got " + argType + " instead.");
+            }
+        }
+    }
+
+    // ----------------- INTERPRETER -----------------
 
     /*
      * Main recursive function that handles the treewalk of the AST
@@ -374,13 +470,9 @@ public class Interpreter {
                 idNode = idNode.kids[0]; // if its a ptr initializer go straight to the ID
             }
         }
-//        else if(lkid.getId() == Token.ID) {
         else {
             idNode = node.kids[0]; // if its assignment the identifier is right on the left
         }
-//        else {
-//           throw new RuntimeException("Error: Unexpected token on left of equals in AST");
-//        }
         if(idNode.sym.getId() == Token.ASTER) { // if there is a deref specifically in assignment
             idNode = idNode.kids[0]; // move to identifier
             if(idNode.symTabLink.isPtr()) { // check for correct type
@@ -535,6 +627,8 @@ public class Interpreter {
         }
     }
 
+    // ----------------- OPTIMIZER -----------------
+
     // Propagates up the value by replacing the node operator with the value of the
     // arithmetic equations
     private void doPropagation(PNode node) {
@@ -564,12 +658,9 @@ public class Interpreter {
 
                 node.kids[0] = null;
                 node.kids[1] = null;
-            } /*else if(node.kids[1].sym.getId() == Token.ID) {z
-                Get value at the ID
-            }*/
-        } /*else if (node.kids[0].sym.getId() == Token.ID) {
+            }
+        }
 
-        } */
     }
     // Makes a symbol based off of the Dynamic Value by creating the Token first
     private Symbol makeSymbol(DynamicVal dv, int lin, int lincol) {
@@ -581,7 +672,7 @@ public class Interpreter {
                 Token floatToken = new Token(Token.FLOAT, lin, lincol, String.valueOf(dv.floatVal));
                 return  new Symbol(floatToken);
             case "STRING":
-                Token strToken = new Token(Token.FLOAT, lin, lincol, dv.strVal);
+                Token strToken = new Token(Token.STRING, lin, lincol, dv.strVal);
                 return  new Symbol(strToken);
             default:
                 throw new RuntimeException("Not a valid type");
