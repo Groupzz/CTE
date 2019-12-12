@@ -5,11 +5,13 @@ package main;
  * Authors' emails (respectively): aleksandra.dziewulska@student.csulb.edu, jamil.khan@student.csulb.edu,
  *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
  * Description: SymbolTable that represents a symbol table
- * //below needs to be edited
- * Contains name of the identifier, its type, line and column it was declared, a link to the AST declaration node,
- * memory address of stored value and a boolean of whether or not it is a pointer type
- * Contains methods to set and get the value in memory
- * Class contains static 'memory' array that provides addresses for use with dereference and ampersand operators
+ * Contains name of the the parent node's symbol table, the current node, a hashmap that
+ * holds the functions being performed on each node, the kids of the current node, and the
+ * rows it contains.
+ * Contains methods to make, get, and declare functions, variables and symbol table, as well
+ * as getting and setting the kids.
+ * Class contains static 'funcNode' array that provides the functions of a node and static
+ * 'root' SymbolTable to get the scope tree.
  */
 import java.util.ArrayList;
 import java.util.HashMap;
