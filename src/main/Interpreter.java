@@ -18,8 +18,12 @@ public class Interpreter {
     private SymbolTree AST;
     private SymbolTable SCT = SymbolTable.root; // Root node of scope tree
 
+<<<<<<< HEAD
+    // Every new interpreter builds an AST
+=======
     private String returnType = null; // used for typechecking return value of functions
 
+>>>>>>> ebba1f076efee4540030507c169919d04c8691ec
     private Interpreter() {
         AST = Parser.parseAndGenerateAST();
     }
@@ -33,7 +37,7 @@ public class Interpreter {
         System.out.println("---BEGIN EXECUTION---");
         interpreter.beginExecution();
     }
-
+    // Displays the line and column number where each symbol is found in the program
     private String getLinCol(PNode node) {
         return " (Lin: " + node.sym.getToken().getLin() + " Col: " + node.sym.getToken().getLinCol() + ") ";
     }
@@ -48,7 +52,7 @@ public class Interpreter {
     private void typeCheck() {
         typeCheck(AST.getRoot());
     }
-
+    // Starts to add onto the AST
     private void beginExecution() {
         DynamicVal exitCode = doNode(AST.getRoot());
         System.out.println("---EXECUTION SUCCESSFUL---");
@@ -136,7 +140,6 @@ public class Interpreter {
     }
 
     // ----------------- TYPECHECKER -----------------
-
     private String typeCheck(PNode node) {
         if(null == node) {
             return null;
@@ -254,6 +257,7 @@ public class Interpreter {
         }
     }
 
+    // typeCheckOP makes sure
     private String typeCheckOP(PNode node) {
         String type1 = typeCheck(node.kids[0]);
         String type2 = typeCheck(node.kids[1]);
@@ -523,6 +527,8 @@ public class Interpreter {
         throw new RuntimeException("ERROR: Tried to do simple OP on an OP that isn't simple");
     }
 
+    // Makes sure that the asterisk is either the multiplication operator
+    // or whether it is dereferencing a pointer.
     private DynamicVal doAster(PNode node) {
         if(null != node.kids[1]) { // we are a multiplication operator
             DynamicVal val1 = doNode(node.kids[0]);
@@ -582,6 +588,7 @@ public class Interpreter {
         }
     }
 
+    // Prints out all the arguments that is passed through in the print function.
     private DynamicVal doPrint(PNode node){
         String output = "";
         for(Object word : collectArgs(node.kids[0].kids[0].kids[0]))
@@ -671,7 +678,8 @@ public class Interpreter {
                 throw new RuntimeException("Not a valid type");
         }
     }
-    // Recursive propagation tree function
+    // A recursive propagation function that will replace the mom node (the operator)
+    // with the value it calculates into
     private void optimizer(PNode node) {
         if(null == node)
             return;

@@ -66,6 +66,10 @@ public class DynamicVal {
         return intVal > 0;
     }
 
+    /* Functions below handle arithmetic and relational equations depending
+     * on their type.
+     */
+    //Jamil float + int combo and string combo operation added
     public DynamicVal plus(DynamicVal other) {
         if(this.type.equals("INT") && other.type.equals("INT")) {
             return new DynamicVal(intVal + other.intVal);
@@ -308,6 +312,9 @@ public class DynamicVal {
         return new DynamicVal(1);
     }
 
+    /* Return the String version of the value based on the type of the
+     * Dynamic Value.
+     */
     public String toString() {
         switch (type) {
             case "INT":
