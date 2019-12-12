@@ -18,6 +18,8 @@ public class Interpreter {
     private SymbolTree AST;
     private SymbolTable SCT = SymbolTable.root; // Root node of scope tree
 
+    private String returnType = null; // used for typechecking return value of functions
+
     private Interpreter() {
         AST = Parser.parseAndGenerateAST();
     }
@@ -169,6 +171,7 @@ public class Interpreter {
             case Token.FLOAT:
                 return "FLOAT";
             case Token.KFCN:
+                returnType = node.kids[2].sym.getToken().getStr().toUpperCase();
                 typeCheck(node.kids[3]);
                 typeCheck(node.kids[4]);
                 typeCheck(node.kids[2]);
@@ -214,6 +217,20 @@ public class Interpreter {
                 else {
                     return node.kids[0].symTabLink.getType();
                 }
+            case Token.KRETURN:
+                if(returnType == null) {
+                    return null;
+                }
+                else {
+                    String RHS = typeCheck(node.kids[0]);
+                    if(!returnType.equals(RHS)) {
+                        throw new RuntimeException("Wrong return value at " + getLinCol(node) + "expected " + returnType + " got " + RHS + " instead.");
+                    }
+                }
+                break;
+            case Token.KMAIN:
+                returnType = null;
+                // fall into default
             default:
                 for(PNode kid : node.kids) {
                     typeCheck(kid);
