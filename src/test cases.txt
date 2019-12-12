@@ -150,7 +150,7 @@ main {
 }
 
 prog main {
-    return 1 + 2;
+    return 0 + 2;
 }
 
 prog main {
