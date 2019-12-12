@@ -30,7 +30,6 @@ public class Interpreter {
         interpreter.typeCheck();
         interpreter.optimizer(interpreter.AST.getRoot());
         System.out.println(interpreter.AST);
-//        interpreter.typeCheck();
         interpreter.beginExecution();
     }
 
@@ -57,6 +56,8 @@ public class Interpreter {
         System.out.println("Program finished with exit code: " + exitCode);
         System.out.println(SCT);
     }
+
+    // ----------------- SCT BUILDER -----------------
 
     // Recursive buildSCT function
     private void buildSCT(PNode node, SymbolTable curScope) {
@@ -133,6 +134,8 @@ public class Interpreter {
         curScope.declareFunc(funcID, node);
         buildSCT(node.kids[4], curScope); // declare next function
     }
+
+    // ----------------- TYPECHECKER -----------------
 
     private String typeCheck(PNode node) {
         if(null == node) {
@@ -568,6 +571,8 @@ public class Interpreter {
         }
     }
 
+    // ----------------- OPTIMIZER -----------------
+
     // Propagates up the value by replacing the node operator with the value of the
     // arithmetic equations
     private void doPropagation(PNode node) {
@@ -615,7 +620,7 @@ public class Interpreter {
                 Token floatToken = new Token(Token.FLOAT, lin, lincol, String.valueOf(dv.floatVal));
                 return  new Symbol(floatToken);
             case "STRING":
-                Token strToken = new Token(Token.FLOAT, lin, lincol, dv.strVal);
+                Token strToken = new Token(Token.STRING, lin, lincol, dv.strVal);
                 return  new Symbol(strToken);
             default:
                 throw new RuntimeException("Not a valid type");

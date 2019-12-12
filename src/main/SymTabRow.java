@@ -74,7 +74,7 @@ public class SymTabRow {
             if(value.type.equals(type))
                 memory.set(memAddr, value);
             else{
-                throw new RuntimeException("Error: Attempted to assign incorrect type");
+                throw new RuntimeException("Error: Attempted to assign incorrect type. GOT " + value.type + " EXPECTED " + type);
             }
         }
         else {
