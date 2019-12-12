@@ -6,7 +6,7 @@ package main;
  *                                 jessica.hilario@student.csulb.edu, joshua.lorenzen@student.csulb.edu
  * Description: Dynamic value class that allows for dynamic typing to be used in A7.
  * The three types: int, float and string are able to be represented by an object of this type.
- * Arithmetic and boolean operators are supported by this class.
+ * Arithmetic, relational, and boolean operators are supported by this class.
  * The interpreter uses this class when evaluating operators, assigning variables and reading from variables
  */
 public class DynamicVal {
